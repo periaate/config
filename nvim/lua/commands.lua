@@ -1,0 +1,53 @@
+-- Define the function to create a session
+local function create_session()
+	-- Use vim.ui.input to get the session name from the user
+	vim.ui.input({ prompt = 'Enter session name: ' }, function(input)
+		-- Check if input is not nil or empty
+		if input and input ~= '' then
+			-- Construct the session file path
+			local session_file = vim.fn.expand('~') .. '/' .. input .. '.vim'
+			-- Create the session with the given name
+			vim.cmd('mksession! ' .. session_file)
+			-- Inform the user
+			print('Session saved as: ' .. session_file)
+		else
+			-- Inform the user if no valid input was given
+			print('Session creation canceled or invalid name given.')
+		end
+	end)
+end
+
+-- Map the function to a command for easy use
+vim.api.nvim_create_user_command('SaveSession', create_session, {})
+
+
+local f = {
+	invoke = function(inp)
+		local handle = io.popen(inp)
+		local result = handle:read("*a")
+		handle:close()
+		return result
+	end,
+	curr = {
+		get = function() return vim.fn.getline('.') end,
+		set = function(inp) vim.fn.setline('.', vim.split(inp, '\n')[1]) end,
+	},
+}
+
+local key = require("maps.mapping")
+
+local md = {
+	todo = {
+		on = function() f.curr.set(f.invoke(string.format([[echo %s | js "a => {for (const i of [ ['- [ ] ', '- [x] '], ['- ', '- [ ] ', '- ['], ['- [x] ', '- [ ] ' ], ['', '- [ ] '] ]) { const t = a.trim(); if (t.startsWith(i[0]) && !(i[2] && t.startsWith(i[2]))) { a = a.replace(i[0], i[1]); break; } } return a.trimRight();}"]], f.curr.get()))) end,
+		off = function() f.curr.set(f.invoke(string.format([[echo %s | js "a => a = (a.replace(/^\s*-\s*\[\s*.\s*\]\s*/, '- ')).trimRight()]], f.curr.get()))) end,
+	},
+}
+
+-- toggles md todo status, or adds it if absent
+key.map('n', 'mt', md.todo.on)
+-- removes todo from line
+key.map('n', 'md', function()
+	md.todo.off()
+	vim.cmd('normal! ==')
+end)
+
