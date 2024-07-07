@@ -68,6 +68,7 @@ function note {
 	$args = $args | Join-String -separator /
 	$base = $args | fp base
 	$res = "$notes/$args.md"
+	$res = $res | js "a => a.replaceAll('//', '/')"
 	$dir = $res | fp dir
 
 	if ($last -eq "?" -or $last -eq "find") {
@@ -84,8 +85,12 @@ function note {
 		return
 	}
 
-	ensure $dir
+	fsio ensure $res
 	nvim $res
+}
+
+function config {
+	cd "$home/blume/config/$args"
 }
 
 function symconf {
