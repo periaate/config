@@ -4,6 +4,8 @@ function daily { note daily (day $args) }
 function docs {	nvim (list ? readme) }
 function def { start https://en.wiktionary.org/wiki/$Args }
 
+function ensure { fsio ensure $args }
+
 function togif {
 	ffmpeg -i $args[0] -filter_complex "[0:v] palettegen [palette]; [0:v][palette] paletteuse=dither=bayer:bayer_scale=5" $args[1]
 }
