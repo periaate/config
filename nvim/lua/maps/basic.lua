@@ -932,6 +932,41 @@ key.map('n', toggle .. "ot", function()
 	vim.o.expandtab = true
 end)
 
+key.map('n', 'b', 'za')
+
+
+key.map('v', 'R', ":s/", { silent = false })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

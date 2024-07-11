@@ -15,6 +15,15 @@ vim.opt.cursorline = true
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+
+-- foldexpr=nvim_treesitter#foldexpr()
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+
 require("autocmd")
 require("core.lazy")
 require("zenburn").setup()

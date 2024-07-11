@@ -125,6 +125,12 @@ function ghce {
 	}
 }
 
+function rr-nvim {
+	[Microsoft.PowerShell.PSConsoleReadLine]::CancelLine()
+	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("nvim")
+	[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+}
+
 function rr-list {
 	[Microsoft.PowerShell.PSConsoleReadLine]::CancelLine()
 	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("list .")
@@ -151,4 +157,5 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+/' -ScriptBlock { rr-list }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -ScriptBlock { rr-dir }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -ScriptBlock { rr-last }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+u' -ScriptBlock { rr-up }
-Set-PSReadLineKeyHandler -Chord 'Ctrl+e' -ScriptBlock { explorer .}
+Set-PSReadLineKeyHandler -Chord 'Ctrl+o' -ScriptBlock { explorer .}
+Set-PSReadLineKeyHandler -Chord 'Ctrl+e' -ScriptBlock { rr-nvim }
