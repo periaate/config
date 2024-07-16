@@ -872,8 +872,8 @@ function line_hof(fn)
 	end
 end
 
-key.map('n', 'k', abbn(false), key.opts)
-key.map('n', 'p', abbn(true), key.opts)
+key.map('n', 'K', abbn(false), key.opts)
+key.map('n', 'P', abbn(true), key.opts)
 key.map('n', '#', line_hof(function(line) 
 	local lead = line:match("^#*%s*")
 	if #lead ~= 0 then
@@ -937,6 +937,12 @@ key.map('n', 'b', 'za')
 
 key.map('v', 'R', ":s/", { silent = false })
 
+-- inner and outer movements
+key.map('o', 't', 'a')
+key.map('o', 'n', 'i')
+
+key.map(key.all, 'p', ',')
+key.map(key.all, 'k', ';')
 
 
 
