@@ -287,6 +287,12 @@ local sub = require('substitute')
 key.map('n', 'rw', sub.operator, key.opts)
 key.map('x', 'rw', sub.visual, key.opts)
 
+key.map('n', 'rwl', function()
+	vim.cmd('normal! V')
+	sub.visual()
+end)
+
+
 -- cw next to one another, cv layer on keyboard, mapped to mirror global usage
 key.map(key.all, 'c', 'y', key.opts)
 key.map(key.all, 'ca', 'lyf', key.opts)
@@ -944,8 +950,9 @@ key.map('o', 'n', 'i')
 key.map(key.all, 'p', ',')
 key.map(key.all, 'k', ';')
 
-
-
+-- block visual mode line insert
+key.map('v', 'nn', 'I')
+key.map('v', 'tt', 'I')
 
 
 
