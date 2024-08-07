@@ -2,12 +2,34 @@ local M = {
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		{ "williamboman/mason.nvim", config = true },
+		{ "williamboman/mason-lspconfig.nvim" },
 		{ "hrsh7th/nvim-cmp" },
 		{ "hrsh7th/cmp-nvim-lsp" },
 	},
 }
 
 M.config = function()
+	local mason = require("mason")
+	local mcfg = require("mason-lspconfig")
+	mason.setup()
+
+	local servers = {
+		"gopls",
+		"tsserver",
+		"nil_ls",
+		"lua_ls",
+		"rust_analyzer",
+		"emmet_ls",
+		"emmet_language_server",
+		"templ",
+		"html",
+		"htmx",
+	}
+
+	mcfg.setup{
+		ensure_installed = servers,
+	}
+
 	local lspconfig = require("lspconfig")
 	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -31,20 +53,13 @@ M.config = function()
 		-- end
 
 		vim.api.nvim_exec([[
-      augroup LspAutocommands
-        autocmd! * <buffer>
-        autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-      augroup END
-    ]], false)
+		augroup LspAutocommands
+		autocmd! * <buffer>
+		autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+		augroup END
+		]], false)
 	end
 
-	local servers = {
-		"gopls",
-		"html",
-		"tsserver",
-		"rust_analyzer",
-		"nil_ls",
-	}
 
 	-- custom settings
 	local gopls_settings = {
@@ -98,7 +113,7 @@ M.config = function()
 end
 
 -- M.toggle_inlay_hints = function()
--- 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
--- end
+	-- 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+	-- end
 
-return M
+	return M

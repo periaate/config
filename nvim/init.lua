@@ -84,6 +84,7 @@ require("oil").setup({
 	experimental_watch_for_changes = false,
 	keymaps = {
 		["<C-s>"] = ":w<CR>",
+		["ta"] = "actions.toggle_hidden",
 	},
 	view_options = {
 		-- Show files and directories that start with "."
@@ -302,16 +303,4 @@ end)
 require("remap")
 require("commands")
 
--- not for .md or .env
-vim.g.copilot_filetypes = {
-	markdown = false,
-	['*'] = false,
-	go = true,
-	lua = true,
-	javascript = true,
-	typescript = true,
-	css = true,
-	html = true,
-	templ = true,
-}
 

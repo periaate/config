@@ -947,8 +947,8 @@ key.map('v', 'R', ":s/", { silent = false })
 key.map('o', 't', 'a')
 key.map('o', 'n', 'i')
 
-key.map(key.all, 'p', ',')
-key.map(key.all, 'k', ';')
+key.map(key.all, '<C-a>', ',')
+key.map(key.all, '<C-o>', ';')
 
 -- block visual mode line insert
 key.map('v', 'nn', 'I')
