@@ -15,7 +15,7 @@ local DOWN = "E"
 local toggle = "t"
 local leader = " "
 local GO = "g"
-local Do = "d"
+-- local Do = "d"
 
 
 local keymap = vim.keymap.set
@@ -28,9 +28,9 @@ local function nrmap(mode, key, action, optss)
 	keymap(mode, key, action, options)
 end
 
-local opts = {noremap = true}
-local all = {'n', 'v', 'x', 'o'}
-local almost = {'n', 'v', 'x'}
+local opts = { noremap = true }
+local all = { 'n', 'v', 'x', 'o' }
+local almost = { 'n', 'v', 'x' }
 
 local key = {
 	map = nrmap,
@@ -46,7 +46,7 @@ local key = {
 --
 
 -- categories
--- 
+--
 
 
 -- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings -- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings
@@ -187,7 +187,7 @@ key.map(key.all, '<BS>', '')
 -- key.map(key.all, '/', '')
 
 
-local ALL = {'n', 'v', 'x', 'o', 'i'}
+local ALL = { 'n', 'v', 'x', 'o', 'i' }
 
 key.map(ALL, '<left>', '<nop>')
 key.map(ALL, '<right>', '<nop>')
@@ -235,13 +235,12 @@ function mov(direction)
 	end
 end
 
-
 key.map('i', "<C-e>", mov('down'), key.opts)
-key.map({'i', 'v', 'n'}, "<C-a>", mov('left'), key.opts)
+key.map({ 'i', 'v', 'n' }, "<C-a>", mov('left'), key.opts)
 key.map('i', "<C-u>", mov('up'), key.opts)
-key.map({'i', 'v', 'n'}, "<C-o>", mov('right'), key.opts)
+key.map({ 'i', 'v', 'n' }, "<C-o>", mov('right'), key.opts)
 
-key.map({'i', 'v', 'n'}, "<C-g>", function()
+key.map({ 'i', 'v', 'n' }, "<C-g>", function()
 	TToggle = not TToggle
 end, key.opts)
 
@@ -357,8 +356,8 @@ key.map("v", "<C-u>", ":m '<-2<CR>gv=gv")
 key.map("v", "<C-e>", ":m '>+1<CR>gv=gv")
 
 -- remove and add to register
-key.map({"n", "v"}, "<leader><BS>", "d")
-key.map({"n", "v"}, "<leader><BS><BS>", "dd")
+key.map({ "n", "v" }, "<leader><BS>", "d")
+key.map({ "n", "v" }, "<leader><BS><BS>", "dd")
 
 -- remove without register
 key.map(key.all, "<BS>", [["_d]], key.opts)
@@ -366,8 +365,8 @@ key.map(key.all, "<BS><BS>", [[0"_dg_i<BS><Esc>]], key.opts)
 key.map('v', "<BS><BS>", [["_d]], key.opts)
 
 --rename
-key.map('n', '<C-r>', function()	vim.lsp.buf.rename() end, { noremap = true, silent = true })
-key.map('v', '<C-r>', '\"fy<Esc>:%s/<C-r>f/',key.opts)
+key.map('n', '<C-r>', function() vim.lsp.buf.rename() end, { noremap = true, silent = true })
+key.map('v', '<C-r>', '\"fy<Esc>:%s/<C-r>f/', key.opts)
 key.map("n", "r<C-r>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Go error snippets
@@ -401,12 +400,12 @@ key.map(key.almost, '<leader><C-w>', '<C-w>c', key.opts)
 
 
 
-key.map(key.all, 'ne', ':b#<CR>', {noremap = true, silent = true})
-key.map(key.all, 'na', ':bprevious<CR>', {noremap = true, silent = true})
-key.map(key.all, 'no', ':bnext<cr>', {noremap = true, silent = true})
+key.map(key.all, 'ne', ':b#<CR>', { noremap = true, silent = true })
+key.map(key.all, 'na', ':bprevious<CR>', { noremap = true, silent = true })
+key.map(key.all, 'no', ':bnext<cr>', { noremap = true, silent = true })
 
 
-key.map("n", "-", "<CMD>Oil<CR>" ,key.opts)
+key.map("n", "-", "<CMD>Oil<CR>", key.opts)
 
 
 
@@ -418,29 +417,29 @@ key.map(key.all, '<', 'n', key.opts)
 -- Splits management --
 
 -- Movement
-key.map(key.all, leader .. 'a', '<C-w>h', key.opts)  -- Move left
-key.map(key.all, leader .. 'e', '<C-w>j', key.opts)  -- Move down
-key.map(key.all, leader .. 'u', '<C-w>k', key.opts)  -- Move up
-key.map(key.all, leader .. 'o', '<C-w>l', key.opts)  -- Move right
+key.map(key.all, leader .. 'a', '<C-w>h', key.opts) -- Move left
+key.map(key.all, leader .. 'e', '<C-w>j', key.opts) -- Move down
+key.map(key.all, leader .. 'u', '<C-w>k', key.opts) -- Move up
+key.map(key.all, leader .. 'o', '<C-w>l', key.opts) -- Move right
 
 -- Resizing
-key.map(key.all, leader .. 'A', '<C-w><', key.opts)  -- Resize left
-key.map(key.all, leader .. 'E', '<C-w>+', key.opts)  -- Resize down
-key.map(key.all, leader .. 'U', '<C-w>-', key.opts)  -- Resize up
-key.map(key.all, leader .. 'O', '<C-w>>', key.opts)  -- Resize right
+key.map(key.all, leader .. 'A', '<C-w><', key.opts) -- Resize left
+key.map(key.all, leader .. 'E', '<C-w>+', key.opts) -- Resize down
+key.map(key.all, leader .. 'U', '<C-w>-', key.opts) -- Resize up
+key.map(key.all, leader .. 'O', '<C-w>>', key.opts) -- Resize right
 
 -- New splits
-key.map(key.all, leader .. '<C-a>', ':vsp<CR>', key.opts)  -- Vertical split right
-key.map(key.all, leader .. '<C-o>', ':vsp<CR><C-w>l', key.opts)  -- Vertical split left
-key.map(key.all, leader .. '<C-u>', ':sp<CR>', key.opts)  -- Horizontal split up
+key.map(key.all, leader .. '<C-a>', ':vsp<CR>', key.opts)       -- Vertical split right
+key.map(key.all, leader .. '<C-o>', ':vsp<CR><C-w>l', key.opts) -- Vertical split left
+key.map(key.all, leader .. '<C-u>', ':sp<CR>', key.opts)        -- Horizontal split up
 key.map(key.all, leader .. '<C-e>', ':sp<CR><C-w>j', key.opts)  -- Horizontal split down
 
 -- Moving splits
-key.map(key.all, leader .. 'tr', '<C-w>r', key.opts)  -- Rotate windows
-key.map(key.all, leader .. 'te', '<C-w>J', key.opts)  -- Move window down
-key.map(key.all, leader .. 'tu', '<C-w>K', key.opts)  -- Move window up
-key.map(key.all, leader .. 'to', '<C-w>H', key.opts)  -- Move window left
-key.map(key.all, leader .. 'ta', '<C-w>L', key.opts)  -- Move window right
+key.map(key.all, leader .. 'tr', '<C-w>r', key.opts) -- Rotate windows
+key.map(key.all, leader .. 'te', '<C-w>J', key.opts) -- Move window down
+key.map(key.all, leader .. 'tu', '<C-w>K', key.opts) -- Move window up
+key.map(key.all, leader .. 'to', '<C-w>H', key.opts) -- Move window left
+key.map(key.all, leader .. 'ta', '<C-w>L', key.opts) -- Move window right
 
 key.map(key.all, '<leader><C-w>', ':close<CR>', key.opts)
 -- ================= --
@@ -453,7 +452,7 @@ key.map("n", "<leader>ea", vim.diagnostic.goto_prev)
 key.map("n", "dp", function() vim.lsp.buf.hover() end)
 
 vim.g.copilot_no_tab_map = true
-key.map("i", "<C-y>", 'copilot#Accept("\\<CR>")', { silent = true, expr = true, replace_keycodes = false})
+key.map("i", "<C-y>", 'copilot#Accept("\\<CR>")', { silent = true, expr = true, replace_keycodes = false })
 
 -- toggle copilot enable
 key.map("n", "<leader>tce", ":Copilot enable<CR>")
@@ -516,22 +515,22 @@ local function opf(fn, set, lle, s)
 			end
 			if lin == false then
 				if i == si then
-					if sc ~= 0 then 
+					if sc ~= 0 then
 						start_splice = string.sub(og, 0, sc)
 						-- day
 						res = start_splice .. res
 					end
 				end
 				if i == ei then
-					if ec ~= 0 then	
-						end_splice = string.sub(og, sc+string.len(line))
+					if ec ~= 0 then
+						end_splice = string.sub(og, sc + string.len(line))
 						res = res .. end_splice
 					end
 				end
 			end
 			-- day
 
-			vim.api.nvim_buf_set_lines(0, i - 1, i, false, {res})
+			vim.api.nvim_buf_set_lines(0, i - 1, i, false, { res })
 		end
 	end
 
@@ -544,9 +543,9 @@ local function opf(fn, set, lle, s)
 				start, finish = finish, start
 			end
 
-			if set then 
+			if set then
 				MapLines(start, finish, SetHOF(fn, start, finish, lle), lle)
-			else 
+			else
 				MapLines(start, finish, fn, lle)
 			end
 		end
@@ -556,14 +555,14 @@ local function opf(fn, set, lle, s)
 	end
 end
 
-local tfun = function(line, i) 
+local tfun = function(line, i)
 	return i .. line
 end
 
 key.map('n', 'mep', opf(function(line, i)
-	return "(" .. line .. ")"
-end,
-true, false, true), key.opts)
+		return "(" .. line .. ")"
+	end,
+	true, false, true), key.opts)
 
 
 key.map('n', 'fem', opf(tfun, true, true), key.opts)
@@ -585,9 +584,9 @@ function cw()
 	end
 
 	return line:sub(start + 1, finish)
-end 
+end
 
-function split(str) 
+function split(str)
 	local result = {};
 	for line in string.gmatch(str .. "\n", "(.-)\n") do
 		table.insert(result, line);
@@ -695,7 +694,7 @@ key.map('o', '*', 'iw')
 
 function edit_num(i)
 	word = vim.fn.expand('<cword>')
-	if word:match('%d') then 
+	if word:match('%d') then
 		res = word + i
 		swapw(res)
 	end
@@ -706,7 +705,6 @@ function W(fn, args)
 		fn(args)
 	end
 end
-
 
 local num = {
 	abs = function(n)
@@ -799,9 +797,9 @@ function transform_line(line, reverse)
 
 	if swap then
 		return leading_spaces .. line
-	end 
+	end
 
-	-- hash 
+	-- hash
 	local hashes = line:match("^#*")
 	if #hashes > 1 and #leading_spaces == 0 then
 		if reverse then
@@ -834,10 +832,9 @@ function transform_line(line, reverse)
 	return "\t" .. leading_spaces .. line
 end
 
-
 -- - [ ] test
 function abbn(t)
-	return function()  
+	return function()
 		line = vim.fn.getline('.')
 
 		res = transform_line(line, t)
@@ -865,7 +862,7 @@ function line_hof(fn)
 		if res == line then
 			return
 		end
-		vim.fn.setline('.', res) 
+		vim.fn.setline('.', res)
 
 		line = vim.fn.getline('.')
 		local leading_spaces = line:match("^%s*")
@@ -880,7 +877,7 @@ end
 
 key.map('n', 'K', abbn(false), key.opts)
 key.map('n', 'P', abbn(true), key.opts)
-key.map('n', '#', line_hof(function(line) 
+key.map('n', '#', line_hof(function(line)
 	local lead = line:match("^#*%s*")
 	if #lead ~= 0 then
 		return line:sub(#lead + 2)
@@ -888,7 +885,7 @@ key.map('n', '#', line_hof(function(line)
 	return '# ' .. line
 end), key.opts)
 
-key.map('n', '$', line_hof(function(line) 
+key.map('n', '$', line_hof(function(line)
 	local leading_spaces = line:match("^%s*")
 	line = line:sub(#leading_spaces + 1)
 	if sw(line, '- [x] ') or sw(line, '- [ ] ') then
@@ -947,39 +944,13 @@ key.map('v', 'R', ":s/", { silent = false })
 key.map('o', 't', 'a')
 key.map('o', 'n', 'i')
 
-key.map(key.all, '<C-a>', ',')
-key.map(key.all, '<C-o>', ';')
+-- key.map(key.all, '<C-a>', ',')
+-- key.map(key.all, '<C-o>', ';')
+
+
+key.map(key.all, 'p', ',')
+key.map(key.all, 'k', ';')
 
 -- block visual mode line insert
 key.map('v', 'nn', 'I')
 key.map('v', 'tt', 'I')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
