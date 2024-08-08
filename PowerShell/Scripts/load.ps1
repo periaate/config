@@ -1,5 +1,34 @@
-. $PSScriptRoot\dev.ps1
+. $PSScriptRoot/dev.ps1
 
+function export {
+	$k = $args[0]
+	$v = $args[1]
+	[System.Environment]::SetEnvironmentVariable($k.Trim(), $v.Trim(), [System.EnvironmentVariableTarget]::Process)
+}
+
+function loadenv {
+	$envFilePath = ".\.env"
+	if ($args.Length -ne 0) {
+		$envFilePath = $args[0]
+	}
+
+	if (!(Test-Path $envFilePath)) {
+		clog error ".env file not found" "path" $envFilePath
+		return
+	}
+
+	Get-Content $envFilePath | ForEach-Object {
+		$vals = $_ -split '='
+		$k = $vals[0]
+		$v = $vals[1..($vals.Length - 1)] -join '='
+		export $k $v
+	}
+
+	clog info "environment variables loaded successfully"
+}
+
+loadenv "$PSScriptRoot/.env"
+$blume = "C:/blume"
 
 # PowerShell configs
 Remove-Item alias:ls
@@ -16,7 +45,6 @@ New-Alias -Name rename Rename-Item
 New-Alias -Name gdl gallery-dl
 
 $qr = "F:/curation/dl/"
-$cfg = "$home/blume/config/"
 
 function commit { git add . && git commit $args }
 function status { git status }
@@ -37,10 +65,7 @@ $GitPromptSettings.DefaultPromptBeforeSuffix.Text = '`n'
 $GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
 $GitPromptSettings.DefaultPromptWriteStatusFirst = $true
 
-
 Import-Module -Name Terminal-Icons
-
-
 
 # Generated
 function ghcs {

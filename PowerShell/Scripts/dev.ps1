@@ -51,48 +51,22 @@ func main() {
 }
 
 
-
 function note {
-	$notes = "$home/notes/"
 	if ($args.Length -eq 0) {
-		cd $notes
+		cd "$home/notes/"
 		list
 		return
 	}
 
-	$last = $args | slice -1
+	$res = "$(fsio join $home notes $args).md"
+	echo $res
 
-	if ($last -eq "?" -or $last -eq "find" -or $last -eq "list") {
-		$args = $args | slice ":-1"
-	}
-
-
-	$args = $args | Join-String -separator /
-	$base = $args | fp base
-	$res = "$notes/$args.md"
-	$res = $res | js "a => a.replaceAll('//', '/')"
-	$dir = $res | fp dir
-
-	if ($last -eq "?" -or $last -eq "find") {
-		$fr = (list $dir ? $base)
-		if ($fr.Length -gt 0) {
-			nvim $fr
-			return
-		}
-		return
-	}
-
-	if ($last -eq "list") {
-		list $dir | js "a => a.replace('C:/Users/Daniel', '~')"
-		return
-	}
-
-	fsio ensure $res
+	fsio ensure file $res
 	nvim $res
 }
 
 function config {
-	cd "$home/blume/config/$args"
+	cd "$blume/config/$args"
 }
 
 function symconf {
@@ -100,26 +74,8 @@ function symconf {
 		[Parameter(Mandatory = $true)]
 		[string]$src
 	)
-	$dst = "$home/blume/config/"
+	$dst = "$blume/config/"
 	mv $src $dst && fsio sym "$dst/$(fp base $src)" "./$(fp base $src)"
-}
-
-function loadenv {
-	# AI generated code.
-	$envFilePath = ".\.env"
-
-	if (Test-Path $envFilePath) {
-		Get-Content $envFilePath | ForEach-Object {
-			$keyValue = $_.Split('=')
-			if ($keyValue.Count -eq 2) {
-				[System.Environment]::SetEnvironmentVariable($keyValue[0].Trim(), $keyValue[1].Trim(), [System.EnvironmentVariableTarget]::Process)
-			}
-		}
-		Write-Host "Environment variables loaded successfully."
-	}
-	else {
-		Write-Host "Error: .env file not found at path $envFilePath"
-	}
 }
 
 function mc {
@@ -140,3 +96,4 @@ function mci {
 	Set-Location $Path
 	init (fp base $Path)
 }
+
