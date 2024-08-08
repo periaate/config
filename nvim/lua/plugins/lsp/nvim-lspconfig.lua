@@ -1,7 +1,7 @@
 local M = {
 	"neovim/nvim-lspconfig",
 	dependencies = {
-		{ "williamboman/mason.nvim", config = true },
+		{ "williamboman/mason.nvim",          config = true },
 		{ "williamboman/mason-lspconfig.nvim" },
 		{ "hrsh7th/nvim-cmp" },
 		{ "hrsh7th/cmp-nvim-lsp" },
@@ -16,7 +16,7 @@ M.config = function()
 	local servers = {
 		"gopls",
 		"tsserver",
-		"nil_ls",
+		-- "nil_ls",
 		"lua_ls",
 		"rust_analyzer",
 		"emmet_ls",
@@ -26,7 +26,7 @@ M.config = function()
 		"htmx",
 	}
 
-	mcfg.setup{
+	mcfg.setup {
 		ensure_installed = servers,
 	}
 
@@ -63,14 +63,14 @@ M.config = function()
 
 	-- custom settings
 	local gopls_settings = {
-		gofumpt = true,  -- use gofumpt formatting style
+		gofumpt = true,      -- use gofumpt formatting style
 		staticcheck = true,  -- enable staticcheck diagnostics
-		completeUnimported = true,  -- enable completion for unimported packages
-		usePlaceholders = true,  -- placeholders for function parameters or struct fields in completion
+		completeUnimported = true, -- enable completion for unimported packages
+		usePlaceholders = true, -- placeholders for function parameters or struct fields in completion
 		analyses = {
 			unusedparams = true,
-			nilness = true,  -- enable analysis for nilness
-			unusedwrite = true,  -- enable analysis for unused write
+			nilness = true, -- enable analysis for nilness
+			unusedwrite = true, -- enable analysis for unused write
 		},
 		hints = {
 			assignVariableTypes = true,
@@ -109,11 +109,11 @@ M.config = function()
 	})
 
 
-	lspconfig.marksman.setup{}
+	lspconfig.marksman.setup {}
 end
 
 -- M.toggle_inlay_hints = function()
-	-- 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-	-- end
+-- 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+-- end
 
-	return M
+return M
