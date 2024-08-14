@@ -34,34 +34,12 @@ M.config = function()
 				enable = true,
 				lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
 				keymaps = {
-					["af"] = "@function.outer",
-					["if"] = "@function.inner",
-					["ac"] = "@class.outer",
-					["ic"] = "@class.inner",
-				},
-			},
-			move = {
-				enable = true,
-				set_jumps = true, -- Whether to set jumps in the jumplist
-				goto_next_start = {
-					["foa"] = "@function.outer",
-					["loa"] = "@loop.outer",
-					["coa"] = "@conditional.outer",
-				},
-				goto_next_end = {
-					["foo"] = "@function.outer",
-					["loo"] = "@loop.outer",
-					["coo"] = "@conditional.outer",
-				},
-				goto_previous_start = {
-					["faa"] = "@function.outer",
-					["laa"] = "@loop.outer",
-					["caa"] = "@conditional.outer",
-				},
-				goto_previous_end = {
-					["fao"] = "@function.outer",
-					["lao"] = "@loop.outer",
-					["cao"] = "@conditional.outer",
+					["to"] = "@assignment.rhs",
+					["te"] = "@assignment.outer",
+					["ta"] = "@assignment.lhs",
+
+					["no"] = "@parameter.outer",
+					["na"] = "@parameter.inner",
 				},
 			},
 		},

@@ -268,8 +268,8 @@ key.map(key.all, up, "k", key.opts)
 key.map(key.all, down, "j", key.opts)
 key.map(key.all, UP, '{', key.opts)
 key.map(key.all, DOWN, '}', key.opts)
-key.map('n', '<C-u>', '20k', key.opts)
-key.map('n', '<C-e>', '20j', key.opts)
+-- key.map('n', '<C-u>', '20k', key.opts)
+-- key.map('n', '<C-e>', '20j', key.opts)
 
 key.map(key.all, "gu", "gk", key.opts)
 key.map(key.all, "ge", "gj", key.opts)
@@ -286,11 +286,58 @@ local sub = require('substitute')
 key.map('n', 'rw', sub.operator, key.opts)
 key.map('x', 'rw', sub.visual, key.opts)
 
-key.map('n', 'rwl', function()
+key.map('n', leader .. "l", function()
 	vim.cmd('normal! V')
 	sub.visual()
 end)
 
+key.map('n', "rw(", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! i(')
+	sub.visual()
+end)
+
+key.map('n', "rw)", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! a)')
+	sub.visual()
+end)
+
+key.map('n', "rw[", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! i[')
+	sub.visual()
+end)
+
+key.map('n', "rw]", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! a]')
+	sub.visual()
+end)
+
+key.map('n', "rw{", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! i{')
+	sub.visual()
+end)
+
+key.map('n', "rw}", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! a}')
+	sub.visual()
+end)
+
+key.map('n', "rw'", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! i\'')
+	sub.visual()
+end)
+
+key.map('n', "rw\"", function()
+	vim.cmd('normal! v')
+	vim.cmd('normal! i\"')
+	sub.visual()
+end)
 
 -- cw next to one another, cv layer on keyboard, mapped to mirror global usage
 key.map(key.all, 'c', 'y', key.opts)
@@ -301,7 +348,7 @@ key.map(key.all, 'w', 'p', key.opts)
 key.map(key.all, 'C', 'Y', key.opts)
 key.map(key.all, 'W', 'P', key.opts)
 
-key.map('n', 'mm', 'm')
+-- key.map('n', 'mm', 'm')
 
 -- tabulation
 key.map(key.all, '<Tab>', '>>', key.opts)
@@ -330,11 +377,11 @@ key.map(key.all, "//", line_rhs, { expr = true, noremap = true, silent = true })
 key.map('n', 'lu', "I<CR><Esc>ki")
 key.map('n', 'le', 'A<CR>')
 -- editless
--- key.map('n', 'lU', "mlI<CR><Esc>`l")
--- key.map('n', 'lE', "mlA<CR><Esc>`l")
+key.map('n', '<A-u>', "mlI<CR><Esc>k")
+key.map('n', '<A-e>', "mlA<CR><Esc>")
 -- delete
--- key.map('n', 'l<C-u>', "mlj0i<BS><Esc>`l")
--- key.map('n', 'l<C-e>', "mlk0i<BS><Esc>`l")
+key.map('n', 'l<C-e>', "mlj0i<BS><Esc>`l")
+key.map('n', 'l<C-u>', "mlk0i<BS><Esc>`l")
 
 
 -- key.map('n', '~', '~h')
@@ -343,8 +390,8 @@ key.map('n', 'tuc', 'gU')
 key.map('n', 'tlc', 'gu')
 
 -- macros
-key.map(key.all, 'h', 'q')
-key.map(key.all, 's', '@')
+-- key.map(key.all, 'h', 'q')
+-- key.map(key.all, 's', '@')
 
 
 
@@ -398,11 +445,9 @@ key.map(key.almost, '<leader><C-w>', '<C-w>c', key.opts)
 
 
 
-
-
-key.map(key.all, 'ne', ':b#<CR>', { noremap = true, silent = true })
-key.map(key.all, 'na', ':bprevious<CR>', { noremap = true, silent = true })
-key.map(key.all, 'no', ':bnext<cr>', { noremap = true, silent = true })
+-- key.map(key.all, 'ne', ':b#<CR>', { noremap = true, silent = true })
+-- key.map(key.all, 'na', ':bprevious<CR>', { noremap = true, silent = true })
+-- key.map(key.all, 'no', ':bnext<cr>', { noremap = true, silent = true })
 
 
 key.map("n", "-", "<CMD>Oil<CR>", key.opts)
@@ -449,7 +494,7 @@ key.map("n", "<leader>eo", vim.diagnostic.goto_next)
 key.map("n", "<leader>ea", vim.diagnostic.goto_prev)
 
 -- show floating preview of the word currently under the cursor in normal mode
-key.map("n", "dp", function() vim.lsp.buf.hover() end)
+key.map("n", "th", function() vim.lsp.buf.hover() end)
 
 vim.g.copilot_no_tab_map = true
 key.map("i", "<C-y>", 'copilot#Accept("\\<CR>")', { silent = true, expr = true, replace_keycodes = false })
@@ -559,10 +604,10 @@ local tfun = function(line, i)
 	return i .. line
 end
 
-key.map('n', 'mep', opf(function(line, i)
-		return "(" .. line .. ")"
-	end,
-	true, false, true), key.opts)
+-- key.map('n', 'mep', opf(function(line, i)
+-- 		return "(" .. line .. ")"
+-- 	end,
+-- 	true, false, true), key.opts)
 
 
 key.map('n', 'fem', opf(tfun, true, true), key.opts)
@@ -740,21 +785,21 @@ function Do(cmd)
 		print(get.position())
 	end
 end
-
-key.map('n', 'do', function()
-	local cmd = vim.fn.input('Enter command: ')
-	Do(cmd)
-end)
-
-
-key.map('n', 'dwc', function()
-	vim.cmd('.!nanika word count ' .. get.path())
-end)
-
-key.map('n', 'duc', function()
-	vim.cmd('.!nanika word unique ' .. get.path())
-end)
-
+--
+-- key.map('n', 'do', function()
+-- 	local cmd = vim.fn.input('Enter command: ')
+-- 	Do(cmd)
+-- end)
+--
+--
+-- key.map('n', 'dwc', function()
+-- 	vim.cmd('.!nanika word count ' .. get.path())
+-- end)
+--
+-- key.map('n', 'duc', function()
+-- 	vim.cmd('.!nanika word unique ' .. get.path())
+-- end)
+--
 function transform_line(line, reverse)
 	local w = get.word()
 	local swap = false
@@ -948,8 +993,8 @@ key.map('o', 'n', 'i')
 -- key.map(key.all, '<C-o>', ';')
 
 
-key.map(key.all, 'p', ',')
-key.map(key.all, 'k', ';')
+-- key.map(key.all, 'p', ',')
+-- key.map(key.all, 'k', ';')
 
 -- block visual mode line insert
 key.map('v', 'nn', 'I')

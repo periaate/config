@@ -15,6 +15,9 @@ vim.opt.cursorline = true
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 
+vim.o.ignorecase = true  -- Make searches case-insensitive
+vim.o.smartcase = true   -- But make it case-sensitive if the search contains uppercase letters
+
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 

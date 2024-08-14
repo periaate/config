@@ -17,7 +17,6 @@ M.config = function()
 		"gopls",
 		"tsserver",
 		-- "nil_ls",
-		"lua_ls",
 		"rust_analyzer",
 		"emmet_ls",
 		"emmet_language_server",
