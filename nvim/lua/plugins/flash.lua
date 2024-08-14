@@ -33,16 +33,16 @@ return {
 			}) end, desc = "Flash" },
 			{ "m", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
 			{ "d", mode = { "n", "x", "o" }, function() require("flash").treesitter_search() end, desc = "Flash Treesitter" },
-			{ "<C-e>", mode = { "n", "x", "o" }, function() require("flash").jump({
-				search = { forward = true, wrap = false, mode = "search", max_length = false },
-label = { after = { 0, 0 } },
-  pattern = [[^\S]],
-			}) end, desc = "Jump to line" },
-			{ "<C-u>", mode = { "n", "x", "o" }, function() require("flash").jump({
-				search = { forward = false, wrap = false, mode = "search", max_length = false },
-label = { after = { 0, 0 } },
-  pattern = [[^\S]],
-			}) end, desc = "Jump to line" },
+			-- { "<C-e>", mode = { "n", "x", "o" }, function() require("flash").jump({
+				-- search = { forward = true, wrap = false, mode = "search", max_length = false },
+-- label = { after = { 0, 0 } },
+  -- pattern = [[^\S]],
+			-- }) end, desc = "Jump to line" },
+			-- { "<C-u>", mode = { "n", "x", "o" }, function() require("flash").jump({
+				-- search = { forward = false, wrap = false, mode = "search", max_length = false },
+-- label = { after = { 0, 0 } },
+  -- pattern = [[^\S]],
+			-- }) end, desc = "Jump to line" },
 		},
 	}
 
