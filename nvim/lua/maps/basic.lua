@@ -189,10 +189,10 @@ key.map(key.all, '<BS>', '')
 
 local ALL = { 'n', 'v', 'x', 'o', 'i' }
 
-key.map(ALL, '<left>', '<nop>')
-key.map(ALL, '<right>', '<nop>')
-key.map(ALL, '<up>', '<nop>')
-key.map(ALL, '<down>', '<nop>')
+-- key.map(ALL, '<left>', '<nop>')
+-- key.map(ALL, '<right>', '<nop>')
+-- key.map(ALL, '<up>', '<nop>')
+-- key.map(ALL, '<down>', '<nop>')
 
 key.map('o', '<delete>', 'l')
 
@@ -210,45 +210,10 @@ key.map(key.all, "z", "<C-v>", key.opts)
 key.map(key.all, "<C-v>", "p", key.opts)
 key.map('i', "<C-n>", "<ESC>`m", key.opts)
 
-local TToggle = false
-
-function mov(direction)
-	return function()
-		directions = {
-			["up"] = "k",
-			["down"] = "j",
-			["left"] = "h",
-			["right"] = "l",
-		}
-		toggled = {
-			["up"] = "{",
-			["down"] = "}",
-			["left"] = "b",
-			["right"] = "w",
-		}
-		if toggle then
-			vim.cmd('normal!' .. toggled[direction])
-			return
-		end
-
-		vim.cmd('normal!' .. directions[direction])
-	end
-end
-
-key.map('i', "<C-e>", mov('down'), key.opts)
-key.map({ 'i', 'v', 'n' }, "<C-a>", mov('left'), key.opts)
-key.map('i', "<C-u>", mov('up'), key.opts)
-key.map({ 'i', 'v', 'n' }, "<C-o>", mov('right'), key.opts)
-
-key.map({ 'i', 'v', 'n' }, "<C-g>", function()
-	TToggle = not TToggle
-end, key.opts)
-
-
 -- base movement
 -- base LR based on discovery
-key.map(key.all, left, 'F', key.opts)
-key.map(key.all, right, 'f', key.opts)
+-- key.map(key.all, left, 'F', key.opts)
+-- key.map(key.all, right, 'f', key.opts)
 key.map(key.all, 'A', 'T', key.opts)
 key.map(key.all, 'O', 't', key.opts)
 
@@ -286,58 +251,45 @@ local sub = require('substitute')
 key.map('n', 'rw', sub.operator, key.opts)
 key.map('x', 'rw', sub.visual, key.opts)
 
-key.map('n', leader .. "l", function()
-	vim.cmd('normal! V')
-	sub.visual()
-end)
+key.map('n', "rwl", function() vim.cmd('normal! V'); sub.visual() end)
+key.map('n', "rw(", function() vim.cmd('normal! vi('); sub.visual() end)
+key.map('n', "rw)", function() vim.cmd('normal! va)'); sub.visual() end)
+key.map('n', "rw[", function() vim.cmd('normal! vi['); sub.visual() end)
+key.map('n', "rw]", function() vim.cmd('normal! va]'); sub.visual() end)
+key.map('n', "rw{", function() vim.cmd('normal! vi{'); sub.visual() end)
+key.map('n', "rw}", function() vim.cmd('normal! va}'); sub.visual() end)
+key.map('n', "rw'", function() vim.cmd("normal! vi'"); sub.visual() end)
+key.map('n', 'rw"', function() vim.cmd('normal! vi"'); sub.visual() end)
 
-key.map('n', "rw(", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! i(')
-	sub.visual()
-end)
+key.map('n', "cl", "yc")
+key.map('n', "c(", "yi(")
+key.map('n', "c)", "yi)")
+key.map('n', "c[", "yn[")
+key.map('n', "c]", "yi]")
+key.map('n', "c{", "yn{")
+key.map('n', "c}", "yi}")
+key.map('n', "c'", "yn'")
+key.map('n', 'c"', 'yi"')
 
-key.map('n', "rw)", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! a)')
-	sub.visual()
-end)
+key.map('n', "rl", "cc")
+key.map('n', "r(", "ci(")
+key.map('n', "r)", "ci)")
+key.map('n', "r[", "cn[")
+key.map('n', "r]", "ci]")
+key.map('n', "r{", "cn{")
+key.map('n', "r}", "ci}")
+key.map('n', "r'", "cn'")
+key.map('n', 'r"', 'ci"')
 
-key.map('n', "rw[", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! i[')
-	sub.visual()
-end)
-
-key.map('n', "rw]", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! a]')
-	sub.visual()
-end)
-
-key.map('n', "rw{", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! i{')
-	sub.visual()
-end)
-
-key.map('n', "rw}", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! a}')
-	sub.visual()
-end)
-
-key.map('n', "rw'", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! i\'')
-	sub.visual()
-end)
-
-key.map('n', "rw\"", function()
-	vim.cmd('normal! v')
-	vim.cmd('normal! i\"')
-	sub.visual()
-end)
+key.map('n', "<bs>l", function() vim.cmd('normal! V"_d') end)
+key.map('n', "<bs>(", function() vim.cmd('normal! vi("_d') end)
+key.map('n', "<bs>)", function() vim.cmd('normal! va)"_d') end)
+key.map('n', "<bs>[", function() vim.cmd('normal! vi["_d') end)
+key.map('n', "<bs>]", function() vim.cmd('normal! va]"_d') end)
+key.map('n', "<bs>{", function() vim.cmd('normal! vi{"_d') end)
+key.map('n', "<bs>}", function() vim.cmd('normal! va}"_d') end)
+key.map('n', "<bs>'", function() vim.cmd([[normal! vi"_d']]) end)
+key.map('n', '<bs>"', function() vim.cmd('normal! vi""_d') end)
 
 -- cw next to one another, cv layer on keyboard, mapped to mirror global usage
 key.map(key.all, 'c', 'y', key.opts)
@@ -390,8 +342,8 @@ key.map('n', 'tuc', 'gU')
 key.map('n', 'tlc', 'gu')
 
 -- macros
--- key.map(key.all, 'h', 'q')
--- key.map(key.all, 's', '@')
+key.map(key.all, 'ne', 'q')
+key.map(key.all, 'he', '@')
 
 
 
@@ -604,11 +556,6 @@ local tfun = function(line, i)
 	return i .. line
 end
 
--- key.map('n', 'mep', opf(function(line, i)
--- 		return "(" .. line .. ")"
--- 	end,
--- 	true, false, true), key.opts)
-
 
 key.map('n', 'fem', opf(tfun, true, true), key.opts)
 key.map('n', 'fgm', opf(print, false, false), key.opts)
@@ -785,21 +732,7 @@ function Do(cmd)
 		print(get.position())
 	end
 end
---
--- key.map('n', 'do', function()
--- 	local cmd = vim.fn.input('Enter command: ')
--- 	Do(cmd)
--- end)
---
---
--- key.map('n', 'dwc', function()
--- 	vim.cmd('.!nanika word count ' .. get.path())
--- end)
---
--- key.map('n', 'duc', function()
--- 	vim.cmd('.!nanika word unique ' .. get.path())
--- end)
---
+
 function transform_line(line, reverse)
 	local w = get.word()
 	local swap = false
@@ -999,3 +932,8 @@ key.map('o', 'n', 'i')
 -- block visual mode line insert
 key.map('v', 'nn', 'I')
 key.map('v', 'tt', 'I')
+
+
+
+
+
