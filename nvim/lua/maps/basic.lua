@@ -220,8 +220,8 @@ key.map(key.all, 'O', 't', key.opts)
 key.map(key.all, '}', ';', key.opts)
 key.map(key.all, '{', ',', key.opts)
 
-key.map(key.all, 'a<C-a>', '0', key.opts)
-key.map(key.all, 'o<C-o>', 'g_', key.opts)
+-- key.map(key.all, 'a<C-a>', '0', key.opts)
+-- key.map(key.all, 'o<C-o>', 'g_', key.opts)
 
 -- alternative LR based on words
 -- key.map(key.all, "<C-a>", "b", key.opts)
