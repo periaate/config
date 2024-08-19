@@ -1,5 +1,5 @@
 function run { build $args[0] && invoke $args }
-function c { seek $args | cd }
+#function c { seek $args | cd }
 function daily { note daily (day $args) }
 function docs {	nvim (list ? readme) }
 function def { start https://en.wiktionary.org/wiki/$Args }
@@ -16,14 +16,13 @@ function ydl {
 	}
 }
 
-function play {
-	if ($Args.Count -eq 0) {
-		mpvnet (list sort creation is media slice 0)
-		return
+function mdl {
+	if ($Args.Count -gt 0) {
+		c music
+		yt-dlp -f 'bestvideo[ext=av1]+bestaudio[ext=opus]/bestvideo+bestaudio' --merge-output-format mkv --cookies-from-browser chrome --embed-thumbnail --write-info-json --embed-subs $Args
+		cd -
 	}
-	mpvnet $Args
 }
-
 
 function init {
 	<#

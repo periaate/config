@@ -53,6 +53,35 @@ function dl { cd "$home\Downloads" }
 function dt { cd "$home\Desktop" }
 function qr { cd $qr }
 
+function ad {zoxide query $args}
+
+function htmx {
+	cd ~/src/htmx/www && zola serve
+}
+
+function docgo {
+	pkgsite -http "localhost:7727" "C:/Program Files/Go/src" (ad proj) C:\Users\Daniel\go\pkg\mod
+}
+
+function doctempl {
+	cd ~/src/templ/docs && yarn start
+}
+
+function docmdn {
+	cd ~/src/content && yarn start
+}
+
+function searx {
+	cd ~/blume/svc/searxng
+	wsl docker compose up
+}
+
+function docstart {
+	pwsh -c htmx &
+	pwsh -c docgo &
+	pwsh -c doctempl &
+	pwsh -c docmdn &
+}
 
 # PSReadLine configuration
 Import-Module PSReadLine
@@ -184,3 +213,16 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+p' -ScriptBlock { rr-last }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+u' -ScriptBlock { rr-up }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+o' -ScriptBlock { explorer .}
 Set-PSReadLineKeyHandler -Chord 'Ctrl+e' -ScriptBlock { rr-nvim }
+
+
+
+
+
+
+
+
+
+
+
+
+Invoke-Expression (& { (zoxide init powershell --cmd c | Out-String) })

@@ -22,6 +22,17 @@ local Keys = {
 	end
 },
 
+{ "g", mode = { "n", "x", "o" }, function()
+	require("flash").jump({
+		search = { mode = "search", max_length = 0 },
+		label = { after = { 0, 0 } },
+		pattern = [[^\(\s*$\|$\)]]
+	})
+end
+},
+
+
+
 { "p", mode = { "n", "x", "o", }, function()
 	require("flash").jump({
 		pattern = ".", -- initialize pattern with any char
@@ -44,7 +55,7 @@ end
 
 { "a", mode = { "n", "x", "o", }, function()
 	local Flash = require("flash")
-	
+
 	Flash.jump({
 		search = { mode = "search" },
 		label = { after = false, before = { 0, 0 }, uppercase = false, format = format },
@@ -68,7 +79,7 @@ end
 				end,
 			})
 		end,
-		
+
 		labeler = function(matches, state)
 			local labels = state:labels()
 			for m, match in ipairs(matches) do
@@ -96,5 +107,5 @@ return {
 			},
 		},
 	},
-	keys = Keys,
+	-- keys = Keys,
 }

@@ -13,7 +13,7 @@ local DOWN = "E"
 
 
 local toggle = "t"
-local leader = " "
+local leader = "@"
 local GO = "g"
 -- local Do = "d"
 
@@ -36,6 +36,7 @@ local key = {
 	map = nrmap,
 	opts = opts,
 	all = all,
+	modes = almost,
 	almost = almost,
 }
 
@@ -159,42 +160,20 @@ key.map(key.all, '<Space>', '')
 key.map(key.all, '<BS>', '')
 
 
-
--- key.map(key.all, 'd', '')
--- key.map(key.all, 'D', '')
--- key.map(key.all, 'x', '')
--- key.map(key.all, 'X', '')
--- key.map(key.all, 'j', '')
--- key.map(key.all, 'J', '')
--- key.map(key.all, 'q', '')
--- key.map(key.all, 'Q', '')
--- key.map(key.all, 'f', '')
--- key.map(key.all, 'F', '')
--- key.map(key.all, '>', '')
--- key.map(key.all, '<', '')
--- key.map(key.all, '>>', '')
--- key.map(key.all, '<<', '')
--- key.map(key.all, 'n', '')
--- key.map(key.all, 't', '')
--- key.map(key.all, 'N', '')
--- key.map(key.all, 'T', '')
--- key.map(key.all, ' ', '')
--- key.map(key.all, '<CR>', '')
--- key.map(key.all, ':', '')
--- key.map(key.all, '&', '')
--- key.map(key.all, '^', '')
--- key.map(key.all, '@', '')
--- key.map(key.all, '/', '')
-
-
 local ALL = { 'n', 'v', 'x', 'o', 'i' }
-
--- key.map(ALL, '<left>', '<nop>')
--- key.map(ALL, '<right>', '<nop>')
--- key.map(ALL, '<up>', '<nop>')
--- key.map(ALL, '<down>', '<nop>')
-
 key.map('o', '<delete>', 'l')
+
+
+key.map(key.all, 'l', '_')
+
+key.map('o', '(', 'i(')
+key.map('o', ')', 'a)')
+key.map('o', '[', 'i[')
+key.map('o', ']', 'a]')
+key.map('o', '{', 'i{')
+key.map('o', '}', 'a}')
+key.map('o', '<', 'i<')
+key.map('o', '>', 'a>')
 
 
 -- mode controls
@@ -212,13 +191,13 @@ key.map('i', "<C-n>", "<ESC>`m", key.opts)
 
 -- base movement
 -- base LR based on discovery
--- key.map(key.all, left, 'F', key.opts)
--- key.map(key.all, right, 'f', key.opts)
+key.map(key.all, left, 'F', key.opts)
+key.map(key.all, right, 'f', key.opts)
 key.map(key.all, 'A', 'T', key.opts)
 key.map(key.all, 'O', 't', key.opts)
 
-key.map(key.all, '}', ';', key.opts)
-key.map(key.all, '{', ',', key.opts)
+key.map(key.modes, '}', ';', key.opts)
+key.map(key.modes, '{', ',', key.opts)
 
 -- key.map(key.all, 'a<C-a>', '0', key.opts)
 -- key.map(key.all, 'o<C-o>', 'g_', key.opts)
@@ -226,81 +205,34 @@ key.map(key.all, '{', ',', key.opts)
 -- alternative LR based on words
 -- key.map(key.all, "<C-a>", "b", key.opts)
 -- key.map(key.all, "<C-o>", "w", key.opts)
-key.map(key.all, "i", "e", key.opts)
+-- key.map(key.all, "i", "e", key.opts)
 
 -- vertical movement remaps
 key.map(key.all, up, "k", key.opts)
 key.map(key.all, down, "j", key.opts)
 key.map(key.all, UP, '{', key.opts)
 key.map(key.all, DOWN, '}', key.opts)
--- key.map('n', '<C-u>', '20k', key.opts)
--- key.map('n', '<C-e>', '20j', key.opts)
 
-key.map(key.all, "gu", "gk", key.opts)
-key.map(key.all, "ge", "gj", key.opts)
+-- key.map(key.all, "gu", "gk", key.opts)
+-- key.map(key.all, "ge", "gj", key.opts)
 
 -- undo & redo _ ( & )
-key.map(key.all, "(", 'u', key.opts)
-key.map(key.all, ")", '<C-r>', key.opts)
+key.map('n', "(", 'u', key.opts)
+key.map('n', ")", '<C-r>', key.opts)
 
 -- copy-paste-replace
-key.map(key.all, 'r', 'c', key.opts)
-key.map(key.all, 'r<Delete>', 'cl', key.opts)
+key.map(key.modes, 'r', 'c', key.opts)
+key.map(key.modes, 'r<Delete>', 'cl', key.opts)
 
 local sub = require('substitute')
 key.map('n', 'rw', sub.operator, key.opts)
 key.map('x', 'rw', sub.visual, key.opts)
 
-key.map('n', "rwl", function() vim.cmd('normal! V'); sub.visual() end)
-key.map('n', "rw(", function() vim.cmd('normal! vi('); sub.visual() end)
-key.map('n', "rw)", function() vim.cmd('normal! va)'); sub.visual() end)
-key.map('n', "rw[", function() vim.cmd('normal! vi['); sub.visual() end)
-key.map('n', "rw]", function() vim.cmd('normal! va]'); sub.visual() end)
-key.map('n', "rw{", function() vim.cmd('normal! vi{'); sub.visual() end)
-key.map('n', "rw}", function() vim.cmd('normal! va}'); sub.visual() end)
-key.map('n', "rw'", function() vim.cmd("normal! vi'"); sub.visual() end)
-key.map('n', 'rw"', function() vim.cmd('normal! vi"'); sub.visual() end)
-
-key.map('n', "cl", "yc")
-key.map('n', "c(", "yi(")
-key.map('n', "c)", "yi)")
-key.map('n', "c[", "yn[")
-key.map('n', "c]", "yi]")
-key.map('n', "c{", "yn{")
-key.map('n', "c}", "yi}")
-key.map('n', "c'", "yn'")
-key.map('n', 'c"', 'yi"')
-
-key.map('n', "rl", "cc")
-key.map('n', "r(", "ci(")
-key.map('n', "r)", "ci)")
-key.map('n', "r[", "cn[")
-key.map('n', "r]", "ci]")
-key.map('n', "r{", "cn{")
-key.map('n', "r}", "ci}")
-key.map('n', "r'", "cn'")
-key.map('n', 'r"', 'ci"')
-
-key.map('n', "<bs>l", function() vim.cmd('normal! V"_d') end)
-key.map('n', "<bs>(", function() vim.cmd('normal! vi("_d') end)
-key.map('n', "<bs>)", function() vim.cmd('normal! va)"_d') end)
-key.map('n', "<bs>[", function() vim.cmd('normal! vi["_d') end)
-key.map('n', "<bs>]", function() vim.cmd('normal! va]"_d') end)
-key.map('n', "<bs>{", function() vim.cmd('normal! vi{"_d') end)
-key.map('n', "<bs>}", function() vim.cmd('normal! va}"_d') end)
-key.map('n', "<bs>'", function() vim.cmd([[normal! vi"_d']]) end)
-key.map('n', '<bs>"', function() vim.cmd('normal! vi""_d') end)
-
 -- cw next to one another, cv layer on keyboard, mapped to mirror global usage
-key.map(key.all, 'c', 'y', key.opts)
-key.map(key.all, 'ca', 'lyf', key.opts)
-key.map(key.all, 'cc', 'yy', key.opts)
-key.map('v', 'cc', 'y', key.opts)
-key.map(key.all, 'w', 'p', key.opts)
-key.map(key.all, 'C', 'Y', key.opts)
-key.map(key.all, 'W', 'P', key.opts)
-
--- key.map('n', 'mm', 'm')
+key.map(key.modes, 'c', 'y', key.opts)
+key.map(key.modes, 'w', 'p', key.opts)
+key.map(key.modes, 'C', 'Y', key.opts)
+key.map(key.modes, 'W', 'P', key.opts)
 
 -- tabulation
 key.map(key.all, '<Tab>', '>>', key.opts)
@@ -310,16 +242,13 @@ key.map('v', '<Tab>', '>', key.opts)
 key.map('v', '<S-Tab>', '<', key.opts)
 
 
-key.map(key.all, ':', ':', key.opts)
 key.map(key.all, '<CR>', ':', key.opts)
 
-
-key.map(key.all, 's', '@', key.opts)
-key.map(key.all, 'ss', '@@', key.opts)
 
 local line_rhs = function()
 	return require('vim._comment').operator() .. '_'
 end
+
 -- commenting
 key.map('n', '/', require('vim._comment').operator, { expr = true, noremap = true, silent = true })
 key.map(key.all, "//", line_rhs, { expr = true, noremap = true, silent = true })
@@ -356,12 +285,9 @@ key.map("v", "<C-e>", ":m '>+1<CR>gv=gv")
 
 -- remove and add to register
 key.map({ "n", "v" }, "<leader><BS>", "d")
-key.map({ "n", "v" }, "<leader><BS><BS>", "dd")
 
 -- remove without register
-key.map(key.all, "<BS>", [["_d]], key.opts)
-key.map(key.all, "<BS><BS>", [[0"_dg_i<BS><Esc>]], key.opts)
-key.map('v', "<BS><BS>", [["_d]], key.opts)
+key.map(key.modes, "<BS>", [["_d]], key.opts)
 
 --rename
 key.map('n', '<C-r>', function() vim.lsp.buf.rename() end, { noremap = true, silent = true })
@@ -373,6 +299,16 @@ key.map("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn<Esc>")
 key.map("n", "<leader>ef", "oif err != nil {<CR>}<Esc>Olog.Fatalln(err)<Esc>")
 key.map("n", "<leader>ep", "oif err != nil {<CR>}<Esc>Opanic(err)<Esc>")
 key.map("n", "<leader>el", "oif err != nil {<CR>}<Esc>Oslog.Error(\"error occurred\", \"err\", err)<Esc>")
+
+
+key.map("n", "mi", "oif  {<CR>}<ESC><up><end><left><left>")
+key.map("n", "men", "aerr != nil<ESC>o<ESC>")
+
+key.map("n", "mer", "areturn<ESC>")
+key.map("n", "mep", "apanic(err)<ESC>")
+key.map("n", "mce", 'aclog.Error("error ", "err", err)<ESC>FEf f"')
+
+
 
 
 -- shoutout (load current file as lua or something)ts
@@ -396,19 +332,13 @@ key.map(key.almost, '<C-w>', ':bd<CR>', key.opts)
 key.map(key.almost, '<leader><C-w>', '<C-w>c', key.opts)
 
 
-
--- key.map(key.all, 'ne', ':b#<CR>', { noremap = true, silent = true })
--- key.map(key.all, 'na', ':bprevious<CR>', { noremap = true, silent = true })
--- key.map(key.all, 'no', ':bnext<cr>', { noremap = true, silent = true })
-
-
 key.map("n", "-", "<CMD>Oil<CR>", key.opts)
 
 
 
 -- search
-key.map(key.all, '>', 'N', key.opts)
 key.map(key.all, '<', 'n', key.opts)
+key.map(key.all, '>', 'N', key.opts)
 
 -- ================= --
 -- Splits management --
@@ -448,117 +378,9 @@ key.map("n", "<leader>ea", vim.diagnostic.goto_prev)
 -- show floating preview of the word currently under the cursor in normal mode
 key.map("n", "th", function() vim.lsp.buf.hover() end)
 
-vim.g.copilot_no_tab_map = true
-key.map("i", "<C-y>", 'copilot#Accept("\\<CR>")', { silent = true, expr = true, replace_keycodes = false })
-
--- toggle copilot enable
-key.map("n", "<leader>tce", ":Copilot enable<CR>")
--- toggle copilot disable
-key.map("n", "<leader>tcd", ":Copilot disable<CR>")
-
 
 key.map('i', '<C-Delete>', '<Esc>wdwi')
 key.map('i', '<C-v>', [[<ESC>pi]])
-
-
-
-
-local function opf(fn, set, lle, s)
-	s = s or false
-	local function MapLines(start, finish, fun, lin, s)
-		si, ei = start[1], finish[1]
-		sc, ec = start[2], finish[2]
-
-		for i = si, ei do
-			line = vim.api.nvim_buf_get_lines(0, i - 1, i, false)[1]
-			inp = line
-
-			if lin == false then
-				if i == si then
-					if sc ~= 0 then
-						inp = string.sub(inp, sc)
-					end
-				end
-				if i == ei then
-					if ec ~= 0 then
-						inp = string.sub(inp, 0, ec)
-					end
-				end
-			end
-
-
-			fun(inp, i, line)
-
-			if s then
-				break
-			end
-		end
-	end
-
-
-	function SetHOF(fun, start, finish, lin, single)
-		si, ei = start[1], finish[1]
-		sc, ec = start[2], finish[2]
-		if single then
-			if sc > ec then
-				sc, ec = ec, sc
-			end
-		end
-
-		return function(line, i, og)
-			res = fun(line, i)
-			if res == nil then
-				res = ''
-			end
-			if lin == false then
-				if i == si then
-					if sc ~= 0 then
-						start_splice = string.sub(og, 0, sc)
-						-- day
-						res = start_splice .. res
-					end
-				end
-				if i == ei then
-					if ec ~= 0 then
-						end_splice = string.sub(og, sc + string.len(line))
-						res = res .. end_splice
-					end
-				end
-			end
-			-- day
-
-			vim.api.nvim_buf_set_lines(0, i - 1, i, false, { res })
-		end
-	end
-
-	return function()
-		_G.op_func_formatting = function()
-			local start = vim.api.nvim_buf_get_mark(0, '[')
-			local finish = vim.api.nvim_buf_get_mark(0, ']')
-
-			if start[1] > finish[1] then
-				start, finish = finish, start
-			end
-
-			if set then
-				MapLines(start, finish, SetHOF(fn, start, finish, lle), lle)
-			else
-				MapLines(start, finish, fn, lle)
-			end
-		end
-
-		vim.go.operatorfunc = 'v:lua.op_func_formatting'
-		vim.api.nvim_feedkeys('g@', 'n', false)
-	end
-end
-
-local tfun = function(line, i)
-	return i .. line
-end
-
-
-key.map('n', 'fem', opf(tfun, true, true), key.opts)
-key.map('n', 'fgm', opf(print, false, false), key.opts)
 
 -- get current word
 function cw()
@@ -587,27 +409,11 @@ function split(str)
 	return result
 end
 
-function invoke(cmd)
-	local handle = io.popen(cmd)
-	local result = handle:read("*a")
-	handle:close()
-	return result
-end
-
 key.map('n', '!w', function()
 	local word = cw()
 	vim.api.nvim_feedkeys('!!' .. word, 'n', false)
 end)
 
-key.map('n', 'mote', opf(function(line, index)
-	local comd = vim.fn.input('Enter command: ', line)
-	print('comd', comd)
-	res = invoke(comd)
-	res = split(res)[1]
-	return res
-end, true, false, true), key.opts)
-
-key.map('o', 'ww', 'iw')
 
 local str = {
 	nthSplit = function(str, sep, n)
@@ -631,13 +437,7 @@ local str = {
 		return t[#t + n + 1]
 	end
 }
--- day
-local fp = {
-	normalize = function(path)
-		path = string.gsub(path, "\\", "/")
-		return path
-	end,
-}
+
 
 
 
@@ -670,207 +470,8 @@ local get = {
 	end
 }
 
-
-local function sw(str, prefix)
-	return str:sub(1, #prefix) == prefix
-end
-
-function swapw(w)
-	vim.cmd('normal! maviwc' .. w)
-	vim.cmd('normal! `a')
-end
-
 -- cword motion
 key.map('o', '*', 'iw')
-
-
-function edit_num(i)
-	word = vim.fn.expand('<cword>')
-	if word:match('%d') then
-		res = word + i
-		swapw(res)
-	end
-end
-
-function W(fn, args)
-	return function()
-		fn(args)
-	end
-end
-
-local num = {
-	abs = function(n)
-		if n < 0 then
-			return -n
-		end
-		return n
-	end,
-	negIndex = function(n, len)
-		if n < 0 then
-			return len + n + 1
-		end
-		return n
-	end,
-	is = function(n)
-		return tonumber(n) ~= nil
-	end
-}
-
-
--- make into a global command
-
-function Do(cmd)
-	if cmd == 'word' then
-		print(get.word())
-	elseif cmd == 'name' then
-		print(get.name())
-	elseif cmd == 'path' then
-		print(get.path())
-	elseif cmd == 'base' then
-		print(get.base())
-	elseif cmd == 'position' then
-		print(get.position())
-	end
-end
-
-function transform_line(line, reverse)
-	local w = get.word()
-	local swap = false
-	if w == 'true' then
-		w = 'false'
-		swap = true
-	elseif w == 'false' then
-		w = 'true'
-		swap = true
-	elseif w == 'True' then
-		w = 'False'
-		swap = true
-	elseif w == 'False' then
-		w = 'True'
-		swap = true
-	end
-
-	if swap then
-		vim.cmd('normal! maviwc' .. w)
-		vim.cmd('normal! `a')
-		-- true
-	end
-
-
-	if num.is(w) then
-		if reverse then
-			n = tonumber(w)
-			if n > 0 then
-				w = edit_num(-1)
-			end
-		else
-			w = edit_num(1)
-		end
-		swap = true
-	end
-
-	-- Trim leading whitespaces and preserve the original leading spaces
-	local leading_spaces = line:match("^%s*")
-	line = line:sub(#leading_spaces + 1)
-
-	if swap then
-		return leading_spaces .. line
-	end
-
-	-- hash
-	local hashes = line:match("^#*")
-	if #hashes > 1 and #leading_spaces == 0 then
-		if reverse then
-			return line:sub(2)
-		end
-		return '#' .. line
-	elseif sw(line, '#') and #leading_spaces == 0 then
-		if reverse then
-			return line
-		end
-		return '#' .. line
-	end
-
-	if sw(line, "- [x] ") then
-		if reverse then
-			return leading_spaces .. "- [ ] " .. line:sub(7)
-		end
-		return leading_spaces .. "- [ ] " .. line:sub(7)
-	elseif sw(line, "- [ ] ") then
-		if reverse then
-			return leading_spaces .. "- " .. line:sub(7)
-		end
-		return leading_spaces .. "- [x] " .. line:sub(7)
-	end
-
-
-	if reverse then
-		return leading_spaces:sub(2) .. line
-	end
-	return "\t" .. leading_spaces .. line
-end
-
--- - [ ] test
-function abbn(t)
-	return function()
-		line = vim.fn.getline('.')
-
-		res = transform_line(line, t)
-		if res == line then
-			return
-		end
-
-		vim.fn.setline('.', res)
-
-		line = vim.fn.getline('.')
-		local leading_spaces = line:match("^%s*")
-		line = line:sub(#leading_spaces + 1)
-		if sw(line, '- [x] ') or sw(line, '- [ ] ') then
-			vim.cmd('normal! 0f]ll')
-		else
-			vim.cmd('normal! 0f l')
-		end
-	end
-end
-
-function line_hof(fn)
-	return function()
-		line = vim.fn.getline('.')
-		res = fn(line)
-		if res == line then
-			return
-		end
-		vim.fn.setline('.', res)
-
-		line = vim.fn.getline('.')
-		local leading_spaces = line:match("^%s*")
-		line = line:sub(#leading_spaces + 1)
-		if sw(line, '- [x] ') or sw(line, '- [ ] ') then
-			vim.cmd('normal! 0f]ll')
-		else
-			vim.cmd('normal! 0f l')
-		end
-	end
-end
-
-key.map('n', 'K', abbn(false), key.opts)
-key.map('n', 'P', abbn(true), key.opts)
-key.map('n', '#', line_hof(function(line)
-	local lead = line:match("^#*%s*")
-	if #lead ~= 0 then
-		return line:sub(#lead + 2)
-	end
-	return '# ' .. line
-end), key.opts)
-
-key.map('n', '$', line_hof(function(line)
-	local leading_spaces = line:match("^%s*")
-	line = line:sub(#leading_spaces + 1)
-	if sw(line, '- [x] ') or sw(line, '- [ ] ') then
-		return leading_spaces .. line:sub(7)
-	end
-	return leading_spaces .. '- [ ] ' .. line
-end), key.opts)
 
 local edit = {
 	paste = function(val, before_cursor)
@@ -922,16 +523,150 @@ key.map('v', 'R', ":s/", { silent = false })
 key.map('o', 't', 'a')
 key.map('o', 'n', 'i')
 
--- key.map(key.all, '<C-a>', ',')
--- key.map(key.all, '<C-o>', ';')
-
-
--- key.map(key.all, 'p', ',')
--- key.map(key.all, 'k', ';')
 
 -- block visual mode line insert
 key.map('v', 'nn', 'I')
 key.map('v', 'tt', 'I')
+
+
+
+-- new movement
+
+-- key.map('o', "[", "0")
+-- key.map(key.all, "]", "$")
+
+
+
+key.map({ "n", "x", "o" }, "i", function() require("flash").treesitter() end)
+key.map({ "n", "x", "o" }, "k", function() require("flash").treesitter_search() end)
+
+key.map({ "n", "x", "o" }, "P",
+function()
+	require("flash").jump({
+		search = {
+			mode = function(str)
+				return "\\<" .. str
+			end,
+		},
+	})
+end
+)
+
+key.map({ "n", "x", "o" }, " e",
+function()
+	require("flash").jump({
+		search = { 
+			forward = true, wrap = false,
+			mode = "search", max_length = 0
+		},
+		label = { after = { 0, 0 } },
+		pattern = [[^\(\s*$\|$\)]],
+	})
+end
+)
+
+key.map({ "n", "x", "o" }, " u",
+function()
+	require("flash").jump({
+		search = { 
+			forward = false, wrap = false,
+			mode = "search", max_length = 0
+		},
+		label = { after = { 0, 0 } },
+		pattern = [[^\(\s*$\|$\)]],
+	})
+end
+)
+
+
+key.map({ "n", "x", "o" }, " E",
+function()
+	require("flash").jump({
+		search = { 
+			forward = true, wrap = false,
+			mode = "search", max_length = 0
+		},
+		label = { after = { 0, 0 } },
+		pattern = [[^\(\s*$\|$\)]],
+		jump = { pos = "range" },
+	})
+end
+)
+
+key.map({ "n", "x", "o" }, " U",
+function()
+	require("flash").jump({
+		search = { 
+			forward = false, wrap = false,
+			mode = "search", max_length = 0
+		},
+		label = { after = { 0, 0 } },
+		pattern = [[^\(\s*$\|$\)]],
+		jump = { pos = "range" },
+	})
+end
+)
+
+key.map({ "n", "x", "o", }, "y",
+function()
+	require("flash").jump({
+		pattern = ".", -- initialize pattern with any char
+		search = {
+			mode = function(pattern)
+				-- remove leading dot
+				if pattern:sub(1, 1) == "." then
+					pattern = pattern:sub(2)
+				end
+				-- return word pattern and proper skip pattern
+				return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+			end,
+		},
+		-- select the range
+		jump = { pos = "range" },
+	})
+end
+)
+
+key.map({ "n", "x", "o", }, "p",
+function()
+	local Flash = require("flash")
+
+	Flash.jump({
+		search = { mode = "search" },
+		label = { after = false, before = { 0, 0 }, uppercase = false, format = format },
+		pattern = [[\<]],
+		action = function(match, state)
+			state:hide()
+			Flash.jump({
+				search = { max_length = 0 },
+				highlight = { matches = false },
+				label = { format = format },
+				matcher = function(win)
+					-- limit matches to the current label
+					return vim.tbl_filter(function(m)
+						return m.label == match.label and m.win == win
+					end, state.results)
+				end,
+				labeler = function(matches)
+					for _, m in ipairs(matches) do
+						m.label = m.label2 -- use the second label
+					end
+				end,
+			})
+		end,
+
+		labeler = function(matches, state)
+			local labels = state:labels()
+			for m, match in ipairs(matches) do
+				match.label1 = labels[math.floor((m - 1) / #labels) + 1]
+				match.label2 = labels[(m - 1) % #labels + 1]
+				match.label = match.label1
+			end
+		end,
+	})
+end
+)
+
 
 
 
