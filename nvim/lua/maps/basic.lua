@@ -13,10 +13,8 @@ local DOWN = "E"
 
 
 local toggle = "t"
-local leader = "@"
+local leader = " "
 local GO = "g"
--- local Do = "d"
-
 
 local keymap = vim.keymap.set
 
@@ -39,19 +37,6 @@ local key = {
 	modes = almost,
 	almost = almost,
 }
-
-
-
--- description
---
---
-
--- categories
---
-
-
--- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings -- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings-- mappings
--- mappings
 
 -- unmap
 key.map(key.all, 'a', '')
@@ -166,23 +151,21 @@ key.map('o', '<delete>', 'l')
 
 key.map(key.all, 'l', '_')
 
+
 key.map('o', '(', 'i(')
 key.map('o', ')', 'a)')
 key.map('o', '[', 'i[')
 key.map('o', ']', 'a]')
 key.map('o', '{', 'i{')
 key.map('o', '}', 'a}')
-key.map('o', '<', 'i<')
-key.map('o', '>', 'a>')
+-- key.map('o', '<', 'i<')
+-- key.map('o', '>', 'a>')
 
 
 -- mode controls
-key.map(key.all, toggle .. "t", "mma", key.opts)
+key.map(key.all, "tt", "mma", key.opts)
 key.map(key.all, "nn", "mmi", key.opts)
-key.map(key.all, toggle .. "a", "mmi", key.opts)
-key.map(key.all, toggle .. "o", "mma", key.opts)
-key.map(key.all, toggle .. "eA", "mmI", key.opts)
-key.map(key.all, toggle .. "eO", "mmA", key.opts)
+
 key.map(key.all, "v", "v", key.opts)
 key.map(key.all, "V", "V", key.opts)
 key.map(key.all, "z", "<C-v>", key.opts)
@@ -196,16 +179,8 @@ key.map(key.all, right, 'f', key.opts)
 key.map(key.all, 'A', 'T', key.opts)
 key.map(key.all, 'O', 't', key.opts)
 
-key.map(key.modes, '}', ';', key.opts)
-key.map(key.modes, '{', ',', key.opts)
-
--- key.map(key.all, 'a<C-a>', '0', key.opts)
--- key.map(key.all, 'o<C-o>', 'g_', key.opts)
-
--- alternative LR based on words
--- key.map(key.all, "<C-a>", "b", key.opts)
--- key.map(key.all, "<C-o>", "w", key.opts)
--- key.map(key.all, "i", "e", key.opts)
+-- key.map(key.modes, ':', ';', key.opts)
+-- key.map(key.modes, '=', ',', key.opts)
 
 -- vertical movement remaps
 key.map(key.all, up, "k", key.opts)
@@ -235,8 +210,9 @@ key.map(key.modes, 'C', 'Y', key.opts)
 key.map(key.modes, 'W', 'P', key.opts)
 
 -- tabulation
-key.map(key.all, '<Tab>', '>>', key.opts)
-key.map(key.all, '<S-Tab>', '<<', key.opts)
+key.map(key.all, '<Tab>', '>', key.opts)
+key.map(key.all, '<S-Tab>', '<', key.opts)
+key.map(key.all, '<S-Tab>L', '<_', key.opts)
 
 key.map('v', '<Tab>', '>', key.opts)
 key.map('v', '<S-Tab>', '<', key.opts)
@@ -244,14 +220,8 @@ key.map('v', '<S-Tab>', '<', key.opts)
 
 key.map(key.all, '<CR>', ':', key.opts)
 
-
-local line_rhs = function()
-	return require('vim._comment').operator() .. '_'
-end
-
 -- commenting
 key.map('n', '/', require('vim._comment').operator, { expr = true, noremap = true, silent = true })
-key.map(key.all, "//", line_rhs, { expr = true, noremap = true, silent = true })
 
 -- newlines
 -- edit
@@ -295,12 +265,6 @@ key.map('v', '<C-r>', '\"fy<Esc>:%s/<C-r>f/', key.opts)
 key.map("n", "r<C-r>", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Go error snippets
-key.map("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn<Esc>")
-key.map("n", "<leader>ef", "oif err != nil {<CR>}<Esc>Olog.Fatalln(err)<Esc>")
-key.map("n", "<leader>ep", "oif err != nil {<CR>}<Esc>Opanic(err)<Esc>")
-key.map("n", "<leader>el", "oif err != nil {<CR>}<Esc>Oslog.Error(\"error occurred\", \"err\", err)<Esc>")
-
-
 key.map("n", "mi", "oif  {<CR>}<ESC><up><end><left><left>")
 key.map("n", "men", "aerr != nil<ESC>o<ESC>")
 
@@ -344,10 +308,10 @@ key.map(key.all, '>', 'N', key.opts)
 -- Splits management --
 
 -- Movement
-key.map(key.all, leader .. 'a', '<C-w>h', key.opts) -- Move left
-key.map(key.all, leader .. 'e', '<C-w>j', key.opts) -- Move down
-key.map(key.all, leader .. 'u', '<C-w>k', key.opts) -- Move up
-key.map(key.all, leader .. 'o', '<C-w>l', key.opts) -- Move right
+key.map(key.all, '<A-a>', '<C-w>h', key.opts) -- Move left
+key.map(key.all, '<A-e>', '<C-w>j', key.opts) -- Move down
+key.map(key.all, '<A-u>', '<C-w>k', key.opts) -- Move up
+key.map(key.all, '<A-o>', '<C-w>l', key.opts) -- Move right
 
 -- Resizing
 key.map(key.all, leader .. 'A', '<C-w><', key.opts) -- Resize left
@@ -372,8 +336,8 @@ key.map(key.all, '<leader><C-w>', ':close<CR>', key.opts)
 -- ================= --
 
 -- diagnostic
-key.map("n", "<leader>eo", vim.diagnostic.goto_next)
-key.map("n", "<leader>ea", vim.diagnostic.goto_prev)
+-- key.map("n", "{", vim.diagnostic.goto_prev)
+-- key.map("n", "}", vim.diagnostic.goto_next)
 
 -- show floating preview of the word currently under the cursor in normal mode
 key.map("n", "th", function() vim.lsp.buf.hover() end)
@@ -409,12 +373,6 @@ function split(str)
 	return result
 end
 
-key.map('n', '!w', function()
-	local word = cw()
-	vim.api.nvim_feedkeys('!!' .. word, 'n', false)
-end)
-
-
 local str = {
 	nthSplit = function(str, sep, n)
 		local t = {}
@@ -430,15 +388,12 @@ local str = {
 			i = i + 1
 		end
 
-
 		-- n is negative or overflows the length of the table
 		if n > #t then return '' end
 
 		return t[#t + n + 1]
 	end
 }
-
-
 
 
 local get = {
@@ -458,7 +413,7 @@ local get = {
 		path = vim.fn.expand('%:p')
 		name = vim.fn.expand('%:t')
 		path = fp.normalize(path)
-		res = string.sub(path, 1, #path - #name)
+		res = string.gsub(path, "\\", "/")
 		return str.nthSplit(res, '/', -1)
 	end,
 	position = function()
@@ -514,9 +469,7 @@ key.map('n', toggle .. "ot", function()
 	vim.o.expandtab = true
 end)
 
-key.map('n', 'b', 'za')
-
-
+-- replace
 key.map('v', 'R', ":s/", { silent = false })
 
 -- inner and outer movements
@@ -531,10 +484,6 @@ key.map('v', 'tt', 'I')
 
 
 -- new movement
-
--- key.map('o', "[", "0")
--- key.map(key.all, "]", "$")
-
 
 
 key.map({ "n", "x", "o" }, "i", function() require("flash").treesitter() end)
@@ -668,7 +617,61 @@ end
 )
 
 
+function line_hof(fn)
+	return function()
+		line = vim.fn.getline('.')
+		res = fn(line)
+		if res == line then
+			return
+		end
+		vim.fn.setline('.', res)
+
+		line = vim.fn.getline('.')
+		local leading_spaces = line:match("^%s*")
+		line = line:sub(#leading_spaces + 1)
+		vim.cmd('normal! 0f l')
+	end
+end
+
+key.map('n', '#', line_hof(function(line)
+	local lead = line:match("^#*%s*")
+	if #lead ~= 0 then
+		return line:sub(#lead + 1)
+	end
+	return '# ' .. line
+end), key.opts)
+
+ key.map('n', '}', line_hof(function(line)
+	local lead = line:match("^#+%s*")
+
+	if lead then
+		if #lead ~= 0 then
+			return '#'..line
+		end
+	end
+
+	return line
+end), key.opts)
+
+key.map('n', '{', line_hof(function(line)
+	local ab = line:match("^#%s+") 
+	if ab then
+		if #ab ~= 0 then
+			return line:sub(3)
+		end
+	end
+
+	local lead = line:match("^#+%s*")
+	if lead then
+		if #lead ~= 0 then
+			return line:sub(2)
+		end
+	end
+	return line
+end), key.opts)
 
 
+
+key.map('n', '@t', function() vim.cmd("edit term://pwsh") end)
 
 

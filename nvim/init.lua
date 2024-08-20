@@ -1,4 +1,4 @@
-vim.g.mapleader = "@"
+vim.g.mapleader = " "
 
 -- Use spaces instead of tabs
 vim.o.expandtab = false
