@@ -458,16 +458,12 @@ key.map('n', 'hac', function()
 		w = w:gsub("^%l", string.upper)
 	end
 
-	swapw(w)
+	vim.cmd('normal! maviwc' .. w)
+	vim.cmd('normal! `a')
 end)
 
-key.map('n', toggle .. "nt", function()
-	vim.o.expandtab = false
-end)
-
-key.map('n', toggle .. "ot", function()
-	vim.o.expandtab = true
-end)
+-- key.map('n', toggle .. "nt", function() vim.o.expandtab = false end)
+-- key.map('n', toggle .. "ot", function()	vim.o.expandtab = true end)
 
 -- replace
 key.map('v', 'R', ":s/", { silent = false })
