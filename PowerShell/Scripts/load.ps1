@@ -28,7 +28,7 @@ function loadenv {
 }
 
 loadenv "$PSScriptRoot/.env"
-$blume = "C:/blume"
+$blume = $env:blume
 
 # PowerShell configs
 Remove-Item alias:ls
@@ -45,6 +45,8 @@ New-Alias -Name rename Rename-Item
 New-Alias -Name gdl gallery-dl
 
 $qr = "F:/curation/dl/"
+$EnvFile = "$env:blume/config/PowerShell/Scripts/.env"
+function en { return $EnvFile }
 
 function commit { git add . && git commit $args }
 function status { git status }
@@ -60,7 +62,7 @@ function htmx {
 }
 
 function docgo {
-	pkgsite -http "localhost:7727" "C:/Program Files/Go/src" (ad proj) C:\Users\Daniel\go\pkg\mod
+	pkgsite -cache -proxy -http "localhost:7727" "C:/Program Files/Go/src" (ad proj) C:\Users\Daniel\go\pkg\mod
 }
 
 function doctempl {
