@@ -2,29 +2,35 @@
 
 function export {
 	$k = $args[0]
-	$v = $args[1]
-	[System.Environment]::SetEnvironmentVariable($k.Trim(), $v.Trim(), [System.EnvironmentVariableTarget]::Process)
+		$v = $args[1]
+		[System.Environment]::SetEnvironmentVariable($k.Trim(), $v.Trim(), [System.EnvironmentVariableTarget]::Process)
 }
 
 function loadenv {
 	$envFilePath = ".\.env"
-	if ($args.Length -ne 0) {
-		$envFilePath = $args[0]
-	}
+		if ($args.Length -ne 0) {
+			$envFilePath = $args[0]
+		}
 
 	if (!(Test-Path $envFilePath)) {
 		clog error ".env file not found" "path" $envFilePath
-		return
+			return
 	}
 
-	Get-Content $envFilePath | ForEach-Object {
-		$vals = $_ -split '='
-		$k = $vals[0]
-		$v = $vals[1..($vals.Length - 1)] -join '='
-		export $k $v
-	}
+	$succ = true
 
-	clog info "environment variables loaded successfully"
+		Get-Content $envFilePath | ForEach-Object {
+			$vals = $_ -split '='
+				$k = $vals[0]
+				$v = $vals[1..($vals.Length - 1)] -join '='
+				if ($k.length -eq 0 || $v.length -eq 0) {
+					return
+				}
+			[System.Environment]::SetEnvironmentVariable($k.Trim(), $v.Trim(), [System.EnvironmentVariableTarget]::Process)
+				$succ = false
+		} && clog info "environment variables loaded successfully"
+
+	if ($succ) { clog error "something went wrong during loading env file" }
 }
 
 loadenv "$PSScriptRoot/.env"
@@ -75,14 +81,14 @@ function docmdn {
 
 function searx {
 	cd ~/blume/svc/searxng
-	wsl docker compose up
+		wsl docker compose up
 }
 
 function docstart {
 	pwsh -c htmx &
-	pwsh -c docgo &
-	pwsh -c doctempl &
-	pwsh -c docmdn &
+		pwsh -c docgo &
+		pwsh -c doctempl &
+		pwsh -c docmdn &
 }
 
 # PSReadLine configuration
@@ -100,23 +106,23 @@ Import-Module -Name Terminal-Icons
 
 # Generated
 function ghcs {
-	# Debug support provided by common PowerShell function parameters, which is natively aliased as -d or -db
-	# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-debug
+# Debug support provided by common PowerShell function parameters, which is natively aliased as -d or -db
+# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-debug
 	param(
-		[ValidateSet('gh', 'git', 'shell')]
-		[Alias('t')]
-		[String]$Target = 'shell',
+			[ValidateSet('gh', 'git', 'shell')]
+			[Alias('t')]
+			[String]$Target = 'shell',
 
-		[Parameter(Position = 0, ValueFromRemainingArguments)]
-		[string]$Prompt
-	)
-	begin {
-		# Create temporary file to store potential command user wants to execute when exiting
-		$executeCommandFile = New-TemporaryFile
+			[Parameter(Position = 0, ValueFromRemainingArguments)]
+			[string]$Prompt
+		 )
+		begin {
+# Create temporary file to store potential command user wants to execute when exiting
+			$executeCommandFile = New-TemporaryFile
 
-		# Store original value of GH_DEBUG environment variable
-		$envGhDebug = $Env:GH_DEBUG
-	}
+# Store original value of GH_DEBUG environment variable
+				$envGhDebug = $Env:GH_DEBUG
+		}
 	process {
 		if ($PSBoundParameters['Debug']) {
 			$Env:GH_DEBUG = 'api'
@@ -125,49 +131,49 @@ function ghcs {
 		gh copilot suggest -t $Target -s "$executeCommandFile" $Prompt
 	}
 	end {
-		# Execute command contained within temporary file if it is not empty
+# Execute command contained within temporary file if it is not empty
 		if ($executeCommandFile.Length -gt 0) {
-			# Extract command to execute from temporary file
+# Extract command to execute from temporary file
 			$executeCommand = (Get-Content -Path $executeCommandFile -Raw).Trim()
 
-			# Insert command into PowerShell up/down arrow key history
-			[Microsoft.PowerShell.PSConsoleReadLine]::AddToHistory($executeCommand)
+# Insert command into PowerShell up/down arrow key history
+				[Microsoft.PowerShell.PSConsoleReadLine]::AddToHistory($executeCommand)
 
-			# Insert command into PowerShell history
-			$now = Get-Date
-			$executeCommandHistoryItem = [PSCustomObject]@{
-				CommandLine        = $executeCommand
-				ExecutionStatus    = [Management.Automation.Runspaces.PipelineState]::NotStarted
-				StartExecutionTime = $now
-				EndExecutionTime   = $now.AddSeconds(1)
-			}
+# Insert command into PowerShell history
+				$now = Get-Date
+					$executeCommandHistoryItem = [PSCustomObject]@{
+						CommandLine        = $executeCommand
+							ExecutionStatus    = [Management.Automation.Runspaces.PipelineState]::NotStarted
+							StartExecutionTime = $now
+							EndExecutionTime   = $now.AddSeconds(1)
+					}
 			Add-History -InputObject $executeCommandHistoryItem
 
-			# Execute command
-			Write-Host "`n"
-			Invoke-Expression $executeCommand
+# Execute command
+				Write-Host "`n"
+				Invoke-Expression $executeCommand
 		}
 	}
 	clean {
-		# Clean up temporary file used to store potential command user wants to execute when exiting
+# Clean up temporary file used to store potential command user wants to execute when exiting
 		Remove-Item -Path $executeCommandFile
 
-		# Restore GH_DEBUG environment variable to its original value
-		$Env:GH_DEBUG = $envGhDebug
+# Restore GH_DEBUG environment variable to its original value
+			$Env:GH_DEBUG = $envGhDebug
 	}
 }
 
 function ghce {
-	# Debug support provided by common PowerShell function parameters, which is natively aliased as -d or -db
-	# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-debug
+# Debug support provided by common PowerShell function parameters, which is natively aliased as -d or -db
+# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_commonparameters?view=powershell-7.4#-debug
 	param(
-		[Parameter(Position = 0, ValueFromRemainingArguments)]
-		[string[]]$Prompt
-	)
-	begin {
-		# Store original value of GH_DEBUG environment variable
-		$envGhDebug = $Env:GH_DEBUG
-	}
+			[Parameter(Position = 0, ValueFromRemainingArguments)]
+			[string[]]$Prompt
+		 )
+		begin {
+# Store original value of GH_DEBUG environment variable
+			$envGhDebug = $Env:GH_DEBUG
+		}
 	process {
 		if ($PSBoundParameters['Debug']) {
 			$Env:GH_DEBUG = 'api'
@@ -176,37 +182,37 @@ function ghce {
 		gh copilot explain $Prompt
 	}
 	clean {
-		# Restore GH_DEBUG environment variable to its original value
+# Restore GH_DEBUG environment variable to its original value
 		$Env:GH_DEBUG = $envGhDebug
 	}
 }
 
 function rr-nvim {
 	[Microsoft.PowerShell.PSConsoleReadLine]::CancelLine()
-	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("nvim")
-	[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+		[Microsoft.PowerShell.PSConsoleReadLine]::Insert("nvim")
+			[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
 function rr-list {
 	[Microsoft.PowerShell.PSConsoleReadLine]::CancelLine()
-	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("list .")
-	[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+		[Microsoft.PowerShell.PSConsoleReadLine]::Insert("list .")
+			[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
 function rr-dir {
 	[Microsoft.PowerShell.PSConsoleReadLine]::CancelLine()
-	[Microsoft.PowerShell.PSConsoleReadLine]::Insert("list . is dir")
-	[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+		[Microsoft.PowerShell.PSConsoleReadLine]::Insert("list . is dir")
+			[Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
 
 function rr-last {
 	set-location -
-	[Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+		[Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
 }
 
 function rr-up {
 	set-location ..
-	[Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
+		[Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
 }
 
 Set-PSReadLineKeyHandler -Chord 'Ctrl+/' -ScriptBlock { rr-list }
@@ -217,14 +223,11 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+o' -ScriptBlock { explorer .}
 Set-PSReadLineKeyHandler -Chord 'Ctrl+e' -ScriptBlock { rr-nvim }
 
 
-
-
-
-
-
-
-
-
-
-
 Invoke-Expression (& { (zoxide init powershell --cmd c | Out-String) })
+
+
+# oh my posh
+oh-my-posh init pwsh --config "$blume/config/PowerShell/Scripts/cfg.omp.json" | Invoke-Expression
+
+
+
