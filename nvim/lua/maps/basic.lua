@@ -151,6 +151,15 @@ key.map('o', '<delete>', 'l')
 
 key.map(key.all, 'l', '_')
 
+key.map(key.all, "'", '`')
+key.map(key.all, "f", '`')
+key.map(key.all, '"', '``')
+key.map(key.all, '`', "'")
+
+
+
+
+key.map(key.all, 'b', 'm')
 
 key.map('o', '(', 'i(')
 key.map('o', ')', 'a)')
@@ -412,8 +421,8 @@ local get = {
 	base = function()
 		path = vim.fn.expand('%:p')
 		name = vim.fn.expand('%:t')
-		path = fp.normalize(path)
-		res = string.gsub(path, "\\", "/")
+		path = string.gsub(path, "\\", "/")
+		res = string.sub(path, 1, #path - #name)
 		return str.nthSplit(res, '/', -1)
 	end,
 	position = function()
@@ -480,12 +489,41 @@ key.map('v', 'tt', 'I')
 
 
 -- new movement
+--
+key.map({ "n", "x", "o" }, " " .. "o",
+function()
+	require("flash").jump({
+		search = { 
+			forward = true, wrap = false,
+			mode = "search", max_length = 0,
+		},
+		highlight = { backdrop = false, matches = false, },
+		labels = "pgkaeo'ud",
+		label = { uppercase = false, after = { 0, 0 } },
+		pattern = [[\s]],
+	})
+end
+)
 
+key.map({ "n", "x", "o" }, " " .. "a",
+function()
+	require("flash").jump({
+		search = { 
+			forward = false, wrap = false,
+			mode = "search", max_length = 0
+		},
+		highlight = { backdrop = false, matches = false, },
+		labels = "pgkaeo'ud",
+		label = { uppercase = false, after = { 0, 0 } },
+		pattern = [[\s]],
+	})
+end
+)
 
 key.map({ "n", "x", "o" }, "i", function() require("flash").treesitter() end)
 key.map({ "n", "x", "o" }, "k", function() require("flash").treesitter_search() end)
 
-key.map({ "n", "x", "o" }, "P",
+key.map({ "n", "x", "o" }, "p",
 function()
 	require("flash").jump({
 		search = {
@@ -497,7 +535,7 @@ function()
 end
 )
 
-key.map({ "n", "x", "o" }, " e",
+key.map({ "n", "x", "o" }, " " .. "e",
 function()
 	require("flash").jump({
 		search = { 
@@ -510,7 +548,7 @@ function()
 end
 )
 
-key.map({ "n", "x", "o" }, " u",
+key.map({ "n", "x", "o" }, " " .. "u",
 function()
 	require("flash").jump({
 		search = { 
@@ -524,7 +562,9 @@ end
 )
 
 
-key.map({ "n", "x", "o" }, " E",
+-- op @ dst ; as opposed to, do op to dst.
+-- e.g., `rw Eg` would paste on the 2nd free line down.
+key.map({ "n", "x", "o" }, " " .. "E",
 function()
 	require("flash").jump({
 		search = { 
@@ -538,7 +578,8 @@ function()
 end
 )
 
-key.map({ "n", "x", "o" }, " U",
+-- op @ dst
+key.map({ "n", "x", "o" }, " " .. "U",
 function()
 	require("flash").jump({
 		search = { 
@@ -572,7 +613,7 @@ function()
 end
 )
 
-key.map({ "n", "x", "o", }, "p",
+key.map({ "n", "x", "o", }, "P",
 function()
 	local Flash = require("flash")
 
@@ -637,7 +678,7 @@ key.map('n', '#', line_hof(function(line)
 	return '# ' .. line
 end), key.opts)
 
- key.map('n', '}', line_hof(function(line)
+key.map('n', '}', line_hof(function(line)
 	local lead = line:match("^#+%s*")
 
 	if lead then
@@ -669,5 +710,38 @@ end), key.opts)
 
 
 key.map('n', '@t', function() vim.cmd("edit term://pwsh") end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

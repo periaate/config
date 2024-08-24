@@ -99,11 +99,18 @@ return {
 	"folke/flash.nvim",
 	event = "VeryLazy",
 	opts = {
-		jump = {autojump = true},
-		labels = "atenohpwgckm'burdl",
+		jump = {autojump = false},
+		labels = "pgkaeo'udwcmtnhbrl",
+		label = {
+			rainbow = {
+				enabled = false,
+				-- number between 1 and 9
+				shade = 5,
+			},
+		},
 		modes = {
 			treesitter = {
-				labels = "atenohpwgckm'burdl",
+				labels = "pgkaeo'udwcmtnhbrl",
 			},
 		},
 	},

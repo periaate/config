@@ -20,9 +20,15 @@ M.config = function()
 		"rust_analyzer",
 		"emmet_ls",
 		"emmet_language_server",
-		"templ",
+		"zls",
+
 		"html",
+		"cssls",
+		"eslint",
+		"tsserver",
+
 		"htmx",
+		"templ",
 	}
 
 	mcfg.setup {
