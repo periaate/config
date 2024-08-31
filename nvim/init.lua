@@ -1,5 +1,7 @@
 vim.g.mapleader = " "
 
+vim.cmd[[:filetype plugin on]]
+
 -- Use spaces instead of tabs
 vim.o.expandtab = false
 vim.opt.number = true -- line number
@@ -55,6 +57,22 @@ local git_ignored = setmetatable({}, {
 	end,
 })
 
+local oil = require("oil")
+
+local function custom_open_dir()
+	local node = oil.get_cursor_entry()
+	if node.type == "directory" then
+		oil.select()
+		-- vim.cmd[[:cd]]
+		-- require("oil.actions").cd.callback()
+		local res = oil.get_current_dir() .. node.name
+		vim.cmd({cmd = "cd", args = {res}})
+		print("fuck", res)
+	end
+end
+
+
+
 require("oil").setup({
 	default_file_explorer = true,
 	columns = {
@@ -88,6 +106,13 @@ require("oil").setup({
 	keymaps = {
 		["<C-s>"] = ":w<CR>",
 		["ta"] = "actions.toggle_hidden",
+		["L"] = {
+			callback = function()
+				custom_open_dir()
+			end,
+			desc = "Navigate into directory",
+		},
+		["`"] = "actions.cd",
 	},
 	view_options = {
 		-- Show files and directories that start with "."
@@ -235,10 +260,26 @@ local function get_mappings()
 	return result
 end
 
--- Custom Telescope picker for mappings 
+telescope.setup{
+	extensions = {
+		fzf = {
+			fuzzy = true,                    -- false will only do exact matching
+			override_generic_sorter = true,  -- override the generic sorter
+			override_file_sorter = true,     -- override the file sorter
+			case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+			-- the default case_mode is "smart_case"
+		}
+	}
+}
 
 
-
+-- Setup Telescope with fzf support
+require('telescope').setup{
+	defaults = {
+		file_sorter = require('telescope.sorters').get_fzf_sorter,
+		generic_sorter = require('telescope.sorters').get_fzf_sorter,
+	}
+}
 
 
 
@@ -307,4 +348,36 @@ require("remap")
 require("commands")
 
 
+local Path = require('plenary.path')
+local config = require('session_manager.config')
+require('session_manager').setup({
+	sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- The directory where the session files will be saved.
+	session_filename_to_dir = session_filename_to_dir, -- Function that replaces symbols into separators and colons to transform filename into a session directory.
+	dir_to_session_filename = dir_to_session_filename, -- Function that replaces separators and colons into special symbols to transform session directory into a filename. Should use `vim.uv.cwd()` if the passed `dir` is `nil`.
+	autoload_mode = config.AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. See "Autoload mode" section below.
+	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
+	autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
+	autosave_ignore_dirs = {}, -- A list of directories where the session will not be autosaved.
+	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
+		'gitcommit',
+		'gitrebase',
+	},
+	autosave_ignore_buftypes = {}, -- All buffers of these bufer types will be closed before the session is saved.
+	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
+	max_path_length = 80,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
+})
 
+-- Auto save session
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+	callback = function ()
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			-- Don't save while there's any 'nofile' buffer open.
+			if vim.api.nvim_get_option_value("buftype", { buf = buf }) == 'nofile' then
+				return
+			end
+		end
+		session_manager.save_current_session()
+	end
+})
+
+require('mini.align').setup()

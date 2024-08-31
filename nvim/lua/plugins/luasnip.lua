@@ -21,7 +21,7 @@ M.config = function()
 	})
 
 	-- load lua snippets
-	require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets/" })
+	require("luasnip.loaders.from_lua").lazy_load({ paths = "/blume/config/nvim/snippets/" })
 
 	-- vim.keymap.set({ "i", "s" }, "<a-p>", function()
 	-- 	if ls.expand_or_jumpable() then
@@ -39,6 +39,7 @@ M.config = function()
 			ls.jump(-1)
 		end
 	end)
+
 	-- vim.keymap.set({ "i", "s" }, "<a-l>", function()
 	-- 	if ls.choice_active() then
 	-- 		ls.change_choice(1)

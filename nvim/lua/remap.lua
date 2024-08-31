@@ -1,5 +1,6 @@
 
 require("maps.basic")
+require("maps.abbrev")
 
 --
 --local keymap = vim.keymap.set
