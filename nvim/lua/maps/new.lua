@@ -1,17 +1,17 @@
-local up    = "u"
-local left  = "a"
-local right = "o"
-local down  = "e"
-
-local UP    = "U"
-local LEFT  = "a"
-local RIGHT = "o"
-local DOWN  = "E"
-
-
-local toggle = "t"
-local leader = " "
-local GO     = "g"
+-- local up    = "u"
+-- local left  = "a"
+-- local right = "o"
+-- local down  = "e"
+--
+-- local UP    = "U"
+-- local LEFT  = "a"
+-- local RIGHT = "o"
+-- local DOWN  = "E"
+--
+--
+-- local toggle = "t"
+-- local leader = " "
+-- local GO     = "g"
 
 local keymap = vim.keymap.set
 
@@ -39,22 +39,22 @@ local key  = {
 local function C(str) return "<C-" .. str .. ">" end
 local function A(str) return "<A-" .. str .. ">" end
 
-local CMD    = "<CMD>"
-local TAB    = "<TAB>"
-local BS     = "<BS>"
-local SPACE  = "<SPACE>"
-local CR     = "<CR>"
-local CMD    = "<CMD>"
-local ENTER  = "<ENTER>"
-local ESC    = "<ESC>"
-local LEADER = "<LEADER>"
-local END    = "<END>"
-local HOME   = "<HOME>"
--- local LEFT   = "<LEFT>"
--- local RIGHT  = "<RIGHT>"
--- local UP     = "<UP>"
--- local DOWN   = "<DOWN>"
-local DELETE = "<DELETE>"
+local CMD          = "<CMD>"
+local TAB          = "<TAB>"
+local BS           = "<BS>"
+local SPACE        = "<SPACE>"
+local CR           = "<CR>"
+local CMD          = "<CMD>"
+local ENTER        = "<ENTER>"
+local ESC          = "<ESC>"
+local LEADER       = "<LEADER>"
+local END          = "<END>"
+local HOME         = "<HOME>"
+local ARROW_LEFT   = "<LEFT>"
+local ARROW_RIGHT  = "<RIGHT>"
+local ARROW_UP     = "<UP>"
+local ARROW_DOWN   = "<DOWN>"
+local DELETE       = "<DELETE>"
 
 -- Movement keys
 local Left               = "h"
@@ -229,6 +229,25 @@ local function clear()
 	end
 end
 
-clear()
+local line = {
+    -- Sets the content of the line at the given index. If index is 0, sets the current line.
+    set = function(ind, new)
+        local line_num = ind == 0 and vim.fn.line('.') or ind
+        vim.fn.setline(line_num, new)
+    end,
+
+    -- Gets the content of the line at the given index. If index is 0, gets the current line.
+    get = function(ind)
+        local line_num = ind == 0 and vim.fn.line('.') or ind
+        return vim.fn.getline(line_num)
+    end,
+}
 
 
+local function thunk()
+
+end
+
+
+
+return Actions

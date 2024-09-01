@@ -23,7 +23,6 @@ vim.o.smartcase = true   -- But make it case-sensitive if the search contains up
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 
--- foldexpr=nvim_treesitter#foldexpr()
 
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -63,11 +62,8 @@ local function custom_open_dir()
 	local node = oil.get_cursor_entry()
 	if node.type == "directory" then
 		oil.select()
-		-- vim.cmd[[:cd]]
-		-- require("oil.actions").cd.callback()
 		local res = oil.get_current_dir() .. node.name
 		vim.cmd({cmd = "cd", args = {res}})
-		print("fuck", res)
 	end
 end
 
@@ -260,67 +256,10 @@ local function get_mappings()
 	return result
 end
 
-telescope.setup{
-	extensions = {
-		fzf = {
-			fuzzy = true,                    -- false will only do exact matching
-			override_generic_sorter = true,  -- override the generic sorter
-			override_file_sorter = true,     -- override the file sorter
-			case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-			-- the default case_mode is "smart_case"
-		}
-	}
-}
-
-
--- Setup Telescope with fzf support
-require('telescope').setup{
-	defaults = {
-		file_sorter = require('telescope.sorters').get_fzf_sorter,
-		generic_sorter = require('telescope.sorters').get_fzf_sorter,
-	}
-}
-
-
 
 
 
 local keymap = vim.keymap.set
-local ts_utils = require("nvim-treesitter.ts_utils")
-
-local function get_node_at_cursor()
-	local bufnr = vim.api.nvim_get_current_buf()
-	local cursor = vim.api.nvim_win_get_cursor(0)
-	local root = ts_utils.get_root_for_position(cursor[1] - 1, cursor[2], bufnr)
-	if not root then return end
-	return root:named_descendant_for_range(cursor[1] - 1, cursor[2], cursor[1] - 1, cursor[2])
-end
-
-
-
-keymap('n', '<leader>ni', function(node_type)
-	local node = get_node_at_cursor()
-	while node do
-		node = node:prev_named_sibling()
-		if node and node:type() == node_type then
-			local start_row, start_col, _, _ = node:range()
-			vim.api.nvim_win_set_cursor(0, {start_row + 1, start_col})
-			return
-		end
-	end
-end, {noremap = true, silent = true})
-
-keymap('n', '<leader>pi', function(node_type)
-	local node = get_node_at_cursor()
-	while node do
-		node = node:next_named_sibling()
-		if node and node:type() == node_type then
-			local start_row, start_col, _, _ = node:range()
-			vim.api.nvim_win_set_cursor(0, {start_row + 1, start_col})
-			return
-		end
-	end
-end, {noremap = true, silent = true})
 
 keymap('n', '<leader>fm', function()
 	local opts = {}
@@ -344,40 +283,37 @@ end)
 
 
 
+
+
+require('mini.align').setup()
+
+-- The setup config table shows all available config options with their default values:
+require("neocord").setup({
+    -- General options
+    logo                = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png", -- "auto" or url
+    logo_tooltip        = nil,                        -- nil or string
+    main_image          = "language",                 -- "language" or "logo"
+    client_id           = "1157438221865717891",      -- Use your own Discord application client id (not recommended)
+    log_level           = nil,                        -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
+    debounce_timeout    = 5,                         -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
+    blacklist           = {},                         -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
+    file_assets         = {},                         -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
+    show_time           = true,                       -- Show the timer
+    global_timer        = false,                      -- if set true, timer won't update when any event are triggered
+
+    -- Rich Presence text options
+    editing_text        = "Editing %s",               -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
+    file_explorer_text  = "Browsing %s",              -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
+    git_commit_text     = "Committing changes",       -- Format string rendered when committing changes in git (either string or function(filename: string): string)
+    plugin_manager_text = "Managing plugins",         -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
+    reading_text        = "Reading %s",               -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
+    workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
+    line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+    terminal_text       = "Using Terminal",           -- Format string rendered when in terminal mode.
+})
+
+
+
 require("remap")
 require("commands")
 
-
-local Path = require('plenary.path')
-local config = require('session_manager.config')
-require('session_manager').setup({
-	sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- The directory where the session files will be saved.
-	session_filename_to_dir = session_filename_to_dir, -- Function that replaces symbols into separators and colons to transform filename into a session directory.
-	dir_to_session_filename = dir_to_session_filename, -- Function that replaces separators and colons into special symbols to transform session directory into a filename. Should use `vim.uv.cwd()` if the passed `dir` is `nil`.
-	autoload_mode = config.AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. See "Autoload mode" section below.
-	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
-	autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
-	autosave_ignore_dirs = {}, -- A list of directories where the session will not be autosaved.
-	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
-		'gitcommit',
-		'gitrebase',
-	},
-	autosave_ignore_buftypes = {}, -- All buffers of these bufer types will be closed before the session is saved.
-	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
-	max_path_length = 80,  -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
-})
-
--- Auto save session
-vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
-	callback = function ()
-		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-			-- Don't save while there's any 'nofile' buffer open.
-			if vim.api.nvim_get_option_value("buftype", { buf = buf }) == 'nofile' then
-				return
-			end
-		end
-		session_manager.save_current_session()
-	end
-})
-
-require('mini.align').setup()

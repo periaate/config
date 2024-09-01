@@ -892,5 +892,22 @@ end)
 -- a = bb
 -- bb = a
 
+local line = {
+    -- Sets the content of the line at the given index. If index is 0, sets the current line.
+    set = function(ind, new)
+        local line_num = ind == 0 and vim.fn.line('.') or ind
+        vim.fn.setline(line_num, new)
+    end,
 
+    -- Gets the content of the line at the given index. If index is 0, gets the current line.
+    get = function(ind)
+        local line_num = ind == 0 and vim.fn.line('.') or ind
+        return vim.fn.getline(line_num)
+    end,
+}
+
+
+local function thunk()
+
+end
 
