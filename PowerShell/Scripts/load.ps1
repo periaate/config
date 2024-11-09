@@ -17,20 +17,18 @@ function loadenv {
 			return
 	}
 
-	$succ = true
+	Get-Content $envFilePath | ForEach-Object {
+		$vals = $_ -split '='
+			$k = $vals[0]
+			$v = $vals[1..($vals.Length - 1)] -join '='
+			if ($k.length -eq 0 || $v.length -eq 0) {
+				return
+			}
+		[System.Environment]::SetEnvironmentVariable($k.Trim(), $v.Trim(), [System.EnvironmentVariableTarget]::Process)
+			$succ = false
+	}
 
-		Get-Content $envFilePath | ForEach-Object {
-			$vals = $_ -split '='
-				$k = $vals[0]
-				$v = $vals[1..($vals.Length - 1)] -join '='
-				if ($k.length -eq 0 || $v.length -eq 0) {
-					return
-				}
-			[System.Environment]::SetEnvironmentVariable($k.Trim(), $v.Trim(), [System.EnvironmentVariableTarget]::Process)
-				$succ = false
-		} && clog info "environment variables loaded successfully"
-
-	if ($succ) { clog error "something went wrong during loading env file" }
+#clog info "environment variables loaded successfully"
 }
 
 loadenv "$PSScriptRoot/.env"
@@ -53,6 +51,9 @@ New-Alias -Name gdl gallery-dl
 $qr = "F:/curation/dl/"
 $EnvFile = "$env:blume/config/PowerShell/Scripts/.env"
 function en { return $EnvFile }
+function tru { "run $args" >> \\.\pipe\toimi }
+
+function resource { . $PSScriptRoot\Scripts\load.ps1 }
 
 function commit { git add . && git commit $args }
 function status { git status }
@@ -60,6 +61,18 @@ function status { git status }
 function dl { cd "$home\Downloads" }
 function dt { cd "$home\Desktop" }
 function qr { cd $qr }
+
+function disc {
+    param (
+        [Parameter(ValueFromPipeline=$true)]
+        $input
+    )
+    process {
+        "<t:$($input):R>"
+    }
+}
+
+function latest { list sort mod slice 0 }
 
 function ad {zoxide query $args}
 
@@ -223,11 +236,11 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+o' -ScriptBlock { explorer .}
 Set-PSReadLineKeyHandler -Chord 'Ctrl+e' -ScriptBlock { rr-nvim }
 
 
-Invoke-Expression (& { (zoxide init powershell --cmd c | Out-String) })
-
 
 # oh my posh
 oh-my-posh init pwsh --config "$blume/config/PowerShell/Scripts/cfg.omp.json" | Invoke-Expression
 
 
+
+(& { (zoxide init powershell --cmd c | Out-String) }) | Invoke-Expression
 

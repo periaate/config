@@ -3,6 +3,8 @@ local M = {
 	keys = {
 		{ "<C-a>", "<cmd>BufferPrevious<CR>" },
 		{ "<C-o>", "<cmd>BufferNext<CR>" },
+		{ "<A-a>", "<cmd>BufferMovePrevious<CR>" },
+		{ "<A-o>", "<cmd>BufferMoveNext<CR>" },
 		{ "<A-w>", "<cmd>BufferClose<CR>" },
 		{ "<A-b>", "<cmd>BufferRestore<CR>" },
 		{ "<A-g>", "<cmd>BufferPick<CR>" },

@@ -154,6 +154,11 @@ function go()
 	-- http response codes, headers, etc.
 	-- 
 	
+	iabbrev("h400", "w.WriteHeader(http.StatusBadRequest)" .. eatchar)
+	iabbrev("h401", "w.WriteHeader(http.StatusUnauthorized)" .. eatchar)
+	iabbrev("h404", "w.WriteHeader(http.StatusNotFound)" .. eatchar)
+	iabbrev("h500", "w.WriteHeader(http.StatusInternalServerError)" .. eatchar)
+	
 
 end
 
@@ -168,6 +173,14 @@ local function lua()
 	iabbrev("aend", clean .. enter .. "end" .. esc .. "u" .. END)
 end
 
+local function svelte()
+	-- Use spaces instead of tabs
+	vim.o.expandtab = true
+
+	iabbrev("scr", "<script>" .. enter .. "</script>" .. BEG .. enter .. eatchar)
+	iabbrev("stl", "<style>" .. enter .. "</style>" .. BEG .. enter .. eatchar)
+
+end
 
 local buff = {
 	groups = {}
@@ -210,8 +223,14 @@ bufgroup("*.css", css)
 bufgroup("*.go", go)
 bufgroup("*.lua", lua)
 bufgroup("*.txt", nul)
+bufgroup("*.svelte", svelte)
+bufgroup("*.md", function() vim.o.expandtab = false end)
 
 
+-- isnip("oc", clean .. '>' .. BEG .. '<' .. esc .. 'co>' .. END .. esc .. 'w' .. 'a<tt/' .. esc .. 'a<nn' .. enter .. enter .. esc .. 'unn')
+isnip("oc", clean .. repm([[<\0><\/\0>]]) .. esc .. 'a<nn')
+isnip("clo", clean .. repm([[<\0 \/>]]))
+-- last(1, [[fmt.Println(\1)]]))
 
 
 

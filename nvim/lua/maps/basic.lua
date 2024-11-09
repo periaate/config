@@ -251,6 +251,10 @@ key.set(key.all, '"', '``')
 key.set(key.all, '`', "'")
 
 
+key.set({'n'}, DELETE..'o', insert_after..DELETE..ESC)
+key.set({'n'}, DELETE..'a', insert..'<BS>'..ESC)
+
+
 
 key.set(key.all, '{', 'b')
 key.set(key.all, '}', 'e')
@@ -859,6 +863,11 @@ end
 
 
 key.set('n', 'mrap', modify_word)
+key.set('n', 'B', modify_word)
+key.set('i', '<C-B>', modify_word)
+
+
+
 
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
@@ -868,7 +877,7 @@ local conf = require('telescope.config').values
 -- Custom zoxide picker
 key.set('n', leader .. 'cd', function()
 	-- Run zoxide query -ls and get the output
-	local zoxide_output = vim.fn.systemlist('zoxide query -l')
+	local zoxide_output = vim.fn.systemlist('gs zoxide query -l | grep "C:" | grep -v work')
 
 	-- Create the picker
 	pickers.new({}, {
@@ -910,4 +919,36 @@ local line = {
 local function thunk()
 
 end
+
+local f = {
+	invoke = function(inp)
+		local handle = io.popen(inp)
+		local result = handle:read("*a")
+		handle:close()
+		return result
+	end,
+	curr = {
+		get = function() return vim.fn.getline('.') end,
+		set = function(inp) vim.fn.setline('.', vim.split(inp, '\n')[1]) end,
+	},
+}
+
+local md = {
+	todo = {
+		on = function() f.curr.set(f.invoke(string.format([[echo %s | js "a => {for (const i of [ ['- [ ] ', '- [x] '], ['- ', '- [ ] ', '- ['], ['- [x] ', '- [ ] ' ], ['', '- [ ] '] ]) { const t = a.trim(); if (t.startsWith(i[0]) && !(i[2] && t.startsWith(i[2]))) { a = a.replace(i[0], i[1]); break; } } return a.trimRight();}"]], f.curr.get()))) end,
+		off = function() f.curr.set(f.invoke(string.format([[echo %s | js "a => a = (a.replace(/^\s*-\s*\[\s*.\s*\]\s*/, '- ')).trimRight()]], f.curr.get()))) end,
+	},
+}
+
+-- toggles md todo status, or adds it if absent
+key.set('n', 'mt', md.todo.on)
+-- removes todo from line
+key.set('n', 'md', function()
+	md.todo.off()
+	vim.cmd('normal! ==')
+end)
+
+
+-- key.set('i', '<S-<CR>>', '<CR><CR><up>')
+
 

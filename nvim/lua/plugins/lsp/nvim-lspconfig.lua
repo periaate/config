@@ -17,19 +17,20 @@ M.config = function()
 		"gopls",
 		"tsserver",
 		-- "nil_ls",
-		"rust_analyzer",
-		"emmet_ls",
-		"emmet_language_server",
-		"zls",
+		-- "rust_analyzer",
+		-- "emmet_ls",
+		-- "emmet_language_server",
 
 
 		"html",
 		"cssls",
-		"eslint",
-		"tsserver",
+		-- "eslint",
+		-- "tsserver",
+		
+		"svelte",
+		-- "svelte-language-server",
 
-		"htmx",
-		"templ",
+		-- "templ",
 	}
 
 	mcfg.setup {
@@ -109,10 +110,10 @@ M.config = function()
 		})
 	end
 
-	--https://github.com/aca/emmet-ls
-	lspconfig.emmet_ls.setup({
-		filetypes = { "html", "css", "template", "templ" },
-	})
+	-- --https://github.com/aca/emmet-ls
+	-- lspconfig.emmet_ls.setup({
+	-- 	filetypes = { "html", "css", "template", "templ" },
+	-- })
 
 
 	lspconfig.marksman.setup {}

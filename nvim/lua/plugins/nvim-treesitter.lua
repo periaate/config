@@ -18,10 +18,12 @@ M.config = function()
 			"python",
 			"html",
 			"javascript",
+			"typescript",
 			"json",
 			"nix",
 			"rust",
 			"templ",
+			"svelte",
 		},
 		sync_install = false,
 		highlight = {

@@ -12,7 +12,7 @@ function togif {
 
 function ydl {
 	if ($Args.Count -gt 0) {
-		yt-dlp -f 'bestvideo[ext=av1]+bestaudio[ext=opus]/bestvideo+bestaudio' --merge-output-format mkv --cookies-from-browser chrome --embed-thumbnail --write-info-json --embed-subs $Args
+		yt-dlp -f 'bestvideo[ext=av1]+bestaudio[ext=opus]/bestvideo+bestaudio' --merge-output-format mkv --cookies-from-browser chrome --write-info-json --embed-subs $Args
 	}
 }
 
@@ -83,6 +83,8 @@ function mc {
 		[string]$Path
 	)
 	mkdir $Path
+
+	zoxide add $Path
 	Set-Location $Path
 }
 
@@ -92,7 +94,10 @@ function mci {
 		[string]$Path
 	)
 	mkdir $Path
+
+	zoxide add $Path
 	Set-Location $Path
 	init (fp base $Path)
 }
 
+function recycle { start shell:RecycleBinFolder }
