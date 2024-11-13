@@ -76,6 +76,7 @@ function css()
 end
 
 function go()
+	vim.o.expandtab = false
 	local lermsg = 'clog.Error("", "err", err)'
 	iabbrev("len", esc .. " xWnnlen()<BS>" .. esc .. " iWtt)")
 
@@ -96,6 +97,7 @@ function go()
 	isnip("lert", "if err != nil {<enter>" .. lermsg .. "<enter>return<esc>ele<enter>")
 
 	isnip("ecfat", clean .. BEG .. 'clog.Fatal("' .. END .. '")')
+	isnip("ecef", clean .. BEG .. 'clog.Fatal("' .. END .. '", "err", err)')
 	isnip("ecinf", clean .. BEG .. 'clog.Info("' .. END .. '")')
 	isnip("ecerr", clean .. BEG .. 'clog.Error("' .. END .. '", "err", err)')
 	isnip("ecdeb", clean .. BEG .. 'clog.Debug("' .. END .. '")')
@@ -164,6 +166,7 @@ end
 
 
 local function lua()
+	vim.o.expandtab = false
 	iabbrev("af", "function")
 	iabbrev("al", "local")
 

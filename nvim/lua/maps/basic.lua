@@ -1,4 +1,5 @@
 -- imports
+local file_window = require("maps.windows")
 
 
 local up    = "u"
@@ -950,5 +951,86 @@ end)
 
 
 -- key.set('i', '<S-<CR>>', '<CR><CR><up>')
+
+local gcIsOn = true
+
+function I(cond)
+    return function(a, b)
+        if cond then
+            return a
+        end
+        return b
+    end
+end
+
+-- toggle github copilot
+key.set('n', 'q', function()
+    local comd = I(gcIsOn)(":Copilot disable", ":Copilot enable")
+    vim.cmd(comd)
+    gcIsOn = not gcIsOn
+    print("Github Copilot is now " .. (gcIsOn and "enabled" or "disabled"))
+end)
+
+
+
+function open_path(path) vim.cmd("e " .. path) end
+
+function clean(str) return str:gsub("\n", "") end
+
+function isTruthy(v)
+	if v == nil then return false end
+	if v == false then return false end
+	if v == 0 then return false end
+	if v == "" then return false end
+	if v == {} then return false end
+	return true
+end
+
+function Or(a, b) 
+	if isTruthy(a) == false then return b end
+	return a
+end
+
+function td(v)
+	v = Or(v, "")
+	v = vim.fn.system("td " .. v .. "d")
+	v = clean(v)
+	return v
+end
+
+local notes = "C:/Users/Daniel/notes/"
+function todo(d)
+	local v = td(d) 
+	return notes .. "todo/" .. v .. ".md"
+end
+
+function daily(d)
+	local v = td(d)
+	return notes .. "daily/" .. v .. ".md"
+end
+
+key.set('n', 'dt', function()
+	local fp = todo()
+	vim.fn.system("touch " .. fp)
+	file_window(fp)
+end)
+
+key.set('n', 'dl', function()
+	local fp = daily()
+	vim.fn.system("touch " .. fp)
+	file_window(fp)
+end)
+
+
+key.set('n', leader .. "<C-c>", ":close!<CR>")
+key.set('n', leader .. "W", ":w!<CR>:close!<CR>")
+key.set('n', leader .. "<A-w>", ":close!<CR>")
+
+
+vim.opt.foldmethod = "indent"
+vim.opt.foldlevel = 99
+vim.cmd(":set foldexpr=getline(v:lnum)[0]==\"\\t\"")
+key.set("n", "_", "za")
+
 
 

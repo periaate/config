@@ -44,11 +44,12 @@ Remove-Item alias:cat
 New-Alias -Name e explorer
 Set-Alias -Name ls -Value list
 New-Alias -Name :: with
-New-Alias -Name build dev
+New-Alias -Name build devtools
 New-Alias -Name rename Rename-Item 
 New-Alias -Name gdl gallery-dl
 
 $qr = "F:/curation/dl/"
+$sfx_lightning = "C:\users\daniel\Downloads\lightning.mp3"
 $EnvFile = "$env:blume/config/PowerShell/Scripts/.env"
 function en { return $EnvFile }
 function tru { "run $args" >> \\.\pipe\toimi }

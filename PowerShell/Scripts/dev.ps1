@@ -101,3 +101,7 @@ function mci {
 }
 
 function recycle { start shell:RecycleBinFolder }
+
+function stream {
+    window resize proj 2160 1440 && window move proj (5120-2160) (2160-1440) && c obsmana && loadenv && obsmana
+}
