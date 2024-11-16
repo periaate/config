@@ -252,8 +252,8 @@ key.set(key.all, '"', '``')
 key.set(key.all, '`', "'")
 
 
-key.set({'n'}, DELETE..'o', insert_after..DELETE..ESC)
-key.set({'n'}, DELETE..'a', insert..'<BS>'..ESC)
+-- key.set({'n'}, DELETE..'o', insert_after..DELETE..ESC)
+-- key.set({'n'}, DELETE..'a', insert..'<BS>'..ESC)
 
 
 
@@ -398,13 +398,14 @@ key.set('i', '<C-s>', '<Esc>:w<CR>', key.opts)
 
 -- file closing
 key.set(key.almost, '<leader>WW', 'ZZ', key.opts)
-key.set(key.almost, '<leader>WF', ':qa!<CR>', key.opts)
+-- key.set(key.almost, '<leader>WF', ':qa!<CR>', key.opts)
+key.set(key.almost, '<C-q>', 'ZQ', key.opts)
 
-key.set(key.almost, 'WW', ':w!<CR>:bd!<CR>', key.opts)
-key.set(key.almost, 'WF', ':bd!<CR>', key.opts)
+-- key.set(key.almost, 'WW', ':w!<CR>:bd!<CR>', key.opts)
+-- key.set(key.almost, 'WF', ':bd!<CR>', key.opts)
 
-key.set(key.almost, '<C-w>', ':bd<CR>', key.opts)
-key.set(key.almost, '<leader><C-w>', '<C-w>c', key.opts)
+-- key.set(key.almost, '<C-w>', ':bd<CR>', key.opts)
+-- key.set(key.almost, '<leader><C-w>', '<C-w>c', key.opts)
 
 
 key.set("n", "-", "<CMD>Oil<CR>", key.opts)

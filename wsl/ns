@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "configuring networking..."
+echo "nameserver 8.8.8.8" > /etc/resolv.conf

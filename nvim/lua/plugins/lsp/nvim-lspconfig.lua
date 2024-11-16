@@ -17,7 +17,7 @@ M.config = function()
 		"gopls",
 		"tsserver",
 		-- "nil_ls",
-		-- "rust_analyzer",
+		"rust_analyzer",
 		-- "emmet_ls",
 		-- "emmet_language_server",
 
@@ -65,6 +65,7 @@ M.config = function()
 		autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
 		augroup END
 		]], false)
+
 	end
 
 
@@ -116,7 +117,7 @@ M.config = function()
 	-- })
 
 
-	lspconfig.marksman.setup {}
+	-- lspconfig.marksman.setup {}
 end
 
 -- M.toggle_inlay_hints = function()

@@ -1,4 +1,5 @@
 . $PSScriptRoot/dev.ps1
+. $PSScriptRoot/git.ps1
 
 function export {
 	$k = $args[0]
@@ -46,7 +47,11 @@ Set-Alias -Name ls -Value list
 New-Alias -Name :: with
 New-Alias -Name build devtools
 New-Alias -Name rename Rename-Item 
-New-Alias -Name gdl gallery-dl
+#New-Alias -Name gdl gallery-dl
+
+function gdl {
+    gallery-dl --write-metadata $args
+}
 
 $qr = "F:/curation/dl/"
 $sfx_lightning = "C:\users\daniel\Downloads\lightning.mp3"
@@ -55,9 +60,6 @@ function en { return $EnvFile }
 function tru { "run $args" >> \\.\pipe\toimi }
 
 function resource { . $PSScriptRoot\Scripts\load.ps1 }
-
-function commit { git add . && git commit $args }
-function status { git status }
 
 function dl { cd "$home\Downloads" }
 function dt { cd "$home\Desktop" }

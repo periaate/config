@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "starting dockerd..."
+cd /usr/bin/docker # Replace with actual Docker installation path if different
+./dockerd
