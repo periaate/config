@@ -17,4 +17,31 @@ M.scandir = function(directory, ignore)
 	return t
 end
 
+
+
+M.IsTruthy = function(v)
+	if v == nil then return false end
+	if v == false then return false end
+	if v == 0 then return false end
+	if v == "" then return false end
+	if v == {} then return false end
+	return true
+end
+
+M.Or = function(a, b) 
+	if not M.IsTruthy(b) then b = "" end
+	if M.IsTruthy(a) == false then return b end
+	return a
+end
+
+-- local keymaps = vim.api.nvim_get_keymap("n")
+--
+-- -- Iterate through and print each key mapping
+-- for _, k in ipairs(keymaps) do
+-- 	print("lhs: " .. M.Or(k.lhs) .. " -> rhs: " .. M.Or(k.rhs))
+-- end
+--
+
+
+
 return M

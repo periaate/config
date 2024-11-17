@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 local fmtGroup = vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = fmtGroup,
-	pattern = { "*.lua", "*.go", "*.html", "*.rs", "*.json", "*.py", "*.nix", "*.js", "*.ts" },
+	pattern = { "*.lua", "*.go", "*.html", "*.json", "*.py", "*.nix", "*.js", "*.ts", "*.svelte" },
 	command = "lua vim.lsp.buf.format({ async = false })",
 })
 
@@ -69,3 +69,8 @@ end
 
 -- Map the function to a command for easy use
 vim.api.nvim_create_user_command('SaveSession', create_session, {})
+
+vim.opt.foldmethod = "indent"
+vim.opt.foldlevel = 99
+vim.cmd(":set foldexpr=getline(v:lnum)[0]==\"\\t\"")
+

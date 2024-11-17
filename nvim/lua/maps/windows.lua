@@ -45,7 +45,6 @@ local function view(buf, fn)
 			save_buf_to_file(buf, fn)
 		end,
 	})
-	print(buf)
 
 	vim.api.nvim_input("nn<BS><esc>")
 	vim.api.nvim_buf_set_keymap(buf, "n", "<ESC>", ":close!<cr>", { noremap = true, silent = true })

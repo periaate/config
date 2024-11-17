@@ -67,8 +67,6 @@ local function reloadBase()
 end
 
 
-
-
 reloadBase()
 
 function css() 
@@ -118,7 +116,6 @@ function go()
 	isnip("con", "continue")
 	isnip("brk", "break")
 
-
 	isnip("eri", clean .. [[err = fmt.Errorf("]])
 
 	isnip("tob", clean .. repm[[type \0 struct]] .. " {" .. enter)
@@ -154,14 +151,11 @@ function go()
 	-- make, make with len, make with cap
 	-- working with channels
 	-- http response codes, headers, etc.
-	-- 
-	
-	iabbrev("h400", "w.WriteHeader(http.StatusBadRequest)" .. eatchar)
-	iabbrev("h401", "w.WriteHeader(http.StatusUnauthorized)" .. eatchar)
-	iabbrev("h404", "w.WriteHeader(http.StatusNotFound)" .. eatchar)
-	iabbrev("h500", "w.WriteHeader(http.StatusInternalServerError)" .. eatchar)
-	
 
+	isnip("h400", "w.WriteHeader(http.StatusBadRequest)")
+	isnip("h401", "w.WriteHeader(http.StatusUnauthorized)")
+	isnip("h404", "w.WriteHeader(http.StatusNotFound)")
+	isnip("h500", "w.WriteHeader(http.StatusInternalServerError)")
 end
 
 
@@ -171,7 +165,7 @@ local function lua()
 	iabbrev("al", "local")
 
 	iabbrev("alf", "local function")
-	iabbrev("alam", "local function()" .. enter .. "end" .. esc .. "u" .. END .. enter .. eatchar)
+	isnip("alam", "local function()" .. enter .. "end" .. esc .. "u" .. END .. enter)
 
 	iabbrev("aend", clean .. enter .. "end" .. esc .. "u" .. END)
 end
@@ -180,15 +174,9 @@ local function svelte()
 	-- Use spaces instead of tabs
 	vim.o.expandtab = true
 
-	iabbrev("scr", "<script>" .. enter .. "</script>" .. BEG .. enter .. eatchar)
-	iabbrev("stl", "<style>" .. enter .. "</style>" .. BEG .. enter .. eatchar)
-
+	isnip("scr", "<script>" .. enter .. "</script>" .. BEG .. enter)
+	isnip("stl", "<style>" .. enter .. "</style>" .. BEG .. enter)
 end
-
-local buff = {
-	groups = {}
-}
-
 
 local function bufgroup(ft, loadfunc)
 	local group = vim.api.nvim_create_augroup(ft .. "group", { clear = true })
@@ -216,11 +204,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
     callback = function(args)
         -- local buf = args.buf
         -- local filetype = vim.bo[buf].filetype
-		print("hi hey hello")
+		-- print("hi hey hello")
     end
 })
-
-local function nul() end
 
 bufgroup("*.css", css)
 bufgroup("*.go", go)
@@ -228,13 +214,4 @@ bufgroup("*.lua", lua)
 bufgroup("*.txt", nul)
 bufgroup("*.svelte", svelte)
 bufgroup("*.md", function() vim.o.expandtab = false end)
-
-
--- isnip("oc", clean .. '>' .. BEG .. '<' .. esc .. 'co>' .. END .. esc .. 'w' .. 'a<tt/' .. esc .. 'a<nn' .. enter .. enter .. esc .. 'unn')
-isnip("oc", clean .. repm([[<\0><\/\0>]]) .. esc .. 'a<nn')
-isnip("clo", clean .. repm([[<\0 \/>]]))
--- last(1, [[fmt.Println(\1)]]))
-
-
-
 
