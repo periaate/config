@@ -1,5 +1,4 @@
 . $PSScriptRoot/dev.ps1
-. $PSScriptRoot/git.ps1
 
 function export {
 	$k = $args[0]
@@ -28,8 +27,6 @@ function loadenv {
 		[System.Environment]::SetEnvironmentVariable($k.Trim(), $v.Trim(), [System.EnvironmentVariableTarget]::Process)
 			$succ = false
 	}
-
-#clog info "environment variables loaded successfully"
 }
 
 loadenv "$PSScriptRoot/.env"
@@ -47,19 +44,14 @@ Set-Alias -Name ls -Value list
 New-Alias -Name :: with
 New-Alias -Name build devtools
 New-Alias -Name rename Rename-Item 
-#New-Alias -Name gdl gallery-dl
 
-function gdl {
-    gallery-dl --write-metadata $args
-}
+function gdl { gallery-dl --write-metadata $args }
 
 $qr = "F:/curation/dl/"
 $sfx_lightning = "C:\users\daniel\Downloads\lightning.mp3"
+
 $EnvFile = "$env:blume/config/PowerShell/Scripts/.env"
 function en { return $EnvFile }
-function tru { "run $args" >> \\.\pipe\toimi }
-
-function resource { . $PSScriptRoot\Scripts\load.ps1 }
 
 function dl { cd "$home\Downloads" }
 function dt { cd "$home\Desktop" }
@@ -75,37 +67,6 @@ function disc {
     }
 }
 
-function latest { list sort mod slice 0 }
-
-function ad {zoxide query $args}
-
-function htmx {
-	cd ~/src/htmx/www && zola serve
-}
-
-function docgo {
-	pkgsite -cache -proxy -http "localhost:7727" "C:/Program Files/Go/src" (ad proj) C:\Users\Daniel\go\pkg\mod
-}
-
-function doctempl {
-	cd ~/src/templ/docs && yarn start
-}
-
-function docmdn {
-	cd ~/src/content && yarn start
-}
-
-function searx {
-	cd ~/blume/svc/searxng
-		wsl docker compose up
-}
-
-function docstart {
-	pwsh -c htmx &
-		pwsh -c docgo &
-		pwsh -c doctempl &
-		pwsh -c docmdn &
-}
 
 # PSReadLine configuration
 Import-Module PSReadLine
@@ -238,12 +199,7 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+u' -ScriptBlock { rr-up }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+o' -ScriptBlock { explorer .}
 Set-PSReadLineKeyHandler -Chord 'Ctrl+e' -ScriptBlock { rr-nvim }
 
-
-
 # oh my posh
 oh-my-posh init pwsh --config "$blume/config/PowerShell/Scripts/cfg.omp.json" | Invoke-Expression
 
-
-
 (& { (zoxide init powershell --cmd c | Out-String) }) | Invoke-Expression
-

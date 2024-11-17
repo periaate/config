@@ -1,10 +1,41 @@
 function run { build $args[0] && invoke $args }
-#function c { seek $args | cd }
 function daily { note daily (day $args) }
 function docs {	nvim (list ? readme) }
-function def { start https://en.wiktionary.org/wiki/$Args }
 
+function def { start https://en.wiktionary.org/wiki/$Args }
 function ensure { fsio ensure $args }
+
+function docker { wsl docker $args }
+function dc { wsl docker compose $args }
+function dcu { wsl docker compose up $args }
+
+function config { cd "$blume/config/$args" }
+function recycle { start shell:RecycleBinFolder }
+
+function tru { "run $args" >> \\.\pipe\toimi }
+function resource { . $PSScriptRoot\Scripts\load.ps1 }
+function latest { list sort mod slice 0 }
+function ad {zoxide query $args}
+
+function commit { git add . && git commit $args }
+function status { git status }
+function push { git push $args }
+function pull { git pull $args }
+
+function stream {
+    window resize proj 2160 1440 &&
+    window move proj (5120-2160) (2160-1440) &&
+    c obsmana &&
+    loadenv &&
+    obsmana
+}
+
+function release {
+    tagver &&
+    git push origin &&
+    git tag (tagver patch) &&
+    git push origin (tagver)
+}
 
 function togif {
 	ffmpeg -i $args[0] -filter_complex "[0:v] palettegen [palette]; [0:v][palette] paletteuse=dither=bayer:bayer_scale=5" $args[1]
@@ -34,7 +65,6 @@ function init {
 		[string]$Name
 	)
 
-    
 	if (-Not ((Test-Path -Path ".git") -or (Test-Path -Path "go.mod"))) {
 		go mod init $Name
 		go work use .
@@ -49,7 +79,6 @@ func main() {
 	}
 }
 
-
 function note {
 	if ($args.Length -eq 0) {
 		cd "$home/notes/"
@@ -62,10 +91,6 @@ function note {
 
 	fsio ensure file $res
 	nvim $res
-}
-
-function config {
-	cd "$blume/config/$args"
 }
 
 function symconf {
@@ -98,10 +123,4 @@ function mci {
 	zoxide add $Path
 	Set-Location $Path
 	init (fp base $Path)
-}
-
-function recycle { start shell:RecycleBinFolder }
-
-function stream {
-    window resize proj 2160 1440 && window move proj (5120-2160) (2160-1440) && c obsmana && loadenv && obsmana
 }
