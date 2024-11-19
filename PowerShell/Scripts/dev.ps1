@@ -8,8 +8,11 @@ function ensure { fsio ensure $args }
 function docker { wsl docker $args }
 function dc { wsl docker compose $args }
 function dcu { wsl docker compose up $args }
+function dcs { wsl docker compose stop $args }
+function dcb { wsl docker compose build $args }
+function dcre { dcs && dcb && dcu }
 
-function config { cd "$blume/config/$args" }
+function config { cd "$blume/config/$args" && nvim }
 function recycle { start shell:RecycleBinFolder }
 
 function tru { "run $args" >> \\.\pipe\toimi }
@@ -124,3 +127,12 @@ function mci {
 	Set-Location $Path
 	init (fp base $Path)
 }
+
+
+function x_blob    { c xh blobs && loadenv && wgo -xdir data go run main.go }
+function x_medias  { c xh medias && loadenv && wgo -xdir data go run main.go }
+function x_sdb     { c xh sdb && wgo -dir src cargo run }
+function x_feeds   { c xh feeds && loadenv && wgo -dir cmd/posts/ go run ./cmd/posts/main.go }
+function x_xclient { c xh xclient && deno run dev }
+function x_auth    { c xh auth && wgo -dir src cargo run }
+
