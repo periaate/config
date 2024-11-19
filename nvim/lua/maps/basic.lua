@@ -1,10 +1,10 @@
 local key = require("lib.key")
 local std = require("lib.std")
+local sessions = require("lib.sessions")
 local get = std.get
 local str = std.str
 local edit = std.edit
 
-key.clear()
 
 
 key.set('n', 'fn', function() edit.paste(get.name(false), false) end)
@@ -101,12 +101,20 @@ key.set('n', '<C-r>', function() vim.lsp.buf.rename() end) 				  -- rename; lsp
 key.set('v', '<C-r>', '\"fy<Esc>:%s/<C-r>f/', key.opts) 				  -- rename selection
 key.set("n", "R", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- rename current word
 
+function sess(cmd)
+	return function()
+		sessions.save_session()
+		vim.cmd("normal! " .. cmd)
+	end
+end
+
+
 key.set("n", "<leader>so", ":w<cr>:so<cr>")      -- shoutout; source current lua file
 key.set(key.all, '<C-s>', ':w<CR>', key.opts)    -- save file
 key.set('i', '<C-s>', '<Esc>:w<CR>', key.opts)   -- save file from insert mode
-key.set(key.modes, '<leader>WW', 'ZZ', key.opts) -- write all files and exit
-key.set(key.modes, '<C-q>', 'ZQ', key.opts)      -- exit all files
 key.set(key.all, '<leader><C-w>', ':close<CR>')  -- close 
+key.set(key.modes, '<leader>WW', sess('ZZ'), key.opts) -- write all files and exit
+key.set(key.modes, '<C-q>', sess('ZQ'), key.opts)      -- exit all files
 
 
 key.set(key.all, '<', 'n', key.opts) -- find previous pattern

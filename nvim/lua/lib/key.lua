@@ -14,6 +14,7 @@ local toClear = {
 	'<C-p>', '<C-q>', '<C-r>', '<C-s>', '<C-t>', '<C-u>', '<C-v>', '<C-w>', '<C-x>',   '<C-y>',   '<C-z>',
 	':',     '/',     '\\',    '(',     ')',     '[',     ']',     '<',     '>',       '{',       '}',
 	'^',     '@',     '&',     '$',     '#',     '~',     '<CR>',  '<Tab>', '<S-Tab>', '<Space>', '<BS>',
+	'gp',    'go',    'gop'
 }
 
 function key.set(mode, lhs, rhs, options)
@@ -27,6 +28,8 @@ function key.clear()
 		key.set(key.all, value, '')
 	end
 end
+
+key.clear()
 
 
 return key

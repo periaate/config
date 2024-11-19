@@ -17,8 +17,6 @@ local function get_mappings()
 end
 
 
-
-
 local keymap = vim.keymap.set
 
 keymap('n', '<leader>fm', function()

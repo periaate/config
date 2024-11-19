@@ -15,7 +15,7 @@ M.config = function()
 
 	local servers = {
 		"gopls",
-		"tsserver",
+		"ts_ls",
 		-- "nil_ls",
 		"rust_analyzer",
 		-- "emmet_ls",

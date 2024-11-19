@@ -1,4 +1,6 @@
-function split(input, sep)
+local str = {}
+
+function str.split(input, sep)
 	local result = {}
 
 	-- Handle the case where sep is an empty string
@@ -28,8 +30,7 @@ function split(input, sep)
 	return result
 end
 
-
-local function modify_word()
+function str.modify_word()
 	local chars = ""
 	for i = 1, 2 do
 		local char = vim.fn.getcharstr()
@@ -44,31 +45,23 @@ local function modify_word()
 	vim.api.nvim_command('normal! ciw' .. new_word)
 end
 
+function str.nthSplit(str, sep, n)
+	local t = {}
+	local i = 1
+	local escaped_sep = string.gsub(sep, "([^%w])", "%%%1")
 
-
-local str = {
-	nthSplit = function(str, sep, n)
-		local t = {}
-		local i = 1
-		local escaped_sep = string.gsub(sep, "([^%w])", "%%%1")
-
-		for s in string.gmatch(str, "([^" .. escaped_sep .. "]+)") do
-			if i == n then
-				return s
-			end
-
-			table.insert(t, s)
-			i = i + 1
+	for s in string.gmatch(str, "([^" .. escaped_sep .. "]+)") do
+		if i == n then
+			return s
 		end
 
-		-- n is negative or overflows the length of the table
-		if n > #t then return '' end
-		return t[#t + n + 1]
-	end,
-	split = split,
-	modify_word = modify_word,
-}
+		table.insert(t, s)
+		i = i + 1
+	end
 
+	if n > #t then return '' end
+	return t[#t + n + 1]
+end
 
 
 local get = {

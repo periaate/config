@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 local fmtGroup = vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = fmtGroup,
-	pattern = { "*.lua", "*.go", "*.html", "*.json", "*.py", "*.nix", "*.js", "*.ts", "*.svelte" },
+	pattern = { "*.lua", "*.go", "*.html", "*.json", "*.py", "*.nix" },
 	command = "lua vim.lsp.buf.format({ async = false })",
 })
 

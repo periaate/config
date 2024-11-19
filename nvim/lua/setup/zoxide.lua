@@ -3,13 +3,32 @@ local key = require("lib.key")
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
+
+local sorters = require('telescope.sorters')
 local conf = require('telescope.config').values
+
+local sessions = require("lib.sessions")
+
+function clean(input)
+	return input
+end
+
+
+-- Function to close all buffers without exiting Neovim
+local function close_all_buffers()
+	-- Get a list of all buffers
+	local buffers = vim.api.nvim_list_bufs()
+	for _, buf in ipairs(buffers) do
+		-- Only close listed, loaded buffers
+		vim.api.nvim_buf_delete(buf, { force = true })
+	end
+end
 
 
 -- Custom zoxide picker
-key.set('n', key.leader .. 'cd', function()
+key.set('n', 'cd', function()
 	-- Run zoxide query -ls and get the output
-	local zoxide_output = vim.fn.systemlist('gs zoxide query -l | grep "C:" | grep -v work')
+	local zoxide_output = vim.fn.systemlist('gs zoxide query -l')
 
 	-- Create the picker
 	pickers.new({}, {
@@ -17,13 +36,21 @@ key.set('n', key.leader .. 'cd', function()
 		finder = finders.new_table {
 			results = zoxide_output,
 		},
-		sorter = conf.generic_sorter({}),
+		sorter = sorters.get_generic_fuzzy_sorter(),
 		attach_mappings = function(prompt_bufnr, map)
 			actions.select_default:replace(function()
 				actions.close(prompt_bufnr)
 				local selection = require('telescope.actions.state').get_selected_entry()
-				print(selection[1])
-				vim.cmd("Oil ".. selection[1])
+
+				sessions.save_session(sessions.as_sess())
+				vim.cmd("cd ".. selection[1])
+				close_all_buffers()
+
+				if sessions.exists(sessions.as_sess()) then
+					sessions.load_session(sessions.as_sess())
+				else
+					vim.cmd("Oil ".. selection[1])
+				end
 			end)
 			return true
 		end,

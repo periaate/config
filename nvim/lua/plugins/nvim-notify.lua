@@ -12,6 +12,8 @@ M.config = function()
 		timeout = 5000,
 		top_down = false,
 		background_colour = '#363837',
+		render = 'minimal',
+		max_height = 50,
 	})
 
 	vim.notify = notify

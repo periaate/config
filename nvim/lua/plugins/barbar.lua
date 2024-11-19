@@ -1,5 +1,6 @@
 local M = {
-	"romgrk/barbar.nvim",
+	-- "romgrk/barbar.nvim",
+	"periaate/barbar.nvim",
 	keys = {
 		{ "<C-a>", "<cmd>BufferPrevious<CR>" },
 		{ "<C-o>", "<cmd>BufferNext<CR>" },

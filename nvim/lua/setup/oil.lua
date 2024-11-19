@@ -1,3 +1,5 @@
+local str = require("lib.str")
+
 local git_ignored = setmetatable({}, {
 	__index = function(self, key)
 		local proc = vim.system(
@@ -22,6 +24,21 @@ local git_ignored = setmetatable({}, {
 	end,
 })
 
+-- Declare a global function to retrieve the current directory
+function _G.get_oil_winbar()
+	local dir = require("oil").get_current_dir()
+	if dir then
+		dir = str.ReplacePrefix(vim.fn.expand("$HOME"), "~")(dir)
+		dir = string.gsub(dir, "\\", "/")
+		dir = str.ReplacePrefix("C:/", "/")(dir)
+
+		return vim.fn.fnamemodify(dir, ":~")
+	else
+		-- If there is no current directory (e.g. over ssh), just show the buffer name
+		return vim.api.nvim_buf_get_name(0)
+	end
+end
+
 local oil = require("oil")
 
 local function custom_open_dir()
@@ -32,7 +49,6 @@ local function custom_open_dir()
 		vim.cmd({cmd = "cd", args = {res}})
 	end
 end
-
 
 
 require("oil").setup({
@@ -53,6 +69,7 @@ require("oil").setup({
 		list = false,
 		conceallevel = 3,
 		concealcursor = "nvic",
+		winbar = "%!v:lua.get_oil_winbar()",
 	},
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
@@ -64,7 +81,7 @@ require("oil").setup({
 	},
 	constrain_cursor = "editable",
 	-- Set to true to watch the filesystem for changes and reload oil
-	experimental_watch_for_changes = false,
+	watch_for_changes = true,
 	keymaps = {
 		["<C-s>"] = ":w<CR>",
 		["ta"] = "actions.toggle_hidden",
@@ -94,5 +111,4 @@ require("oil").setup({
 		end,
 	},
 })
-
 
