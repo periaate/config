@@ -29,7 +29,4 @@ function key.clear()
 	end
 end
 
-key.clear()
-
-
 return key

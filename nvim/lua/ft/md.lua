@@ -1,3 +1,4 @@
+local a = require("lib.abbrev")
 local key = require("lib.key")
 local str = require("lib.str")
 
@@ -17,14 +18,6 @@ function line_hof(fn)
 	end
 end
 
-key.set('n', '#', line_hof(function(line)
-	local lead = line:match("^#*%s*")
-	if #lead ~= 0 then
-		return line:sub(#lead + 1)
-	end
-	return '# ' .. line
-end), key.opts)
-
 local md = {}
 
 md.get = function() return vim.fn.getline('.') end
@@ -38,10 +31,22 @@ md.todo_off = function()
 	md.set(str.ReplacePrefix("- [ ]", "- ", "- [x]", "- ")(md.get()))
 end
 
--- md
-key.set('n', 'mt', md.todo_on)  -- toggle todo
-key.set('n', 'md', md.todo_off) -- remove todo
--- key.set('n', 'a', "lua print('hi')")
 
--- key.abbrev('ab', 'hiiiii!!!')
--- key.abbrev('h', 'hiiiii!!!')
+
+return function()
+	vim.o.expandtab = false
+
+	key.set('n', '#', line_hof(function(line)
+		local lead = line:match("^#*%s*")
+		if #lead ~= 0 then
+			return line:sub(#lead + 1)
+		end
+		return '# ' .. line
+	end), key.opts)
+
+	key.set('n', 'mt', md.todo_on)  -- toggle todo
+	key.set('n', 'md', md.todo_off) -- remove todo
+
+	a.iabbrev('ab', 'hiiiii!!!')
+	a.iabbrev('h', 'hiiiii!!!')
+end
