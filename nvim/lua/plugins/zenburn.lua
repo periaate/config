@@ -1,0 +1,1 @@
+return { 'periaate/zenburn.nvim' }
