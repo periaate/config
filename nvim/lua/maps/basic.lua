@@ -105,13 +105,19 @@ key.set("n", "<leader>so", ":w<cr>:so<cr>")      -- shoutout; source current lua
 key.set(key.all, '<C-s>', ':w<CR>', key.opts)    -- save file
 key.set('i', '<C-s>', '<Esc>:w<CR>', key.opts)   -- save file from insert mode
 key.set(key.all, '<leader><C-w>', ':close<CR>')  -- close 
-key.set(key.modes, '<leader>WW', 'ZZ', key.opts) -- write all files and exit
+
+key.set(key.modes, '<leader>WW', function()
+	sessions.save_session()
+	vim.cmd('normal! ZF')
+end, key.opts)      -- save and exit all files
+
 key.set(key.modes, '<C-q>', function()
 	sessions.save_session()
 	vim.cmd('normal! ZQ')
 end, key.opts)      -- exit all files
 
---key.set('n', ' ~', sessions.load_session)
+key.set('n', ' ~', sessions.load_session)
+key.set('n', ' <C-s>', sessions.save_session)
 
 key.set(key.all, '<', 'n', key.opts) -- find previous pattern
 key.set(key.all, '>', 'N', key.opts) -- find next pattern

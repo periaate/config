@@ -3,15 +3,10 @@ local key = require("lib.key")
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
-
 local sorters = require('telescope.sorters')
 local conf = require('telescope.config').values
 
 local sessions = require("lib.sessions")
-
-function clean(input)
-	return input
-end
 
 
 -- Function to close all buffers without exiting Neovim
@@ -42,12 +37,12 @@ key.set('n', 'cd', function()
 				actions.close(prompt_bufnr)
 				local selection = require('telescope.actions.state').get_selected_entry()
 
-				sessions.save_session(sessions.as_sess())
+				sessions.save_session()
 				vim.cmd("cd ".. selection[1])
 				close_all_buffers()
 
-				if sessions.exists(sessions.as_sess()) then
-					sessions.load_session(sessions.as_sess())
+				if sessions.exists() then
+					sessions.load_session()
 				else
 					vim.cmd("Oil ".. selection[1])
 				end

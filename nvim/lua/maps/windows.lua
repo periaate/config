@@ -1,5 +1,3 @@
-
-
 function open_win()
 	buf = vim.api.nvim_create_buf(false, true)
 
