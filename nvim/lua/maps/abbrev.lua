@@ -208,10 +208,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
 })
 
-bufgroup("*.css", css)
-bufgroup("*.go", go)
-bufgroup("*.lua", lua)
+-- bufgroup("*.css", css)
+-- bufgroup("*.go", go)
+-- bufgroup("*.lua", lua)
 bufgroup("*.txt", nul)
 bufgroup("*.svelte", svelte)
-bufgroup("*.md", function() vim.o.expandtab = false end)
+-- bufgroup("*.md", function() vim.o.expandtab = false end)
 

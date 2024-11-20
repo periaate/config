@@ -1,3 +1,4 @@
+-- lib.sessions breaks lib.fthook upon loading a session
 local fthook = {}
 
 -- Table to store registered hooks
@@ -26,7 +27,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 		local filetype = vim.bo.filetype
 		local unload = fthook.unload[fthook.last]
 		if unload then
-			print('unloading', filetype)
+			-- print('unloading', filetype)
 			for _, callback in ipairs(unload) do
 				pcall(callback) -- Use pcall to avoid crashing if a callback errors
 			end
@@ -39,7 +40,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 function fthook.trigger(filetype)
 	local load = fthook.load[filetype]
 	if load then
-		print("triggering", filetype)
+		-- print("triggering", filetype)
 		fthook.last = filetype
 		for _, callback in ipairs(load) do
 			pcall(callback) -- Use pcall to avoid crashing if a callback errors

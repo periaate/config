@@ -6,8 +6,6 @@ local M = {
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-cmdline",
-		"saadparwaiz1/cmp_luasnip",
-		"L3MON4D3/LuaSnip",
 	},
 }
 
@@ -41,11 +39,6 @@ M.config = function()
 	}
 
 	cmp.setup({
-		snippet = {
-			expand = function(args)
-				require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
-			end,
-		},
 		window = {
 			-- completion = cmp.config.window.bordered(),
 			-- documentation = cmp.config.window.bordered(),
@@ -62,7 +55,6 @@ M.config = function()
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "nvim_lua" },
-			{ name = "luasnip" }, -- For luasnip users.
 		}, {
 			{ name = "buffer" },
 			{ name = "path" },
@@ -78,7 +70,6 @@ M.config = function()
 				vim_item.menu = ({
 					buffer = "[Buffer]",
 					nvim_lsp = "[LSP]",
-					luasnip = "[LuaSnip]",
 					nvim_lua = "[NvimAPI]",
 					path = "[Path]",
 				})[entry.source.name]

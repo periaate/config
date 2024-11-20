@@ -28,7 +28,7 @@ end
 -- Custom zoxide picker
 key.set('n', 'cd', function()
 	-- Run zoxide query -ls and get the output
-	local zoxide_output = vim.fn.systemlist('gs zoxide query -l')
+	local zoxide_output = vim.fn.systemlist('gs zoxide query -l | str projects blume C:\\')
 
 	-- Create the picker
 	pickers.new({}, {

@@ -101,21 +101,17 @@ key.set('n', '<C-r>', function() vim.lsp.buf.rename() end) 				  -- rename; lsp
 key.set('v', '<C-r>', '\"fy<Esc>:%s/<C-r>f/', key.opts) 				  -- rename selection
 key.set("n", "R", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- rename current word
 
-function sess(cmd)
-	return function()
-		sessions.save_session()
-		vim.cmd("normal! " .. cmd)
-	end
-end
-
-
 key.set("n", "<leader>so", ":w<cr>:so<cr>")      -- shoutout; source current lua file
 key.set(key.all, '<C-s>', ':w<CR>', key.opts)    -- save file
 key.set('i', '<C-s>', '<Esc>:w<CR>', key.opts)   -- save file from insert mode
 key.set(key.all, '<leader><C-w>', ':close<CR>')  -- close 
-key.set(key.modes, '<leader>WW', sess('ZZ'), key.opts) -- write all files and exit
-key.set(key.modes, '<C-q>', sess('ZQ'), key.opts)      -- exit all files
+key.set(key.modes, '<leader>WW', 'ZZ', key.opts) -- write all files and exit
+key.set(key.modes, '<C-q>', function()
+	sessions.save_session()
+	vim.cmd('normal! ZQ')
+end, key.opts)      -- exit all files
 
+--key.set('n', ' ~', sessions.load_session)
 
 key.set(key.all, '<', 'n', key.opts) -- find previous pattern
 key.set(key.all, '>', 'N', key.opts) -- find next pattern
@@ -132,16 +128,12 @@ key.set('n', 'tlc', 'gu') -- toggle lower case
 key.set('n', 'hac', function()
 	local w = get.word()
 	if w:match('%u') then w = w:lower() else w = w:gsub("^%l", string.upper) end
-
-	vim.cmd('normal! maviwc' .. w)
-	vim.cmd('normal! `a')
+ 	vim.cmd('normal! maviwc' .. w)
+ 	vim.cmd('normal! `a')
 end)
 
 key.set("n", "-", "<CMD>Oil<CR>", key.opts) -- access oil
 
 key.set('n', 'dt', require("maps.notes").todo)  -- open todays todo
 key.set('n', 'dl', require("maps.notes").daily) -- open todays daily
-
-require("ft.go")
-require("ft.md")
 

@@ -1,11 +1,10 @@
 local file_window = require("maps.windows")
-local util = require("core.utils")
 
 function open_path(path) vim.cmd("e " .. path) end
 function clean(str) return str:gsub("\n", "") end
 
 function td(v)
-	v = util.Or(v, "")
+	v = v or ""
 	v = vim.fn.system("td " .. v .. "d")
 	v = clean(v)
 	return v

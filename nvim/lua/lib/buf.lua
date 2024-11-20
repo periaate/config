@@ -1,3 +1,4 @@
+-- lib.sessions breaks lib.buf upon loading a session
 local key = require('lib.key')
 local fthook = require('lib.fthook')
 
@@ -87,12 +88,13 @@ function buf.setup()
 			end
 
 			for lhs, rhs in pairs(setter.abbrevs) do
+				-- print("setting", lhs, rhs)
 				vim.cmd('iabbrev ' .. lhs .. ' ' .. rhs)
 			end
 		end
 
 		local unload = function()
-			print('unloading')
+			-- print('unloading')
 			for lhs, _ in pairs(setter.abbrevs) do
 				vim.cmd('una ' .. lhs)
 			end

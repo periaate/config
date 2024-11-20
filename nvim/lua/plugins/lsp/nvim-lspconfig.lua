@@ -81,13 +81,7 @@ M.config = function()
 			unusedwrite = true, -- enable analysis for unused write
 		},
 		hints = {
-			assignVariableTypes = true,
-			compositeLiteralFields = true,
-			compositeLiteralTypes = true,
 			constantValues = true,
-			functionTypeParameters = true,
-			parameterNames = true,
-			rangeVariableTypes = true,
 		},
 	}
 

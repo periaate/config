@@ -39,6 +39,7 @@ function save_buf_to_file(buf, filename)
 end
 
 local function view(buf, fn)
+	-- vim.cmd(":setfiletype markdown")
 	vim.api.nvim_create_autocmd("BufUnload", {
 		buffer = buf,
 		callback = function()

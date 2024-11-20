@@ -9,4 +9,9 @@ end
 require("maps.basic")
 require("maps.abbrev")
 
+-- require("ft.go")
+-- require("ft.md")
+-- require("ft.lua")
+
 require("lib.buf").setup()
+
