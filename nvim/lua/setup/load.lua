@@ -1,9 +1,4 @@
 require("zenburn").setup()
 require('mini.align').setup()
-
 require('setup.oil')
 require('setup.noice')
-require('setup.telescope')
-require("setup.github")
-require("setup.flash")
-require("setup.zoxide")

@@ -17,9 +17,7 @@ local function get_mappings()
 end
 
 
-local keymap = vim.keymap.set
-
-keymap('n', '<leader>fm', function()
+return function()
 	local opts = {}
 	pickers.new(opts, {
 		prompt_title = 'Mappings',
@@ -36,6 +34,5 @@ keymap('n', '<leader>fm', function()
 			return true
 		end,
 	}):find()
-end)
-
+end
 

@@ -117,6 +117,7 @@ function setup()
 
 	key.set('n', ' ~', sessions.load_session)
 	key.set('n', ' <C-s>', sessions.save_session)
+	key.set('n', ' <C-q>', 'ZQ')
 
 	key.set(key.all, '<', 'n', key.opts) -- find previous pattern
 	key.set(key.all, '>', 'N', key.opts) -- find next pattern
@@ -146,6 +147,77 @@ function setup()
 	key.set('n', "<C-o>", "<cmd>BufferNext<CR>")
 	key.set('n', '<esc>', '<esc>')
 	key.set("n", "<ESC>", ":lua require('notify').dismiss()<CR>", { silent = true })
+
+	function I(cond)
+		return function(a, b)
+			if cond then
+				return a
+			end
+			return b
+		end
+	end
+
+	local gcIsOn = true
+	-- toggle github copilot
+	key.set('n', 'q', function()
+		local comd = I(gcIsOn)(":Copilot disable", ":Copilot enable")
+		vim.cmd(comd)
+		gcIsOn = not gcIsOn
+		print("Github Copilot is now " .. (gcIsOn and "enabled" or "disabled"))
+	end)
+
+	key.set('n', '<leader>fm', require('setup.telescope'))
+	key.set('n', 'cd', require('setup.zoxide'))
+
+	key.set({ "n", "x", "o" }, " " .. "o", function()
+		require("flash").jump({
+			search = { 
+				forward = true, wrap = false,
+				mode = "search", max_length = 0,
+			},
+			highlight = { backdrop = false, matches = false, },
+			labels = "pgkaeo'ud",
+			label = { uppercase = false, after = { 0, 0 } },
+			pattern = [[\s]],
+		})
+	end)
+
+	key.set({ "n", "x", "o" }, " " .. "a", function()
+		require("flash").jump({
+			search = { 
+				forward = false, wrap = false,
+				mode = "search", max_length = 0
+			},
+			highlight = { backdrop = false, matches = false, },
+			labels = "pgkaeo'ud",
+			label = { uppercase = false, after = { 0, 0 } },
+			pattern = [[\s]],
+		})
+	end)
+
+	key.set({ "n", "x", "o" }, " " .. "e", function()
+		require("flash").jump({
+			search = { 
+				forward = true, wrap = false,
+				mode = "search", max_length = 0
+			},
+			label = { after = { 0, 0 } },
+			pattern = [[^\(\s*$\|$\)]],
+		})
+	end)
+
+	key.set({ "n", "x", "o" }, " " .. "u", function()
+		require("flash").jump({
+			search = { 
+				forward = false, wrap = false,
+				mode = "search", max_length = 0
+			},
+			label = { after = { 0, 0 } },
+			pattern = [[^\(\s*$\|$\)]],
+		})
+	end)
+
+
 end
 
 

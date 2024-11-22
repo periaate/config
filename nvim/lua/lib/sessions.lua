@@ -90,7 +90,6 @@ end
 local function open_files_with_positions(data)
     local focus = data.focus
     local foc_buf = 0
-    local foc_cur = {0, 0}
     local files = data.files
     for _, file in ipairs(files) do
 
@@ -101,14 +100,11 @@ local function open_files_with_positions(data)
 
             if cursor_position.row > 1 then
                 vim.cmd('normal! ' .. cursor_position.row-1 .. 'j')
-                -- else
             end
             vim.cmd('normal! ' .. cursor_position.col .. 'l')
 
             if file.filepath == focus then
                 foc_buf = vim.api.nvim_get_current_buf()
-                -- foc_cur = cursor_position
-                -- print("Focus: " .. foc_cur.row .. " " .. foc_cur.col)
             end
         end
     end
@@ -140,9 +136,6 @@ function M.load_session(path)
         return
     end
     open_files_with_positions(data)
-
-
-    -- vim.cmd('normal! 10l')
 end
 
 function M.exists(path)

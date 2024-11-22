@@ -21,7 +21,7 @@ end
 
 
 -- Custom zoxide picker
-key.set('n', 'cd', function()
+return function()
 	-- Run zoxide query -ls and get the output
 	local zoxide_output = vim.fn.systemlist('gs zoxide query -l | str projects blume C:\\')
 
@@ -43,6 +43,7 @@ key.set('n', 'cd', function()
 
 				if sessions.exists() then
 					sessions.load_session()
+					require("abbrev").recheck()
 				else
 					vim.cmd("Oil ".. selection[1])
 				end
@@ -50,5 +51,4 @@ key.set('n', 'cd', function()
 			return true
 		end,
 	}):find()
-end)
-
+end

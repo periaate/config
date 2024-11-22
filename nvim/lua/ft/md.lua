@@ -31,8 +31,6 @@ md.todo_off = function()
 	md.set(str.ReplacePrefix("- [ ]", "- ", "- [x]", "- ")(md.get()))
 end
 
-
-
 return function()
 	vim.o.expandtab = false
 

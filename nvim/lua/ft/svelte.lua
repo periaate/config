@@ -5,6 +5,6 @@ return function()
 	-- Use spaces instead of tabs
 	vim.o.expandtab = true
 
-	isnip("scr", "<script>" .. enter .. "</script>" .. BEG .. enter)
-	isnip("stl", "<style>" .. enter .. "</style>" .. BEG .. enter)
+	a.isnip("scr", "<script>" .. a.enter .. "</script>" .. a.BEG .. a.enter)
+	a.isnip("stl", "<style>" .. a.enter .. "</style>" .. a.BEG .. a.enter)
 end
