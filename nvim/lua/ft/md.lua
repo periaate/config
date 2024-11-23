@@ -24,11 +24,11 @@ md.get = function() return vim.fn.getline('.') end
 md.set = function(inp) vim.fn.setline('.', vim.split(inp, '\n')[1]) end
 
 md.todo_on = function()
-	md.set(str.ReplacePrefix("- [ ]", "- [x]", "- [x]", "- [ ]", "- ", "- [ ]")(md.get()))
+	md.set(str.ReplacePrefix("- [ ]", "- [x]", "- [x]", "- [ ]", "-", "- [ ]", "", "- [ ] ")(md.get()))
 end
 
 md.todo_off = function()
-	md.set(str.ReplacePrefix("- [ ]", "- ", "- [x]", "- ")(md.get()))
+	md.set(str.ReplacePrefix("- [ ] ", "- ", "- [x] ", "- ", "- ", "")(md.get()))
 end
 
 return function()

@@ -10,6 +10,9 @@ local left  = "a"
 local right = "o"
 local down  = "e"
 
+
+local gcIsOn = true
+
 local UP    = "U"
 local DOWN  = "E"
 
@@ -157,7 +160,6 @@ function setup()
 		end
 	end
 
-	local gcIsOn = true
 	-- toggle github copilot
 	key.set('n', 'q', function()
 		local comd = I(gcIsOn)(":Copilot disable", ":Copilot enable")
@@ -167,7 +169,6 @@ function setup()
 	end)
 
 	key.set('n', '<leader>fm', require('setup.telescope'))
-	key.set('n', 'cd', require('setup.zoxide'))
 
 	key.set({ "n", "x", "o" }, " " .. "o", function()
 		require("flash").jump({
@@ -217,6 +218,13 @@ function setup()
 		})
 	end)
 
+
+	key.set('n', 'cd', require('setup.zoxide'))
+	key.set('n', 'cc', sessions.last_session)
+
+	key.set('n', 'pt', function()
+		require("neotest").run.run({ suite = false, strategy = "dap" })
+	end)
 
 end
 

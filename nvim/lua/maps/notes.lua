@@ -56,6 +56,7 @@ function op.close()
 	op.win = nil
 	op.buf = nil
 	op.fn = nil
+	abbrev.recheck()
 end
 
 function op.open_win()
