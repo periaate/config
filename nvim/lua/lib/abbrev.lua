@@ -49,17 +49,6 @@ local function reloadBase()
     vim.cmd(":abclear")
 	key.clear()
 	abbrev.def()
-
-    abbrev.iabbrev("ret", "return")
-    abbrev.isnip("newl", "<esc>rl")
-
-    abbrev.iabbrev("lte", "<=")
-    abbrev.iabbrev("gte", ">=")
-    abbrev.iabbrev("lt", "<")
-    abbrev.iabbrev("gt", ">")
-
-    abbrev.iabbrev("iso", "== 0")
-    abbrev.iabbrev("ino", "!= 0")
 end
 
 abbrev.fthooks = {}

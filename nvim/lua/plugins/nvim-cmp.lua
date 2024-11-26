@@ -11,8 +11,6 @@ local M = {
 
 M.config = function()
 	local cmp = require("cmp")
-	vim.opt.completeopt = { "menu", "menuone", "noselect" }
-
 	local kind_icons = {
 		-- https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#basic-customisations
 		Text = " ",
@@ -49,7 +47,7 @@ M.config = function()
 			["<C-u>"] = cmp.mapping.select_prev_item(),
 			["<C-e>"] = cmp.mapping.select_next_item(),
 		}),
-		
+
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "nvim_lua" },
@@ -65,7 +63,7 @@ M.config = function()
 				vim_item.menu = ({
 					buffer = "[Buffer]",
 					nvim_lsp = "[LSP]",
-					luasnip = "[LuaSnip]",
+					-- luasnip = "[LuaSnip]",
 					nvim_lua = "[NvimAPI]",
 					path = "[Path]",
 				})[entry.source.name]

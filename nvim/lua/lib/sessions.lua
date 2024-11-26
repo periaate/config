@@ -47,6 +47,8 @@ function M.change_session(path)
 	M.set_cwd(path)
 	M.close_all_buffers()
 	last = cur
+
+	vim.cmd([[1TermExec cmd="cd ]] .. path .. [[" open=0]])
 	if M.exists(path) then
 		M.load_session()
 		require("lib.abbrev").recheck()

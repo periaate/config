@@ -3,8 +3,61 @@ local edit = require("lib.std").edit
 local get = require("lib.std").get
 local a = require("lib.abbrev")
 
+local b = [[
+prl
+
+
+$ ??
+$
+if err != nil {
+	.
+}
+
+
+
+
+$ ecerr
+clog.Error($, "err", err) .
+
+$ ecinf
+clog.Info($) .
+
+
+(_) $ alo
+(_, "$", $) .
+
+
+$ $ ener
+er.Net($, $) .
+
+
+$ _ apn
+_ := $ .
+
+
+$ _ ape
+_ = $ .
+
+$ _ aer
+_, err := $ .
+
+
+$ gem
+gen.Must($) .
+
+
+$ com _
+// call function `_` with `$` as its argument(s) _($)
+// can be any
+// access to any lua functionality
+
+
+]]
+
 
 return function()
+	-- if file is empty, add package definition
+	-- if filename is `main`, use `package main` instead
 	vim.o.expandtab = false
 	key.set('n', 'gop', function() edit.paste("package " .. get.base(), false) end)
 
@@ -49,4 +102,11 @@ return function()
 	a.isnip("h401", "w.WriteHeader(http.StatusUnauthorized)")
 	a.isnip("h404", "w.WriteHeader(http.StatusNotFound)")
 	a.isnip("h500", "w.WriteHeader(http.StatusInternalServerError)")
+
+	a.isnip("hh", [[w http.ResponseWriter, r *http.Request]])
+
+    a.iabbrev("iso", "== 0")
+    a.iabbrev("ino", "!= 0")
+
+    a.iabbrev("ret", "return")
 end

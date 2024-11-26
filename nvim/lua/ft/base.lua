@@ -96,8 +96,8 @@ function setup()
 
 	key.set('n', '<leader>=', [[mlgg=G`l]]) -- format file
 
-	key.set("v", "<C-u>", ":m '<-2<CR>gv=gv") -- move selection up
-	key.set("v", "<C-e>", ":m '>+1<CR>gv=gv") -- move selection down
+	key.set("v", "<C-u>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true }) -- move selection up
+	key.set("v", "<C-e>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true }) -- move selection down
 
 	key.set('n', '<C-r>', function() vim.lsp.buf.rename() end) 				  -- rename; lsp
 	key.set('v', '<C-r>', '\"fy<Esc>:%s/<C-r>f/', key.opts) 				  -- rename selection
@@ -226,6 +226,14 @@ function setup()
 		require("neotest").run.run({ suite = false, strategy = "dap" })
 	end)
 
+
+	key.set('n', [[\]], function() vim.cmd('ToggleTerm') end)
+
+	-- key.set('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
+
+	key.set('t', '<Esc>', function()
+		vim.api.nvim_input("<C-\\>")
+	end, { noremap = true, silent = true })
 end
 
 

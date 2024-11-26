@@ -46,7 +46,6 @@ function op.save(buf, fn)
 	if not T(buf) then return end
 	if not vim.api.nvim_buf_is_valid(buf) then return end
 	op.write(buf, fn)
-	-- vim.api.nvim_buf_delete(op.buf, { force = true })
 end
 
 function op.close()
@@ -100,7 +99,6 @@ local function view(buf, fn)
 	})
 
 	vim.api.nvim_input("nn<BS><esc>")
-	-- vim.api.nvim_buf_set_keymap(buf, "n", "<ESC>", op.close, { noremap = true, silent = true })
 	key.set('n', '<ESC>', op.close)
 	vim.api.nvim_command("$read " .. fn)
 

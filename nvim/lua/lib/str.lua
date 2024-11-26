@@ -56,6 +56,13 @@ function M.ReplacePrefix(...)
     end
 end
 
+function M.gsub(pat, rep)
+	return function(inp)
+		inp = inp:gsub(pat, rep)
+		return inp
+	end
+end
+
 -- ReplaceSuffix: Replaces suffixes based on pattern pairs.
 function M.ReplaceSuffix(...)
     local pats = { ... }

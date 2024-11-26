@@ -1,3 +1,6 @@
+local key = require("lib.key")
+
+
 local M = {
 	"neovim/nvim-lspconfig",
 	dependencies = {
@@ -16,27 +19,17 @@ M.config = function()
 	local servers = {
 		"gopls",
 		"ts_ls",
-		-- "nil_ls",
 		"rust_analyzer",
-		-- "emmet_ls",
-		-- "emmet_language_server",
-
-
 		"html",
 		"cssls",
-		-- "eslint",
-		-- "tsserver",
-		
 		"svelte",
-		-- "svelte-language-server",
-
-		-- "templ",
 	}
 
 	mcfg.setup {
 		ensure_installed = servers,
 	}
 
+	local lspconfig = require("neodev").setup()
 	local lspconfig = require("lspconfig")
 	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -52,6 +45,10 @@ M.config = function()
 		vim.keymap.set("n", "<space>f", function()
 			vim.lsp.buf.format({ async = true })
 		end, bufopts)
+		vim.keymap.set("i", "<C-y>", cmp.mapping.confirm{
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
+		}, bufoptst)
 		vim.keymap.set("n", "<space>df", vim.diagnostic.goto_next, bufopts)
 
 		-- if client.supports_method("textDocument/inlayHint") then
@@ -65,7 +62,6 @@ M.config = function()
 		autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
 		augroup END
 		]], false)
-
 	end
 
 
@@ -93,8 +89,7 @@ M.config = function()
 			settings = {
 				Lua = {
 					diagnostics = {
-						globals = { "vim", "LUASNIP_ENV" },
-						-- LUASNIP_ENV is a custom variable declared in `lua/plugins/luasnip.lua`
+						globals = { "vim" },
 					},
 					hint = {
 						enable = true,
@@ -105,17 +100,11 @@ M.config = function()
 		})
 	end
 
-	-- --https://github.com/aca/emmet-ls
-	-- lspconfig.emmet_ls.setup({
-	-- 	filetypes = { "html", "css", "template", "templ" },
-	-- })
-
-
-	-- lspconfig.marksman.setup {}
 end
 
--- M.toggle_inlay_hints = function()
--- 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
--- end
+
+M.toggle_inlay_hints = function()
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end
 
 return M

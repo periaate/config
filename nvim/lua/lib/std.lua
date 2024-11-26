@@ -41,7 +41,7 @@ function str.modify_word()
 	end
 
 	local word = vim.fn.expand("<cword>")
-	local new_word = split(chars, "")[1] .. word .. split(chars, "")[2]
+	local new_word = str.split(chars, "")[1] .. word .. str.split(chars, "")[2]
 	vim.api.nvim_command('normal! ciw' .. new_word)
 end
 
@@ -93,15 +93,24 @@ local get = {
 	end
 }
 
-local edit = {
-	paste = function(val, before_cursor)
-		if before_cursor then
-			vim.cmd('normal! i' .. val)
-		else
-			vim.cmd('normal! a' .. val)
-		end
-	end,
-}
+local edit = {}
+
+function edit.paste(val, before_cursor)
+	if before_cursor then
+		vim.cmd('normal! i' .. val)
+	else
+		vim.cmd('normal! a' .. val)
+	end
+end
+
+edit.setl = vim.api.nvim_set_current_line
+edit.getl = vim.api.nvim_get_current_line
+
+function edit.swap(fn)
+	return function()
+		edit.setl(fn(edit.getl()))
+	end
+end
 
 
 

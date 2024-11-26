@@ -7,3 +7,5 @@ require("ft.maps").setup()
 if #vim.fn.argv() == 0 then
 	require("lib.sessions").load_session()
 end
+
+vim.cmd([[1TermExec cmd="" open=0]])
