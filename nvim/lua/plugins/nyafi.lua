@@ -8,7 +8,7 @@ return {
 
 		nyafi.config = {
 			maps = {
-				save = "das",
+				-- save = "das",
 				exit = "<esc>",
 			},
 			events = {
@@ -23,5 +23,7 @@ return {
 			},
 			filename = "/blume/home/root/todo.md"
 		}
+
+		nyafi.setup()
 	end
 }
