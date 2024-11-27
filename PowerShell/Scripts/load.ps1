@@ -48,7 +48,7 @@ New-Alias -Name rename Rename-Item
 function gdl { gallery-dl --write-metadata $args }
 
 $qr = "F:/curation/dl/"
-$sfx_lightning = "C:\users\daniel\Downloads\lightning.mp3"
+$sfx_lightning = "D:/Downloads/lightning.mp3"
 
 $EnvFile = "$env:blume/config/PowerShell/Scripts/.env"
 function en { return $EnvFile }

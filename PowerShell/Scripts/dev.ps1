@@ -10,7 +10,7 @@ function dc { wsl docker compose $args }
 function dcu { wsl docker compose up $args }
 function dcs { wsl docker compose stop $args }
 function dcb { wsl docker compose build $args }
-function dcre { dcs && dcb && dcu }
+function dcre { wsl docker compose stop $args "&&" docker compose build $args "&&" docker compose up $args }
 
 function config { cd "$blume/config/$args" && nvim }
 function recycle { start shell:RecycleBinFolder }
@@ -136,3 +136,19 @@ function x_feeds   { c xh feeds && loadenv && wgo -dir cmd/posts/ go run ./cmd/p
 function x_xclient { c xh xclient && deno run dev }
 function x_auth    { c xh auth && wgo -dir src cargo run }
 
+function wsl_net { wsl "echo" "nameserver 8.8.8.8" ">" "/etc/resolv.conf" }
+
+
+
+function getRelease {
+	$path = zoxide query $args
+	echo "$(getmod $path)@$(tagver $path)"
+}
+
+
+function getLatest {
+	$path = zoxide query $args
+	if ($path) {
+		go get "$(getmod $path)@$(tagver $path)" && go mod tidy
+	}
+}

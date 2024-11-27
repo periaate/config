@@ -143,7 +143,9 @@ function setup()
 
 	key.set("n", "-", "<CMD>Oil<CR>", key.opts) -- access oil
 
-	key.set('n', 'dt', require("maps.notes").todo)  -- open todays todo
+	-- key.set('n', 'dt', require("maps.notes").todo)  -- open todays todo
+	key.set('n', 'dt', require("nyafi").open)
+
 	-- key.set('n', 'dl', require("maps.notes").daily) -- open todays daily
 	
 	key.set('n', "<C-a>", "<cmd>BufferPrevious<CR>")

@@ -1,0 +1,3 @@
+[submodule "nvim/lua/dev/nyafi"]
+	path = nvim/lua/dev/nyafi.nvim
+	url = git@github.com:periaate/nyafi.nvim.git
