@@ -1,3 +1,0 @@
-#!/bin/sh
-cat dockerd > "/bin/dockerd" && cat init > /bin/init && cat ns > /bin/ns && echo "Files copied successfully" || echo "Error copying files"
-chmod +x /bin/dockerd && chmod +x /bin/init && chmod +x /bin/ns && echo "Files permissions set successfully" || echo "Error setting files permissions"

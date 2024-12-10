@@ -17,6 +17,8 @@ local toClear = {
 	'gp',    'go',    'gop',   'mt',    'md'
 }
 
+
+
 function key.set(mode, lhs, rhs, options)
 	vim.keymap.set(mode, lhs, rhs, options or key.opts)
 end
@@ -24,6 +26,7 @@ end
 key.del = vim.keymap.del
 
 function key.clear()
+	key.set("i", "<C-t>", "")
 	for i, value in ipairs(toClear) do
 		key.set(key.all, value, '')
 	end

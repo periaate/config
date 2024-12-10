@@ -10,6 +10,7 @@ local function setup()
 	abbrev.ft("markdown")(require("ft.md"))
 	abbrev.ft("lua")(require("ft.lua"))
 	abbrev.ft("svelte")(require("ft.svelte"))
+	abbrev.ft("yaml")(require("ft.yml"))
 end
 
 return { setup = setup }

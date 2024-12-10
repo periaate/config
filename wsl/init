@@ -1,4 +1,0 @@
-#!/bin/sh
-echo "initializing alpine wsl"
-ns
-dockerd

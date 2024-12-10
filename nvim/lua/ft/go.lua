@@ -55,14 +55,41 @@ $ com _
 ]]
 
 
+
+
 return function()
+	-- get first line
+	-- if #get.file() <= #"package" then	
+	-- 	if get.name() == "main.go" then
+	-- 		edit.setl("package main")
+	-- 	else
+	-- 		edit.setl("package " .. get.base())
+	-- 	end
+	-- end
+
+
 	-- if file is empty, add package definition
 	-- if filename is `main`, use `package main` instead
 	vim.o.expandtab = false
-	key.set('n', 'gop', function() edit.paste("package " .. get.base(), false) end)
+
+	key.set('n', 'gop', function()
+		edit.setl("package " .. get.base())
+		vim.cmd("normal! o")
+		vim.cmd("normal! o")
+		edit.setl("import (")
+		vim.cmd("normal! o")
+		edit.setl('\t. "github.com/periaate/blume/core"')
+		vim.cmd("normal! o")
+		edit.setl(")")
+		vim.cmd("normal! o")
+		vim.cmd("normal! o")
+		edit.setl("var _ = Zero[any]")
+		vim.cmd("normal! o")
+	end)
+
 
 	key.set('n', 'k', 'mk')
-    
+
 	a.iabbrev("len", a.last(1, [[len(\1)]]))
 
 	a.isnip("iff", a.clean .. a.repm([[if \0]]) .. " {" .. a.enter)
@@ -84,7 +111,7 @@ return function()
 	a.isnip('testfn', 'func Test(t *testing.T) {<enter><esc><up><home>o(nn')
 
 	a.isnip("ien", "if err != nil {<enter>")
-    a.isnip("iert", "if err != nil {<enter>return<esc>ele")
+	a.isnip("iert", "if err != nil {<enter>return<esc>ele")
 	a.iabbrev("nnil", "!= nil")
 
 	a.isnip("forr", a.clean .. a.repm([[for range \0]]) .. " {" .. a.enter)
@@ -93,7 +120,7 @@ return function()
 	a.isnip("forv", a.clean .. a.repm([[for _, v := range \0]]) .. " {" .. a.enter)
 	a.isnip("forb", a.clean .. a.repm([[for i, v := range \0]]) .. " {" .. a.enter)
 	a.isnip("forkv", a.clean .. a.repm([[for k, v := range \0]]) .. " {" .. a.enter)
-	
+
 	a.isnip("aend", a.clean .. a.last(2, [[\1 = append(\1, \2)]]))
 
 	a.isnip("prl", a.clean .. a.repm([[fmt.Println("\0")]]))
@@ -105,8 +132,8 @@ return function()
 
 	a.isnip("hh", [[w http.ResponseWriter, r *http.Request]])
 
-    a.iabbrev("iso", "== 0")
-    a.iabbrev("ino", "!= 0")
+	a.iabbrev("iso", "== 0")
+	a.iabbrev("ino", "!= 0")
 
-    a.iabbrev("ret", "return")
+	a.iabbrev("ret", "return")
 end

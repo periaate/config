@@ -25,6 +25,15 @@ function status { git status }
 function push { git push $args }
 function pull { git pull $args }
 
+
+function gclone {
+	$src = pwd | fsio dir | fsio base
+	$a = "git@$($src):$(pwd | fsio base)/$args.git"
+	git clone $a
+}
+
+
+
 function stream {
     window resize proj 2160 1440 &&
     window move proj (5120-2160) (2160-1440) &&
@@ -102,7 +111,7 @@ function symconf {
 		[string]$src
 	)
 	$dst = "$blume/config/"
-	mv $src $dst && fsio sym "$dst/$(fp base $src)" "./$(fp base $src)"
+	mv $src $dst && fsio sym "$dst/$(fsio base $src)" "./$(fsio base $src)"
 }
 
 function mc {
@@ -125,26 +134,31 @@ function mci {
 
 	zoxide add $Path
 	Set-Location $Path
-	init (fp base $Path)
+	init (fsio base $Path)
 }
 
+function wakapi { cd D:/tools/ && loadenv && ./wakapi.exe $args }
 
-function x_blob    { c xh blobs && loadenv && wgo -xdir data go run main.go }
-function x_medias  { c xh medias && loadenv && wgo -xdir data go run main.go }
-function x_sdb     { c xh sdb && wgo -dir src cargo run }
-function x_feeds   { c xh feeds && loadenv && wgo -dir cmd/posts/ go run ./cmd/posts/main.go }
-function x_xclient { c xh xclient && deno run dev }
 function x_auth    { c xh auth && wgo -dir src cargo run }
+function x_sdb     { c xh sdb && wgo -dir src cargo run }
+function x_feeds   { c xh golib && loadenv && wgo -xdir data go run ./cmd/feeds/main.go }
+function x_medias  { c xh golib && loadenv && wgo -xdir data go run ./cmd/medias/main.go }
+function x_gateway { c xh gateway && loadenv && caddy run }
+function x_client  { c xh xclient && loadenv && deno run dev --host --port 3000 }
+function x_client_local  { c xh xclient && loadenv && deno run dev --port 5173 }
+function x_stack   { c xh && dcre }
+
+function d_fwauth  { c fwauth && wgo pwshc "pwshc build fwauth && c xh gateway && loadenv && fwauth localhost:8018" }
+function d_dns  { c so cfcli && loadenv && cfcli }
+function d_proxy  { c xh gateway prod && loadenv && caddy run }
+function d_local_proxy  { c xh xclient && loadenv && caddy run }
 
 function wsl_net { wsl "echo" "nameserver 8.8.8.8" ">" "/etc/resolv.conf" }
-
-
 
 function getRelease {
 	$path = zoxide query $args
 	echo "$(getmod $path)@$(tagver $path)"
 }
-
 
 function getLatest {
 	$path = zoxide query $args
@@ -152,3 +166,50 @@ function getLatest {
 		go get "$(getmod $path)@$(tagver $path)" && go mod tidy
 	}
 }
+
+function rasm_run {
+	rasm $args && rainbow -l $rainbow ($args | js "a => a.replace('rasm', 'rbb')")
+}
+
+# good start, but more work needed
+function run_all {
+	runn `
+		client  pwshc x_client  ?? `
+		auth    pwshc x_auth    ?? `
+		sbd     pwshc x_sdb     ?? `
+		feeds   pwshc x_feeds   ?? `
+		medias  pwshc x_medias  ?? `
+		gateway pwshc x_gateway ?? `
+		local   pwshc x_client_local 
+}
+
+function run_stack_local {
+	runn `
+		medias  pwshc x_client_local  ?? `
+		gateway pwshc d_local_proxy
+}
+
+function run_prod {
+	runn `
+		fwauth  pwshc d_fwauth  ?? `
+		dns     pwshc d_dns     ?? `
+		proxy   pwshc d_proxy
+}
+
+function run_stack_docker {
+	runn `
+		docker  pwshc x_stack ?? `
+		local   pwshc run_local
+}
+
+function run_stack_prod {
+	runn `
+		proxy pwshc run_prod ?? `
+		stack pwshc run_all
+}
+
+
+
+function build { dev $args }
+
+

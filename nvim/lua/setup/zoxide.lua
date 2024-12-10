@@ -12,7 +12,7 @@ local sessions = require("lib.sessions")
 -- Custom zoxide picker
 return function()
 	-- Run zoxide query -ls and get the output
-	local zoxide_output = vim.fn.systemlist('gs zoxide query -l | str soft etc xhentai config net svc')
+	local zoxide_output = vim.fn.systemlist('gs zoxide query -l')
 
 	-- Create the picker
 	pickers.new({}, {

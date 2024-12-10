@@ -106,9 +106,52 @@ require("oil").setup({
 			if not dir then
 				return false
 			end
+
+			if should_hide(dir, name) then
+				return true
+			end
+
 			-- Check if file is gitignored
 			return vim.list_contains(git_ignored[dir], name)
 		end,
 	},
 })
+
+
+function should_hide(dir, input_str)
+    local hidden_strings = {
+        "$Recycle.Bin",
+        "AMD",
+        "Config.Msi",
+        "Documents and Settings",
+        "Go",
+        "Program Files",
+        "Program Files (x86)",
+        "ProgramData",
+        ".GamingRoot",
+        "Recovery",
+        "System Volume Information",
+        "Users",
+        "Windows",
+        "XboxGames",
+        "$WINRE_BACKUP_PARTITION.MARKER",
+        "DumpStack.log",
+        "DumpStack.log.tmp",
+        "pagefile.sys",
+        "swapfile.sys"
+    }
+    
+    local is_root = dir:match("^C:[/\\]$")
+    if not is_root then
+        return false
+    end
+    
+    for _, hidden_str in ipairs(hidden_strings) do
+        if input_str == hidden_str then
+            return true
+        end
+    end
+    
+    return false
+end
 

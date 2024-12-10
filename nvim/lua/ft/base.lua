@@ -18,6 +18,8 @@ local DOWN  = "E"
 
 function setup()
 	vim.o.expandtab = false
+	vim.o.tabstop = 4
+
 	key.set('n', 'fn', function() edit.paste(get.name(false), false) end)
 
 	key.set('i', '<C-d>', '<C-R>') -- required for abbrevations
@@ -143,11 +145,8 @@ function setup()
 
 	key.set("n", "-", "<CMD>Oil<CR>", key.opts) -- access oil
 
-	-- key.set('n', 'dt', require("maps.notes").todo)  -- open todays todo
 	key.set('n', 'dt', require("nyafi").open)
 
-	-- key.set('n', 'dl', require("maps.notes").daily) -- open todays daily
-	
 	key.set('n', "<C-a>", "<cmd>BufferPrevious<CR>")
 	key.set('n', "<C-o>", "<cmd>BufferNext<CR>")
 	key.set('n', '<esc>', '<esc>')
@@ -236,6 +235,14 @@ function setup()
 	key.set('t', '<Esc>', function()
 		vim.api.nvim_input("<C-\\>")
 	end, { noremap = true, silent = true })
+
+	key.set("n", "<C-k>", function()
+		require("dial.map").manipulate("increment", "normal")
+	end)
+	key.set("n", "<C-p>", function()
+		require("dial.map").manipulate("decrement", "normal")
+	end)
+
 end
 
 

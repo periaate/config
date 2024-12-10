@@ -23,16 +23,23 @@ local md = {}
 md.get = function() return vim.fn.getline('.') end
 md.set = function(inp) vim.fn.setline('.', vim.split(inp, '\n')[1]) end
 
-md.todo_on = function()
-	md.set(str.ReplacePrefix("- [ ]", "- [x]", "- [x]", "- [ ]", "-", "- [ ]", "", "- [ ] ")(md.get()))
+function on(inp)
+	if string.match(inp, "- %[ %]") then
+		return string.gsub(inp, "- %[ %] ", "- [x] ", 1)
+	end
+	if string.match(inp, "- %[x%]") then
+		return string.gsub(inp, "- %[x%] ", "- [ ] ", 1)
+	end
+	return string.gsub(inp, "%S", "- [ ] %0", 1)
 end
+function off(inp) return string.gsub(inp, "- %[.%] ", "", 1) end
 
-md.todo_off = function()
-	md.set(str.ReplacePrefix("- [ ] ", "- ", "- [x] ", "- ", "- ", "")(md.get()))
-end
+function md.todo_on() md.set(on(vim.fn.getline('.'))) end
+function md.todo_off() md.set(off(vim.fn.getline('.'))) end
 
 return function()
-	vim.o.expandtab = false
+	vim.o.expandtab = true
+	vim.o.tabstop = 2
 
 	key.set('n', '#', line_hof(function(line)
 		local lead = line:match("^#*%s*")
@@ -44,7 +51,4 @@ return function()
 
 	key.set('n', 'mt', md.todo_on)  -- toggle todo
 	key.set('n', 'md', md.todo_off) -- remove todo
-
-	a.iabbrev('ab', 'hiiiii!!!')
-	a.iabbrev('h', 'hiiiii!!!')
 end

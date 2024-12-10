@@ -19,7 +19,8 @@ M.config = function()
 	local servers = {
 		"gopls",
 		"ts_ls",
-		"rust_analyzer",
+		-- "rust_analyzer",
+		-- "rust-analyzer",
 		"html",
 		"cssls",
 		"svelte",
@@ -29,6 +30,7 @@ M.config = function()
 		ensure_installed = servers,
 	}
 
+	local cmp = require("cmp")
 	local lspconfig = require("neodev").setup()
 	local lspconfig = require("lspconfig")
 	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -39,16 +41,19 @@ M.config = function()
 		vim.keymap.set("n", "dc", vim.lsp.buf.declaration, bufopts)
 		vim.keymap.set("n", "df", vim.lsp.buf.definition, bufopts)
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-		vim.keymap.set("n", "<leader>ai", vim.lsp.buf.implementation, bufopts)
-		vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, bufopts)
-		vim.keymap.set("n", "<leader>ar", vim.lsp.buf.references, bufopts)
-		vim.keymap.set("n", "<space>f", function()
+
+		-- vim.keymap.set("n", "<leader>ai", vim.lsp.buf.implementation, bufopts)
+		-- vim.keymap.set("n", "<leader>ar", vim.lsp.buf.references, bufopts)
+
+		vim.keymap.set("n", " f", function()
 			vim.lsp.buf.format({ async = true })
 		end, bufopts)
+
 		vim.keymap.set("i", "<C-y>", cmp.mapping.confirm{
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		}, bufoptst)
+
 		vim.keymap.set("n", "<space>df", vim.diagnostic.goto_next, bufopts)
 
 		-- if client.supports_method("textDocument/inlayHint") then
@@ -56,21 +61,22 @@ M.config = function()
 		-- 	vim.lsp.inlay_hint.enable(bufnr, true)
 		-- end
 
-		vim.api.nvim_exec([[
-		augroup LspAutocommands
-		autocmd! * <buffer>
-		autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-		augroup END
-		]], false)
+
+		-- vim.api.nvim_exec([[
+		-- augroup LspAutocommands
+		-- autocmd! * <buffer>
+		-- autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+		-- augroup END
+		-- ]], false)
+
 	end
 
 
 	-- custom settings
 	local gopls_settings = {
-		gofumpt = true,      -- use gofumpt formatting style
-		staticcheck = true,  -- enable staticcheck diagnostics
+		-- gofumpt = true,      -- use gofumpt formatting style
+		staticcheck = true,  -- enable staticcheck
 		completeUnimported = true, -- enable completion for unimported packages
-		usePlaceholders = true, -- placeholders for function parameters or struct fields in completion
 		analyses = {
 			unusedparams = true,
 			nilness = true, -- enable analysis for nilness
@@ -80,6 +86,17 @@ M.config = function()
 			constantValues = true,
 		},
 	}
+
+	lspconfig.rust_analyzer.setup{
+		settings = {
+			['rust-analyzer'] = {
+				diagnostics = {
+					enable = false;
+				}
+			}
+		}
+	}
+
 
 	-- setup servers
 	for _, lsp in pairs(servers) do

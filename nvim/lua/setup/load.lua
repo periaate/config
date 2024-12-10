@@ -4,6 +4,5 @@ require('setup.oil')
 require('setup.noice')
 require('setup.nyafi')
 
-
 require("neotest").setup({adapters = {require("neotest-golang")}})
 require("setup.toggleterm")

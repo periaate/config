@@ -12,3 +12,11 @@ ls is media | % {
     [System.IO.File]::SetCreationTime("./Music/$_", $dateTime)
 }
 ```
+
+```ps1
+New-Item -ItemType SymbolicLink -Path "$Home\Documents\PowerShell" -Target "C:\github.com\periaate\config\PowerShell"
+```
+
+```ps1
+New-Item -ItemType SymbolicLink -Path "$Home\AppData\Local\nvim" -Target "C:\github.com\periaate\config\nvim"
+```

@@ -9,3 +9,5 @@ if #vim.fn.argv() == 0 then
 end
 
 vim.cmd([[1TermExec cmd="" open=0]])
+
+require("lib.abbrev").recheck()
