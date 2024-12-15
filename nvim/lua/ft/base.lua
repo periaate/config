@@ -243,6 +243,12 @@ function setup()
 		require("dial.map").manipulate("decrement", "normal")
 	end)
 
+
+
+	key.set('n', 'du', vim.lsp.buf.implementation) -- (d)iscover (u)sage
+	key.set('n', 'dh', vim.lsp.buf.hover) -- (d)iscover (h)over
+	key.set('n', 'dr', vim.lsp.buf.implementation) -- (d)iscover (r)efeference
+	key.set('n', 'df', vim.lsp.buf.implementation) -- (d)iscover de(f)inition
 end
 
 

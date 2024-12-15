@@ -213,3 +213,35 @@ function run_stack_prod {
 function build { dev $args }
 
 
+function run_blume_tests {
+	cd "/github.com/periaate"
+	wgo runn `
+		blume go test ./... --cd "/github.com/periaate/blume" ?? `
+		blob go test ./... --cd "/github.com/periaate/blob" ?? `
+		auth go test ./... --cd "/github.com/periaate/auth" ?? `
+		tools go test ./... --cd "/github.com/periaate/tools"
+}
+
+
+function journal {
+	cd /github.com/periaate/journal
+	if ($args[0] -eq "log") {
+		git log --oneline --graph --all
+		cd -
+		return
+	}
+	git commit --allow-empty $args
+	git push &&	cd -
+}
+
+
+
+
+
+
+
+
+
+
+
+

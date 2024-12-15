@@ -41,13 +41,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end
 })
 
--- format on save
-local fmtGroup = vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePre", {
-	group = fmtGroup,
-	pattern = { "*.lua", "*.html", "*.json", "*.py", "*.nix" },
-	command = "lua vim.lsp.buf.format({ async = false })",
-})
+-- -- format on save
+-- local fmtGroup = vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	group = fmtGroup,
+-- 	pattern = { "*.lua", "*.html", "*.json", "*.py", "*.nix" },
+-- 	command = "lua vim.lsp.buf.format({ async = false })",
+-- })
 
 
 local bfmt = require("lib.blumefmt")

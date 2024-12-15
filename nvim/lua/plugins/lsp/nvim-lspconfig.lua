@@ -62,12 +62,12 @@ M.config = function()
 		-- end
 
 
-		-- vim.api.nvim_exec([[
-		-- augroup LspAutocommands
-		-- autocmd! * <buffer>
-		-- autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-		-- augroup END
-		-- ]], false)
+		vim.api.nvim_exec([[
+		augroup LspAutocommands
+		autocmd! * <buffer>
+		autocmd BufWritePre <buffer> lua vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+		augroup END
+		]], false)
 
 	end
 

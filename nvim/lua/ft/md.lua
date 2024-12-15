@@ -1,4 +1,4 @@
-local a = require("lib.abbrev")
+local a = require("lib.fthooks")
 local key = require("lib.key")
 local str = require("lib.str")
 
@@ -38,8 +38,8 @@ function md.todo_on() md.set(on(vim.fn.getline('.'))) end
 function md.todo_off() md.set(off(vim.fn.getline('.'))) end
 
 return function()
-	vim.o.expandtab = true
-	vim.o.tabstop = 2
+	vim.o.expandtab = false
+	vim.o.tabstop = 4
 
 	key.set('n', '#', line_hof(function(line)
 		local lead = line:match("^#*%s*")

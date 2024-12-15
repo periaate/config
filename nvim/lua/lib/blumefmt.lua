@@ -73,6 +73,8 @@ local function next_control_line_index(lines, start_index)
 	return nil
 end
 
+local max = 100
+
 local function try_inline_if(lines, i)
 	local if_line = lines[i]
 	local block_end = find_block_end(lines, i+1)
@@ -89,7 +91,10 @@ local function try_inline_if(lines, i)
 			local indent = if_line:match("^([ \t]*)")
 			local cond = if_line:match("if%s+(.-)%s*{$")
 			if cond then
-				lines[i] = indent .. "if " .. cond .. " { " .. stmt .. " }"
+				local res = indent .. "if " .. cond .. " { " .. stmt .. " }"
+				if #res > max then return false end
+				lines[i] = res
+
 				for _ = i+1, block_end do
 					table.remove(lines, i+1)
 				end
@@ -117,11 +122,7 @@ local function try_inline_fn(lines, i)
 			local cond = if_line:match("func.*{%s*$")
 			if cond then
 				local res = indent .. " " .. stmt .. " }"
-				if #res > 100 then
-					print(#res)
-					return false
-				end
-
+				if #res > max then return false end
 				lines[i] = res
 				for _ = i+1, block_end do
 					table.remove(lines, i+1)
@@ -154,7 +155,9 @@ local function try_inline_case(lines, i)
 				ccond = case_line:match("^%s*(default):%s*$")
 			end
 			if ccond then
-				lines[i] = indent .. ccond .. ": " .. stmt
+				local res = indent .. ccond .. ": " .. stmt
+				if #res > max then return false end
+				lines[i] = res
 				for _ = 1, #inner_lines do
 					table.remove(lines, i+1)
 				end

@@ -42,6 +42,7 @@ Remove-Item alias:pwd
 Remove-Item alias:cat
 
 New-Alias -Name e explorer
+New-Alias -Name ?? filter.exe
 Set-Alias -Name ls -Value list
 New-Alias -Name :: with
 New-Alias -Name rename Rename-Item 

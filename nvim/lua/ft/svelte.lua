@@ -1,5 +1,5 @@
 local key = require("lib.key")
-local a = require("lib.abbrev")
+local a = require("lib.fthooks")
 
 return function()
 	-- Use spaces instead of tabs

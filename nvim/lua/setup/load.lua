@@ -6,3 +6,5 @@ require('setup.nyafi')
 
 require("neotest").setup({adapters = {require("neotest-golang")}})
 require("setup.toggleterm")
+
+require('setup.fthooks').setup()

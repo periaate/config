@@ -1,7 +1,7 @@
 local key = require("lib.key")
 local edit = require("lib.std").edit
 local get = require("lib.std").get
-local a = require("lib.abbrev")
+local a = require("lib.fthooks")
 
 local b = [[
 prl

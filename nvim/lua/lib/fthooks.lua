@@ -55,16 +55,21 @@ abbrev.fthooks = {}
 
 function abbrev.recheck()
 	reloadBase()
-	local has = false
-	if abbrev.fthooks[vim.bo.filetype] then has = true end
 
-	if has then
-		print("Running hooks for filetype: ", vim.bo.filetype)
+	if abbrev.fthooks["any"] then
+		for _, func in ipairs(abbrev.fthooks["any"]) do
+			if type(func) == "function" then func() end
+		end
+	end
+
+
+	if abbrev.fthooks[vim.bo.filetype] then
+		-- print("Running hooks for filetype: ", vim.bo.filetype)
 		for _, func in ipairs(abbrev.fthooks[vim.bo.filetype]) do
 			if type(func) == "function" then func() end
 		end
 	else 
-		print("No hooks for filetype: ", vim.bo.filetype)
+		-- print("No hooks for filetype: ", vim.bo.filetype)
 	end
 end
 
