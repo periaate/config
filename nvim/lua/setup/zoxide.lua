@@ -1,4 +1,5 @@
 local key = require("lib.key")
+local str = require("lib.str")
 
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
@@ -12,7 +13,11 @@ local sessions = require("lib.sessions")
 -- Custom zoxide picker
 return function()
 	-- Run zoxide query -ls and get the output
-	local zoxide_output = vim.fn.systemlist('gs zoxide query -l')
+	local zoxide_output = vim.fn.systemlist('zoxide query -l')
+
+	for i, v in ipairs(zoxide_output) do
+		zoxide_output[i] = str.ReplacePrefix("/home/periaate", "~")(v)
+	end
 
 	-- Create the picker
 	pickers.new({}, {

@@ -57,7 +57,7 @@ function M.change_session(path)
 		M.load_session()
 		require("lib.fthooks").recheck()
 	else
-		require("Oil").open()
+		require("oil").open()
 	end
 end
 
@@ -128,6 +128,7 @@ local function open_files_with_positions(data)
 	bfr.set_current(foc_buf)
 end
 
+-- to make sessions general use, this needs to be an option
 M.root = "/home/periaate/.local/state/sessions.nvim/"
 
 function M.save_session(path)
