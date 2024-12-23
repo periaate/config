@@ -15,6 +15,7 @@ nyafi.config = {
 			require("lib.fthooks").recheck()
 		end
 	},
-	filename = "/home/Daniel/notes/todo.md"
+	-- this is not being expanded when it is `~`; fix
+	filename = "/home/periaate/notes/todo.md"
 }
 

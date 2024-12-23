@@ -128,7 +128,7 @@ local function open_files_with_positions(data)
 	bfr.set_current(foc_buf)
 end
 
-M.root = "C:/home/Daniel/.local/sessions.nvim/"
+M.root = "/home/periaate/.local/state/sessions.nvim/"
 
 function M.save_session(path)
 	local cur = M.get_cwd()

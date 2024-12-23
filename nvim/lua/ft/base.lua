@@ -120,8 +120,6 @@ function setup()
 		vim.cmd('normal! ZQ')
 	end, key.opts)      -- exit all files
 
-	key.set('n', ' ~', sessions.load_session)
-	key.set('n', ' <C-s>', sessions.save_session)
 	key.set('n', ' <C-q>', 'ZQ')
 
 	key.set(key.all, '<', 'n', key.opts) -- find previous pattern
